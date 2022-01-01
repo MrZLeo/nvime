@@ -22,4 +22,5 @@ let g:coc_global_extensions = [
     \ 'coc-marketplace',
     \ 'coc-rust-analyzer',
     \ 'coc-ci',
+    \ 'coc-pyright',
   \ ]

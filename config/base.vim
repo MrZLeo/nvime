@@ -81,6 +81,8 @@ set winaltkeys=no
 " 延迟绘制，提升性能
 set lazyredraw
 
+set cmdheight=1
+
 set showmatch
 set matchtime=2
 " 文件换行符，默认使用unix换行符
