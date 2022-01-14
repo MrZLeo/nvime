@@ -197,7 +197,7 @@ vime是一个结构化的(neo)vim配置，具有如下优势：
 ### 安装
 
 ```bash
-git clone https://github.com/fgheng/vime ~/.config/nvim
+git clone https://github.com/MrZLeo/vime ~/.config/nvim
 ```
 
 然后打开(neo)vim，执行`:PlugInstall`等待插件安装完毕即可！
