@@ -58,7 +58,9 @@ endif
 Plug 'liuchengxu/vista.vim', {'on': ['Vista!!', 'Vista']}
 " 自动补全括号
 Plug 'jiangmiao/auto-pairs'
-Plug 'andymass/vim-matchup'
+if has("nvim")
+    Plug 'andymass/vim-matchup'
+endif
 " 快速包围
 Plug 'tpope/vim-surround'
 " Plug 'machakann/vim-sandwich'
@@ -109,6 +111,8 @@ Plug 'iamcco/dict.vim', {'on':
     \ '<Plug>DictSearch', '<Plug>DictVSearch', '<Plug>DictWSearch',
     \ '<Plug>DictWVSearch', '<Plug>DictRSearch', '<Plug>DictRVSearch'
     \ ]}
+" 搜索显示数量
+Plug 'kevinhwang91/nvim-hlslens'
 " tmux相关插件
 if  executable("tmux") && strlen($TMUX)
     " tmux与vim窗口间导航
@@ -166,7 +170,9 @@ Plug 'matze/vim-move', {'on': [
             \ '<Plug>MoveBlockUp',
             \ '<Plug>MoveBlockRight',
             \ '<Plug>MoveBlockLeft']}
-Plug 'simnalamburt/vim-mundo'
+if has("nvim")
+    Plug 'simnalamburt/vim-mundo'
+endif
 if has('nvim')
     Plug 'kyazdani42/nvim-web-devicons'
 else
