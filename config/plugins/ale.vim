@@ -25,7 +25,7 @@ let g:ale_linters_explicit = 1
 " 高亮显示错误地方
 "let g:ale_set_highlights = 1
 "自定义error和warning图标
-let g:ale_sign_error = 'hhhE'
+let g:ale_sign_error = "\ue009\ue009"
 let g:ale_sign_warning = 'W'
 "状态栏设置,状态栏中整合ale
 let g:ale_statusline_format = ['ㄨ %d', 'ϟ %d', '✔ OK']
@@ -36,16 +36,23 @@ let g:ale_echo_msg_warning_str = 'ϟ'
 " highlight clear ALEErrorSign
 " highlight clear ALEWarningSign
 
-"ccls
-let g:ale_cpp_ccls_init_options = {
-	\   'cache': {
-	\       'directory': '/tmp/ccls/cache',
-	\   },
-	\ }
-let g:ale_completion_enabled = 1
-
 " 快捷键
-nmap gd :ALEGoToDefinition<cr>
-nmap gr :ALEFindReferences<cr>
+"nmap gd :ALEGoToDefinition<cr>
+"nmap gr :ALEFindReferences<cr>
 
-nmap K :ALEHover<cr>
+"nmap K :ALEHover<cr>
+
+let g:ale_linters_explicit = 1
+let g:ale_completion_delay = 500
+let g:ale_echo_delay = 20
+let g:ale_lint_delay = 500
+let g:ale_echo_msg_format = '[%linter%] %code: %%s'
+let g:ale_lint_on_text_changed = 'normal'
+let g:ale_lint_on_insert_leave = 1
+let g:airline#extensions#ale#enabled = 1
+
+let g:ale_c_gcc_options = '-Wall -O2 -std=c11'
+let g:ale_cpp_gcc_options = '-Wall -O2 -std=c++17'
+let g:ale_c_cppcheck_options = ''
+let g:ale_cpp_cppcheck_options = ''
+

@@ -1,7 +1,3 @@
-" 检索
-Plug 'junegunn/fzf', { 'do': {-> fzf#install()} }
-Plug 'fszymanski/fzf-gitignore', {'do': ':UpdateRemotePlugins'}
-Plug 'junegunn/fzf.vim' | Plug 'antoinemadec/coc-fzf',  {'branch': 'release'}
 " c debug
 Plug 'puremourning/vimspector'
 " 注释插件
@@ -196,3 +192,6 @@ endif
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/vim-preview'
+
+" ale
+Plug 'dense-analysis/ale'
