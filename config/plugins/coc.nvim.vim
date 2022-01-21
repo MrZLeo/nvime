@@ -37,7 +37,7 @@ inoremap <silent><expr> <m-j>
     \ pumvisible() ? "\<C-n>" : "\<C-R>=coc#rpc#request('snippetNext', [])\<cr>"
     " \ pumvisible() ? "\<C-n>" : return
 
-" " alt k选择上一个补全
+" alt k选择上一个补全
 inoremap <silent><expr> <m-k>
     \ pumvisible() ? "\<C-p>" : "\<C-R>=coc#rpc#request('snippetPrev', [])\<cr>"
     " \ pumvisible() ? "\<C-p>" : return
@@ -50,10 +50,10 @@ inoremap <silent><expr> <down>
 inoremap <silent><expr> <up>
     \ pumvisible() ? "\<C-p>" : "\<up>"
 
-" alt j k 用于补全块的跳转，优先补全块跳转
+" alt w b 用于补全块的跳转，优先补全块跳转
 if common#functions#HasCocPlug('coc-snippets')
-    let g:coc_snippet_next = '<m-j>'
-    let g:coc_snippet_prev = '<m-k>'
+    let g:coc_snippet_next = '<c-w>'
+    let g:coc_snippet_prev = '<c-b>'
 endif
 
 " 回车选中或者扩展选中的补全内容
