@@ -37,5 +37,16 @@
     "diagnostic.hintSign": "●",
     "diagnostic.displayByAle": false,
     "diagnostic.maxWindowHeight": 10,
-    "languageserver": {}
+    "languageserver": {},
+    "clangd.arguments": [
+    "--background-index",
+    "--compile-commands-dir=build",
+    "-j=12",
+    "--query-driver=/usr/bin/clang++",
+    "--clang-tidy",
+    "--completion-style=detailed",
+    "--header-insertion=iwyu",
+    "--pch-storage=disk"
+    ],
+    "clangd.fallbackFlags": [ "-std=c++17" ]
 }
