@@ -24,10 +24,6 @@ nnoremap <c-w>l :rightbelow vsplit <cr>
 nnoremap <silent> q <esc>:close<cr>
 vnoremap <silent> q <esc>:close<cr>
 
-" 使用回车打开关闭折叠
-nnoremap <CR> za
-" shift enter，为何不可以？
-nnoremap <S-Return> zMzo
 " 关闭搜索颜色
 nnoremap <BackSpace> :nohl<cr>
 
@@ -44,9 +40,6 @@ nnoremap <M-q> <esc>:bdelete<cr>
 nmap Q <nop>
 " 使用Q进行宏录制
 noremap Q q
-
-" jk表示esc
-inoremap jk <esc>
 
 nmap << <<_
 nmap >> >>_
@@ -68,9 +61,6 @@ augroup vime_keymap_group
         " au BufEnter term://* startinsert
     endif
 augroup END
-
-" 新建终端
-nnoremap <leader>tt :terminal<cr>
 
 " 插入模式下的一些快捷键
 inoremap <M-o> <esc>o

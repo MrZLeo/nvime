@@ -36,5 +36,8 @@ for [plugName, _] in items(g:plugs)
 endfor
 
 "缩进指示线"
-let g:indentLine_char='┆'
-let g:indentLine_enabled = 1
+set listchars=tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«
+
+"gtags"
+let $GTAGSLABEL = 'native-pygments'
+let $GTAGSCONF = '/opt/homebrew/share/gtags/gtags.conf'

@@ -191,3 +191,8 @@ Plug 'ZSaberLv0/ZFVimDirDiff'
 if has('nvim')
   Plug 'kyazdani42/nvim-tree.lua'
 endif
+
+" gtags 管理
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
+Plug 'skywind3000/vim-preview'
