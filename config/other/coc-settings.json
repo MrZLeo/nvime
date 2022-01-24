@@ -48,5 +48,5 @@
     "--header-insertion=iwyu",
     "--pch-storage=disk"
     ],
-    "clangd.fallbackFlags": [ "-std=c++17" ]
+    "clangd.fallbackFlags": [ "-std=c++17", "-std=c11" ]
 }

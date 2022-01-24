@@ -7,14 +7,6 @@ tnoremap <c-h> <c-\><c-n><c-w>h
 tnoremap <c-j> <c-\><c-n><c-w>j
 tnoremap <c-k> <c-\><c-n><c-w>k
 tnoremap <c-l> <c-\><c-n><c-w>l
-if !common#functions#HasPlug('ResizeWindow.vim')
-    " 更改窗口垂直大小
-    nnoremap <M--> :resize +3<CR>
-    nnoremap <M-_> :resize -3<CR>
-    " 更改窗口水平大小
-    nnoremap <M-(> :vertical resize -3<CR>
-    nnoremap <M-)> :vertical resize +3<CR>
-endif
 " 分割窗口
 nnoremap <c-w>k :abo split <cr>
 nnoremap <c-w>h :abo vsplit <cr>
@@ -108,3 +100,9 @@ tnoremap <silent> <M-H> <c-\><c-n>:tabmove -1<cr>
 
 " 使用系统应用打开当前buffer文件
 noremap <silent> <M-x> :call common#functions#OpenFileUsingSystemApp(expand('%:p'))<cr>
+
+" rust fmt support in normal mode
+noremap <silent> <leader>fmt :!cargo fmt<cr>
+
+" comment
+noremap <silent> <space>/ I//<space><esc>
