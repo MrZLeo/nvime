@@ -37,7 +37,6 @@
     "diagnostic.hintSign": "●",
     "diagnostic.displayByAle": false,
     "diagnostic.maxWindowHeight": 10,
-    "languageserver": {},
     "clangd.arguments": [
     "--background-index",
     "--compile-commands-dir=build",
@@ -48,5 +47,7 @@
     "--header-insertion=iwyu",
     "--pch-storage=disk"
     ],
-    "clangd.fallbackFlags": [ "-std=c++17", "-std=c11" ]
+    "clangd.fallbackFlags": [ "-std=c++17", "-std=c11" ],
+    "rust-analyzer.checkOnSave.allTargets": false,
+    "languageserver": {}
 }
