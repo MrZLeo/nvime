@@ -142,6 +142,10 @@ else
     nnoremap <silent> <space>l  :<C-u>CocList<CR>
 endif
 
+" CocAction
+nnoremap <silent> <space>ac  :<C-u>CocAction <CR>
+
+
 " 多光标支持，但是coc的多光标不如 vim-visual-multi，因此在没有
 " vim-visual-multi的时候才使用 coc
 if !common#functions#HasPlug("vim-visual-multi")
