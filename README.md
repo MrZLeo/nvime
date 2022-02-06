@@ -1,6 +1,6 @@
 # vime
 
-![vime](./assets/readme2.png)
+![vime](https://raw.githubusercontent.com/MrZLeo/Image/main/uPic/2022/02/06/examplewayE5E.png)
 
 vime是一个结构化的(neo)vim配置，具有如下优势：
 
