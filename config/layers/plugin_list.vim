@@ -1,49 +1,11 @@
-" c debug
-Plug 'puremourning/vimspector'
-" 注释插件
-Plug 'scrooloose/nerdcommenter'
-" 生成注释文档
-Plug 'kkoomen/vim-doge', {'do': {-> doge#install()}}
 " 数据库
 Plug 'tpope/vim-dadbod' | Plug 'kristijanhusak/vim-dadbod-ui' | Plug 'kristijanhusak/vim-dadbod-completion'
 " 全局替换插件
 Plug 'brooth/far.vim'
 " 主题theme类插件
-Plug 'glepnir/zephyr-nvim'
-Plug 'ajmwagar/vim-deus'
-Plug 'rakr/vim-one'
-Plug 'arcticicestudio/nord-vim'
-Plug 'morhetz/gruvbox'
-Plug 'sainnhe/gruvbox-material'
-Plug 'npxbr/gruvbox.nvim'
-Plug 'sainnhe/forest-night'
-Plug 'srcery-colors/srcery-vim'
-Plug 'hardcoreplayers/oceanic-material'
-Plug 'chuling/ci_dark'
-Plug 'kristijanhusak/vim-hybrid-material'
-Plug 'mhartington/oceanic-next'
-Plug '986299679/space-vim-theme'
-Plug 'ayu-theme/ayu-vim'
-Plug 'w0ng/vim-hybrid'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'flrnd/candid.vim'
-Plug 'jaredgorski/spacecamp'
-Plug 'bluz71/vim-moonfly-colors'
-Plug 'cormacrelf/vim-colors-github'
-Plug 'arzg/vim-colors-xcode'
-Plug 'sainnhe/sonokai'
-Plug 'sonph/onehalf'
-Plug 'ghifarit53/tokyonight-vim'
 Plug 'sainnhe/edge'
-Plug 'reedes/vim-colors-pencil'
-Plug 'ChristianChiarulli/nvcode-color-schemes.vim'
-Plug 'arzg/vim-colors-xcode'
 " 顶栏和底栏
-" Plug 'romgrk/barbar.nvim'
-" Plug 'rbong/vim-crystalline'
 Plug 'itchyny/lightline.vim'
-" Plug 'liuchengxu/eleline.vim'
-" Plug 'hoob3rt/lualine.nvim'
 " 彩虹括号
 if has('nvim')
     Plug 'p00f/nvim-ts-rainbow'
@@ -79,26 +41,16 @@ Plug 'easymotion/vim-easymotion', {'on':
    \ ]}
 " 对齐
 Plug 'junegunn/vim-easy-align', {'on': ['EasyAlign', '<Plug>(EasyAlign)']}
-" 缩进线
-" Plug 'Yggdroot/indentLine', {'on': 'IndentLinesEnable'}
 if has('nvim')
     " 缩进线
     Plug 'glepnir/indent-guides.nvim'
 endif
 " 多光标
 Plug 'mg979/vim-visual-multi'
-" csv插件
-Plug 'chrisbra/csv.vim', {'for': 'csv'}
 " 悬浮终端
 Plug 'voldikss/vim-floaterm', {'on': ['FloatermNew', 'FloatermToggle']}
-" 笔记插件，支持markdown
-Plug 'vimwiki/vimwiki'
-" Plug 'SidOfc/mkdx'
 " markdown 预览插件
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug', 'vimwiki'], 'on': 'MarkdownPreview'}
-" Plug 'mzlogin/vim-markdown-toc', {'on': ['GenTocGFM', 'GenTocRedcarpet', 'GenTocGitLab', 'GenTocMarked']}
-" 功能很强的折叠插件, zc zo
-" Plug 'pseewald/vim-anyfold', {'on': 'AnyFoldActivate'}
 " 起始界面
 Plug 'mhinz/vim-startify'
 " 翻译插件
@@ -127,10 +79,6 @@ Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 " 平滑滚动
 Plug 'psliwka/vim-smoothie'
-" 在命令行使用linux命令新建文件文件夹重命名当前buffer等
-Plug 'tpope/vim-eunuch', {'on': ['Mkdir', 'Rename', 'Unlink', 'Delete', 'Move', 'Chmod', 'Cfind', 'Clocate', 'Lfine', 'Llocate', 'SudoEdit', 'SudoWrite', 'Wall', 'W']}
-" 最大化窗口，ctrl w o
-Plug 'troydm/zoomwintab.vim', {'on': 'ZoomWinTabToggle'}
 " vim中文文档
 Plug 'yianwillis/vimcdoc'
 if has('nvim')
@@ -154,8 +102,6 @@ endif
 Plug 'tpope/vim-apathy'
 " 查看启动时间
 Plug 'dstein64/vim-startuptime', {'on':'StartupTime'}
-" 专注阅读
-Plug 'junegunn/goyo.vim', { 'on': 'Goyo', 'for': 'markdown' }
 \ | Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
 Plug 'markonm/traces.vim'
 " 语法检查
@@ -174,10 +120,7 @@ if has('nvim')
 else
     Plug 'ryanoasis/vim-devicons'
 endif
-" 忘记sudo?使用sudowrite或sw
-Plug 'lambdalisue/suda.vim'
-Plug 'tyru/open-browser.vim'
-" Plug 'ojroques/vim-scrollstatus'
+
 if has('nvim')
     Plug 'dstein64/nvim-scrollview'
 endif
