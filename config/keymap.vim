@@ -101,8 +101,7 @@ tnoremap <silent> <M-H> <c-\><c-n>:tabmove -1<cr>
 " 使用系统应用打开当前buffer文件
 noremap <silent> <M-x> :call common#functions#OpenFileUsingSystemApp(expand('%:p'))<cr>
 
-" rust fmt support in normal mode
-noremap <silent> <leader>fmt :!cargo fmt<cr>
+noremap <silent> <c-m> :NvimTreeOpen<cr>
+noremap <silent> <c-m>c :NvimTreeClose<cr>
 
-" comment
-noremap <silent> <space>/ I//<space><esc>
+
