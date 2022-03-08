@@ -141,3 +141,5 @@ Plug 'rust-lang/rust.vim'
 " comment
 Plug 'tpope/vim-commentary'
 
+" debug
+Plug 'puremourning/vimspector'

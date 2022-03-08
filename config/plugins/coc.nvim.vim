@@ -82,6 +82,8 @@ nmap <silent> <space>rf <Plug>(coc-refactor)
 nmap <silent> <space>f  <Plug>(coc-fix-current)
 " 变量重命名
 nmap <silent> <space>rn <Plug>(coc-rename)
+" debug
+nmap <silent> <space>dg <Plug>(coc-codelens-action)
 
 " 使用K悬浮显示定义
 function! s:show_documentation()
@@ -578,3 +580,4 @@ if has_key(g:, 'coc_global_extensions')
         call get(s:coc_config_functions, extension, function('<SID>tmp'))()
     endfor
 endif
+

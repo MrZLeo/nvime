@@ -100,8 +100,8 @@ tnoremap <silent> <M-H> <c-\><c-n>:tabmove -1<cr>
 
 " 使用系统应用打开当前buffer文件
 noremap <silent> <M-x> :call common#functions#OpenFileUsingSystemApp(expand('%:p'))<cr>
-
 noremap <silent> <c-m> :NvimTreeOpen<cr>
 noremap <silent> <c-m>c :NvimTreeClose<cr>
 
-
+" debug
+nmap <silent> <space>g <Plug>(coc-codelens-action)
