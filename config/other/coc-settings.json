@@ -1,5 +1,8 @@
 {
     "coc.preferences.extensionUpdateCheck": "daily",
+    "coc.preferences.formatOnSaveFiletypes": [
+        "json"
+    ],
     "suggest.acceptSuggestionOnCommitCharacter": true,
     "suggest.timeout": 5000,
     "suggest.noselect": true,
@@ -15,7 +18,7 @@
         "field": "m",
         "file": "",
         "folder": "",
-        "function": "F",
+        "function": "ƒ",
         "interface": "",
         "keyword": "",
         "method": "f",
@@ -37,19 +40,18 @@
     "diagnostic.hintSign": "●",
     "diagnostic.displayByAle": false,
     "clangd.arguments": [
-    "--background-index",
-    "--compile-commands-dir=build",
-    "-j=12",
-    "--query-driver=/usr/bin/clang++",
-    "--clang-tidy",
-    "--completion-style=detailed",
-    "--header-insertion=iwyu",
-    "--pch-storage=disk"
+        "--background-index",
+        "--compile-commands-dir=build",
+        "-j=12",
+        "--query-driver=/usr/bin/clang++",
+        "--clang-tidy",
+        "--completion-style=detailed",
+        "--header-insertion=iwyu",
+        "--pch-storage=disk"
     ],
     "rust-analyzer.checkOnSave.allTargets": false,
     "rust-analyzer.cargo.runBuildScripts": true,
     "rust-analyzer.checkOnSave.command": "clippy",
-    "rust-analyzer.inlayHints.typeHintsSeparator": "▸",
     "rust-analyzer.debug.runtime": "vimspector",
     "rust-analyzer.debug.vimspector.configuration.name": "rust - lldb",
     "languageserver": {}

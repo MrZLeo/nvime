@@ -61,22 +61,6 @@ Plug 'iamcco/dict.vim', {'on':
     \ ]}
 " 搜索显示数量
 Plug 'kevinhwang91/nvim-hlslens'
-" tmux相关插件
-if  executable("tmux") && strlen($TMUX)
-    " tmux与vim窗口间导航
-    Plug 'christoomey/vim-tmux-navigator'
-    " tmux.conf set -g focus-events on
-    Plug 'tmux-plugins/vim-tmux-focus-events'
-    " 在tmux和vim之间进行复制与粘贴
-    " Plug 'roxma/vim-tmux-clipboard'
-    " tmux补全插件
-    Plug 'wellle/tmux-complete.vim'
-endif
-" 关闭buffer而不关闭窗口
-Plug 'rbgrouleff/bclose.vim', {'on': 'Bclose'}
-" latex插件
-Plug 'lervag/vimtex', {'for': 'tex'}
-Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 " 平滑滚动
 Plug 'psliwka/vim-smoothie'
 " vim中文文档
