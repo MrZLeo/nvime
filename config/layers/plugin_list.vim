@@ -101,3 +101,12 @@ Plug 'ryanoasis/vim-devicons'
 
 " pair bracket
 Plug 'jiangmiao/auto-pairs'
+
+" 快速移动
+ Plug 'easymotion/vim-easymotion', {'on':
+    \ [
+    \ '<Plug>(easymotion-bd-f)', '<Plug>(easymotion-overwin-f)',
+    \ '<Plug>(easymotion-overwin-f2)', '<Plug>(easymotion-bd-jk)',
+    \ '<Plug>(easymotion-overwin-line)', '<Plug>(easymotion-bd-w)',
+    \ '<Plug>(easymotion-overwin-w)', '<Plug>(easymotion-s)',
+    \ ]}
