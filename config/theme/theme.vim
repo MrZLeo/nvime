@@ -46,6 +46,7 @@ if has('nvim')
     set pumblend=20 " 提示框透明
 endif
 
+
 " 主题选择
 let g:one_allow_italics = 1
 silent! colorscheme edge

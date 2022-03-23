@@ -40,8 +40,6 @@ Plug 'iamcco/dict.vim', {'on':
 " 搜索显示数量
 Plug 'kevinhwang91/nvim-hlslens'
 
-" 平滑滚动
-Plug 'psliwka/vim-smoothie'
 
 " vim中文文档
 Plug 'yianwillis/vimcdoc'

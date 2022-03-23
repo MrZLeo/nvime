@@ -22,8 +22,6 @@ nnoremap <BackSpace> :nohl<cr>
 " 命令行移动
 cnoremap <C-h> <Home>
 cnoremap <C-l> <End>
-" cnoremap <C-l> <Right>
-" cnoremap <C-j> <Left>
 
 " 使用alt q关闭当前buffer
 nnoremap <M-q> <esc>:bdelete<cr>
