@@ -4,7 +4,7 @@
 lua << EOF
     require'nvim-treesitter.configs'.setup {
         -- 解析器的安装，all全部安装
-        ensure_installed = 'maintained', -- one of 'all', 'language', or a list of languages
+    ensure_installed = {"c", "lua", "rust", "cpp", "bash", "cmake", "css", "json", "java", "json5", "llvm", "make", "ninja", "perl", "python", "scala", "toml", "verilog", "vim"},
 
         -- 高亮配置
         highlight = {

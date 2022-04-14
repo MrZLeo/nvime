@@ -1,7 +1,8 @@
 {
     "coc.preferences.extensionUpdateCheck": "daily",
     "coc.preferences.formatOnSaveFiletypes": [
-        "json"
+        "json",
+        "lua"
     ],
     "suggest.acceptSuggestionOnCommitCharacter": true,
     "suggest.timeout": 5000,
@@ -49,10 +50,12 @@
         "--header-insertion=iwyu",
         "--pch-storage=disk"
     ],
+    "clangd.path": "/usr/bin/clangd",
+    "clangd.fallbackFlags": [],
+    "clangd.disableDiagnostics": false,
     "rust-analyzer.checkOnSave.allTargets": false,
     "rust-analyzer.cargo.runBuildScripts": true,
     "rust-analyzer.checkOnSave.command": "clippy",
-    "rust-analyzer.debug.runtime": "vimspector",
-    "rust-analyzer.debug.vimspector.configuration.name": "rust - lldb",
+    "rust-analyzer.server.path": "/opt/homebrew/bin/rust-analyzer",
     "languageserver": {}
 }
