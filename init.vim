@@ -41,3 +41,7 @@ set listchars=tab:¦\ ,eol:¬,trail:⋅,extends:»,precedes:«
 "gtags"
 let $GTAGSLABEL = 'native-pygments'
 let $GTAGSCONF = '/opt/homebrew/share/gtags/gtags.conf'
+
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') |
+    \ execute 'CHADopen' | execute 'cd '.argv()[0] | endif

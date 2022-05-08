@@ -81,7 +81,7 @@ Plug 'ernstwi/vim-secret'
 Plug 'ZSaberLv0/ZFVimDirDiff'
 
 " fondler
-Plug 'kyazdani42/nvim-tree.lua'
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 " gtags 管理
 Plug 'ludovicchabant/vim-gutentags'
