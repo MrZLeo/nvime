@@ -32,6 +32,6 @@ let g:quicknote_file = g:vimwiki_path . '/quicknote.md'
 
 " chadtree
 let g:chadtree_settings = {
-      \ "theme.text_colour_set": "nerdtree_syntax_dark",
-      \ "theme.icon_glyph_set" : "ascii"
+      \ "theme.text_colour_set": "solarized_universal",
+      \ "theme.icon_glyph_set": "ascii"
       \ }

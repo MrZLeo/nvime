@@ -3,6 +3,7 @@ Plug 'tpope/vim-dadbod' | Plug 'kristijanhusak/vim-dadbod-ui' | Plug 'kristijanh
 
 " 主题theme类插件
 Plug 'sainnhe/edge'
+Plug 'shaunsingh/nord.nvim'
 
 " 顶栏和底栏
 Plug 'itchyny/lightline.vim'
@@ -87,9 +88,6 @@ Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 Plug 'skywind3000/vim-preview'
-
-" Rust
-Plug 'rust-lang/rust.vim'
 
 " comment
 Plug 'tpope/vim-commentary'

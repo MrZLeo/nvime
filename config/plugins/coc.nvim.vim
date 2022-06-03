@@ -145,7 +145,7 @@ else
 endif
 
 " CocAction
-nnoremap <silent> <space>ac  :<C-u>CocAction <CR>
+nnoremap <silent> <space>ac <Plug>(coc-codeaction-cursor)<CR>
 
 
 " 多光标支持，但是coc的多光标不如 vim-visual-multi，因此在没有
