@@ -36,9 +36,6 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'romgrk/nvim-treesitter-context'
 
-" 总是匹配tag
-Plug 'valloric/MatchTagAlways', {'for': ['html', 'css', 'xml']}
-
 " 显示颜色 例如: #654456
 Plug 'norcalli/nvim-colorizer.lua'
 
