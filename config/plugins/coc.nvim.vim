@@ -555,22 +555,12 @@ endfunction
 let s:coc_config_functions = {
             \ 'coc-highlight': function('<SID>lc_coc_highlight'),
             \ 'coc-lists': function('<SID>lc_coc_lists'),
-            \ 'coc-yank': function('<SID>lc_coc_yank'),
-            \ 'coc-translator': function('<SID>lc_coc_translator'),
-            \ 'coc-bookmark': function('<SID>lc_coc_bookmark'),
             \ 'coc-todolist': function('<SID>lc_coc_todolist'),
             \ 'coc-clangd': function('<SID>lc_coc_clangd'),
-            \ 'coc-kite': function('<SID>lc_coc_kite'),
-            \ 'coc-xml': function('<SID>lc_coc_xml'),
-            \ 'coc-prettier': function('<SID>lc_coc_prettier'),
-            \ 'coc-git': function('<SID>lc_coc_git'),
             \ 'coc-snippets': function('<SID>lc_coc_snippets'),
-            \ 'coc-python': function('<SID>lc_coc_python'),
-            \ 'coc-rainbow-fart': function('<SID>lc_coc_rainbow_fart'),
             \ 'coc-explorer': function('<SID>lc_coc_explorer'),
             \ 'coc-ci': function('<SID>lc_coc_ci'),
             \ 'coc-vimlsp': function('<SID>lc_coc_vimlsp'),
-            \ 'coc-fzf-preview': function('<SID>lc_coc_fzf_preview'),
             \ }
 
 " TODO 更改调用方式
