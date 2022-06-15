@@ -30,8 +30,3 @@ let g:vimwiki_path = $HOME . '/Documents/wiki/'
 " 快速note文件
 let g:quicknote_file = g:vimwiki_path . '/quicknote.md'
 
-" chadtree
-let g:chadtree_settings = {
-      \ "theme.text_colour_set": "solarized_universal",
-      \ "theme.icon_glyph_set": "ascii"
-      \ }
