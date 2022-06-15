@@ -1,6 +1,3 @@
-" 数据库
-Plug 'tpope/vim-dadbod' | Plug 'kristijanhusak/vim-dadbod-ui' | Plug 'kristijanhusak/vim-dadbod-completion'
-
 " 主题theme类插件
 Plug 'sainnhe/edge'
 Plug 'shaunsingh/nord.nvim'
@@ -17,9 +14,6 @@ Plug 'tpope/vim-surround'
 " 显示清除尾部空格
 Plug 'ntpeters/vim-better-whitespace'
 
-" 对齐
-Plug 'junegunn/vim-easy-align', {'on': ['EasyAlign', '<Plug>(EasyAlign)']}
-
 " 缩进线
 Plug 'glepnir/indent-guides.nvim'
 
@@ -32,15 +26,8 @@ Plug 'voldikss/vim-floaterm', {'on': ['FloatermNew', 'FloatermToggle']}
 " 起始界面
 Plug 'mhinz/vim-startify'
 
-" 翻译插件
-Plug 'iamcco/dict.vim', {'on':
-    \ [
-    \ '<Plug>DictSearch', '<Plug>DictVSearch', '<Plug>DictWSearch',
-    \ '<Plug>DictWVSearch', '<Plug>DictRSearch', '<Plug>DictRVSearch'
-    \ ]}
 " 搜索显示数量
 Plug 'kevinhwang91/nvim-hlslens'
-
 
 " vim中文文档
 Plug 'yianwillis/vimcdoc'
@@ -60,26 +47,6 @@ Plug 'dstein64/vim-startuptime', {'on':'StartupTime'}
 
 " 语法检查
 Plug 'rhysd/vim-grammarous', {'for': ['markdown', 'vimwiki', 'md', 'tex']}
-" 首先需要在config/plugin_list.vim中增加插件
-Plug 'matze/vim-move', {'on': [
-            \ '<Plug>MoveBlockDown',
-            \ '<Plug>MoveBlockUp',
-            \ '<Plug>MoveBlockRight',
-            \ '<Plug>MoveBlockLeft']}
-if has("nvim")
-    Plug 'simnalamburt/vim-mundo'
-endif
-if has('nvim')
-    Plug 'kyazdani42/nvim-web-devicons'
-else
-    Plug 'ryanoasis/vim-devicons'
-endif
-
-if has('nvim')
-    Plug 'dstein64/nvim-scrollview'
-endif
-Plug 'ernstwi/vim-secret'
-Plug 'ZSaberLv0/ZFVimDirDiff'
 
 " fondler
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
@@ -92,13 +59,10 @@ Plug 'skywind3000/vim-preview'
 " comment
 Plug 'tpope/vim-commentary'
 
-" icon
-Plug 'ryanoasis/vim-devicons'
-
 " pair bracket
 Plug 'jiangmiao/auto-pairs'
 
-" 快速移动
+" 搜索快速跳转
  Plug 'easymotion/vim-easymotion', {'on':
     \ [
     \ '<Plug>(easymotion-bd-f)', '<Plug>(easymotion-overwin-f)',

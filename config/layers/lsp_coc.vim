@@ -5,7 +5,6 @@ Plug 'antoinemadec/coc-fzf', { 'branch': 'release' }
 " coc插件列表，可根据需要进行删减
 let g:coc_global_extensions = [
     \ 'coc-vimlsp',
-    \ 'coc-xml',
     \ 'coc-yank',
     \ 'coc-sh',
     \ 'coc-yaml',
