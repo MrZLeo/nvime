@@ -1,8 +1,5 @@
 " 基本配置
-if &compatible
-    " 不要兼容vi
-    set nocompatible
-endif
+set nocompatible
 
 if has('syntax')
     syntax enable

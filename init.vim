@@ -9,11 +9,12 @@ LoadScript base.vim
 
 " vim-plug 载入插件
 call plug#begin(get(g:, 'plugins_install_path', '~/.vim/plugin/'))
-LoadScript layers.vim
+:luafile ~/.config/nvim/config/layers.lua
 call plug#end()
 
 " 载入快捷键配置
-LoadScript keymap.vim
+:luafile ~/.config/nvim/config/keymap.lua
+
 " 载入主题配置
 LoadScript theme/theme.vim
 LoadScript theme/statusline.vim
