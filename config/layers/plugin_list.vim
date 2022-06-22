@@ -1,6 +1,5 @@
 " 主题theme类插件
 Plug 'sainnhe/edge'
-Plug 'shaunsingh/nord.nvim'
 
 " 顶栏和底栏
 Plug 'itchyny/lightline.vim'

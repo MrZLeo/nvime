@@ -5,7 +5,7 @@
 command! -nargs=1 LoadScript exec 'source ' . g:config_root_path . '<args>'
 
 " 载入基础配置
-LoadScript base.vim
+:luafile ~/.config/nvim/config/base.lua
 
 " vim-plug 载入插件
 call plug#begin(get(g:, 'plugins_install_path', '~/.vim/plugin/'))
