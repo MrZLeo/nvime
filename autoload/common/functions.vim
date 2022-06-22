@@ -86,47 +86,6 @@ function! common#functions#Wall() abort
     execute win.'wincmd w'
 endfunction
 
-function! common#functions#MoveTabOrBuf(direction) abort
-    " 移动buffer或者tab
-    " 0 <- 1 ->
-
-    let s:exclude_ft = ["coc-explorer", "vista"]
-    if index(s:exclude_ft, &ft) != -1 | return | endif
-
-    " 如果在floaterm中
-    if &ft ==# "floaterm"
-        if a:direction == 0
-            exec "FloatermNext"
-        else
-            exec "FloatermPrev"
-        endif
-
-        return
-    endif
-
-    if tabpagenr('$') > 1
-        call common#functions#moveTab(a:direction)
-    else
-        call common#functions#moveBuffer(a:direction)
-    endif
-endfunction
-
-function! common#functions#moveTab(direction) abort
-    if a:direction == 0
-        exec 'tabprevious'
-    elseif a:direction == 1
-        exec 'tabnext'
-    endif
-endfunction
-
-function! common#functions#moveBuffer(direction) abort
-    if a:direction == 0
-        exec 'bprevious'
-    elseif a:direction == 1
-        exec 'bnext'
-    endif
-endfunction
-
 function! common#functions#OpenFileUsingSystemApp(filePath) abort
     " 使用系统应用打开当前文件
     exec 'silent !xdg-open ' . fnameescape(a:filePath) . ' > /dev/null'

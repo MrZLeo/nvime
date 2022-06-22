@@ -1,19 +1,11 @@
 " 自定义状态栏和tab栏
-if common#functions#HasPlug('vim-crystalline')
-    \ || common#functions#HasPlug('lightline.vim')
-    \ || common#functions#HasPlug('vim-airline')
-    \ || common#functions#HasPlug('eleline.vim')
-    \ || common#functions#HasPlug('lualine.nvim')
+if common#functions#HasPlug('lightline.vim')
     finish
 endif
-
-" 状态栏
-" set statusline=2
 
 " 黑名单
 let s:disable_statusline =
     \ ['defx', 'denite', 'vista', 'tagbar', 'undotree', 'diff', 'peekaboo', 'sidemenu', 'qf', 'coc-explorer', 'startify', 'vim-plug']
-    " \ 'defx\|denite\|vista\|tagbar\|undotree\|diff\|peekaboo\|sidemenu\|qf\|coc-explorer\|startify\|vim-plug'
 
 let s:stl = ""
 let s:stl .= "%#ToolbarButton# %{common#functions#ModeLabel()} "

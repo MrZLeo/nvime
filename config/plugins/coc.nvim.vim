@@ -32,16 +32,6 @@ inoremap <silent><expr> <S-TAB>
     \ pumvisible() ? "\<C-p>" :
     \ "\<C-h>"
 
-" alt j选择下一个补全
-inoremap <silent><expr> <m-j>
-    \ pumvisible() ? "\<C-n>" : "\<C-R>=coc#rpc#request('snippetNext', [])\<cr>"
-    " \ pumvisible() ? "\<C-n>" : return
-
-" alt k选择上一个补全
-inoremap <silent><expr> <m-k>
-    \ pumvisible() ? "\<C-p>" : "\<C-R>=coc#rpc#request('snippetPrev', [])\<cr>"
-    " \ pumvisible() ? "\<C-p>" : return
-
 " down 选择下一个补全
 inoremap <silent><expr> <down>
     \ pumvisible() ? "\<C-n>" : "\<down>"
@@ -146,28 +136,6 @@ endif
 
 " CocAction
 nnoremap <silent> <space>ac <Plug>(coc-codeaction-cursor)<CR>
-
-
-" 多光标支持，但是coc的多光标不如 vim-visual-multi，因此在没有
-" vim-visual-multi的时候才使用 coc
-if !common#functions#HasPlug("vim-visual-multi")
-    " ctrl n下一个，ctrl p上一个
-    " ctrl c 添加一个光标再按一次取消，
-    nmap <silent> <C-c> <Plug>(coc-cursors-position)
-    nmap <expr> <silent> <C-n> <SID>select_current_word()
-    function! s:select_current_word()
-        if !get(g:, 'coc_cursors_activated', 0)
-            return "\<Plug>(coc-cursors-word)"
-        endif
-        return "*\<Plug>(coc-cursors-word):nohlsearch\<CR>"
-    endfunc
-
-    xmap <silent> <C-n> y/\V<C-r>=escape(@",'/\')<CR><CR>gN<Plug>(coc-cursors-range)gn
-    nmap <silent> <C-a> :CocCommand document.renameCurrentWord<cr>
-
-    " use normal command like `<leader>xi(`
-    nmap <leader>x  <Plug>(coc-cursors-operator)
-endif
 
 """""""""""""""""""""""
 " coc-plug config
@@ -317,24 +285,6 @@ function! s:lc_coc_git() abort
     " 撤销当前块的修改
     nnoremap <silent> <leader>gu <esc>:CocCommand git.chunkUndo<cr>
     " nnoremap <silent> <leader>gh <esc>:CocCommand git.chunkStage<cr>
-endfunction
-
-function! s:lc_coc_snippets() abort
-    call coc#config("snippets.ultisnips.enable", v:true)
-    call coc#config("snippets.ultisnips.directories", [
-                \ g:other_config_root_path . '/UltiSnips',
-                \ g:other_config_root_path . '/gosnippets/UltiSnips',
-            \ ])
-    call coc#config("snippets.extends", {
-                \ 'cpp': ['c', 'cpp'],
-                \ 'typescript': ['javascript']
-            \ })
-endfunction
-
-function! s:lc_coc_python() abort
-    call coc#config("python.jediEnabled", v:true)
-    call coc#config("python.linting.enabled", v:true)
-    call coc#config("python.linting.pylintEnabled", v:true)
 endfunction
 
 function! s:lc_coc_ci() abort
@@ -549,7 +499,6 @@ let s:coc_config_functions = {
             \ 'coc-lists': function('<SID>lc_coc_lists'),
             \ 'coc-todolist': function('<SID>lc_coc_todolist'),
             \ 'coc-clangd': function('<SID>lc_coc_clangd'),
-            \ 'coc-snippets': function('<SID>lc_coc_snippets'),
             \ 'coc-explorer': function('<SID>lc_coc_explorer'),
             \ 'coc-ci': function('<SID>lc_coc_ci'),
             \ 'coc-vimlsp': function('<SID>lc_coc_vimlsp'),

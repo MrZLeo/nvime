@@ -7,13 +7,6 @@ if &term =~ '256color' && $TMUX != ''
 endif
 
 if has('termguicolors')
-    " fix bug for vim
-    if !has('nvim')
-        " if &term =~# '^screen\|^tmux'
-        let &t_8f = "\e[38;2;%lu;%lu;%lum"
-        let &t_8b = "\e[48;2;%lu;%lu;%lum"
-        " endif
-    endif
     " enable true color
     set termguicolors
 endif
@@ -37,6 +30,7 @@ if &list
     set listchars+=trail:·
     " set listchars+=space:␣
 endif
+
 " 搜索高亮颜色
 hi Search ctermfg=17 ctermbg=190 guifg=#000000 guibg=#ffff00
 
@@ -45,7 +39,6 @@ set pumheight=20
 if has('nvim')
     set pumblend=20 " 提示框透明
 endif
-
 
 " 主题选择
 let g:one_allow_italics = 1
