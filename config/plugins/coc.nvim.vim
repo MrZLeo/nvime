@@ -182,14 +182,6 @@ function! s:lc_coc_highlight() abort
 endfunction
 
 function! s:lc_coc_lists() abort
-    " session
-    call coc#config('session.directory', g:session_dir)
-    if common#functions#HasPlug('dashboard-nvim', 'vim-startify')
-        call coc#config('session.saveOnVimLeave', v:false)
-    else
-        call coc#config('session.saveOnVimLeave', v:true)
-    endif
-
     call coc#config('list.maxHeight', 10)
     call coc#config('list.maxPreviewHeight', 8)
     call coc#config('list.autoResize', v:false)
