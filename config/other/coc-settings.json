@@ -55,7 +55,7 @@
     ],
     "clangd.path": "/usr/bin/clangd",
     "clangd.fallbackFlags": [],
-    "clangd.disableDiagnostics": false,
+    "clangd.disableDiagnostics": true,
     "rust-analyzer.checkOnSave.allTargets": false,
     "rust-analyzer.checkOnSave.command": "clippy",
     "rust-analyzer.server.path": "/opt/homebrew/bin/rust-analyzer",

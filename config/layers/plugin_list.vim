@@ -47,22 +47,8 @@ Plug 'rhysd/vim-grammarous', {'for': ['markdown', 'vimwiki', 'md', 'tex']}
 " fondler
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
-" gtags 管理
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'skywind3000/gutentags_plus'
-Plug 'skywind3000/vim-preview'
-
 " comment
 Plug 'tpope/vim-commentary'
 
 " pair bracket
 Plug 'jiangmiao/auto-pairs'
-
-" 搜索快速跳转
- Plug 'easymotion/vim-easymotion', {'on':
-    \ [
-    \ '<Plug>(easymotion-bd-f)', '<Plug>(easymotion-overwin-f)',
-    \ '<Plug>(easymotion-overwin-f2)', '<Plug>(easymotion-bd-jk)',
-    \ '<Plug>(easymotion-overwin-line)', '<Plug>(easymotion-bd-w)',
-    \ '<Plug>(easymotion-overwin-w)', '<Plug>(easymotion-s)',
-    \ ]}

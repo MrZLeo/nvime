@@ -22,7 +22,7 @@ function! LightlineLineinfo() abort
     \      &filetype ==? 'vista'            ? ' ' :
     \      &filetype =~? '\v^mundo(diff)?$' ? ' ' :
     \      s:lightline_is_lean() || s:lightline_is_plain() ? ' '  :
-    \      printf(' %3ld%% ☰ %3ld:%4ld', 100*line('.')/line('$'),  line('.'), col('.'))
+    \      printf(' %3ld%% ☰ %3ld:%2ld', 100*line('.')/line('$'),  line('.'), col('.'))
 endfunction
 
 function! LightLineGitInfo()abort
@@ -49,32 +49,25 @@ let g:lightline = {
     \ 'tabline': 0
     \},
     \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ],
+    \   'left': [ [ 'mode', 'paste', 'gitinfo' ],
     \             [ 'readonly', 'filename', 'modified'],
-    \             [ 'gitinfo', 'method', 'cocstatus']
+    \             [ 'method', 'cocstatus']
     \           ],
     \   'right': [
     \       ['cocerror'], ['cocwarn'], ['cocfix'],
-    \       [ 'filetype', 'fileencoding', 'fileformat', 'hex', 'asc', 'lineinfo'],
+    \       [ 'filetype', 'fileencoding', 'fileformat', 'lineinfo'],
     \       [ 'percent' ]
     \   ]
-    \ },
-    \ 'component': {
-    \   'asc': '%03.3b',
-    \   'hex': '0x%hhhB',
     \ },
     \ 'component_function': {
     \   'cocstatus': 'coc#status',
     \   'lineinfo': 'LightlineLineinfo',
     \   'readonly': 'common#functions#ReadOnly',
     \   'gitinfo': 'LightLineGitInfo',
+    \   'gitbranch': 'FugitiveHead',
     \   'cocerror': 'common#functions#CocError',
     \   'cocwarn' : 'common#functions#CocWarn',
     \   'cocfix': 'common#functions#CocFix',
     \   'percent': 'ScrollStatus'
     \ },
-    \ 'component_expand': {
-    \ },
-    \ 'separator': { 'left': "\ue0b8", 'right': "\ue0ba"},
-    \ 'subseparator': { 'left': "\ue0b9", 'right': "\ue0bb"}
 \ }

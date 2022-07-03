@@ -1,6 +1,6 @@
-"-----------------------------------------------------------------------------
+"-------------------------------------------
 " 全局配置
-"-----------------------------------------------------------------------------
+"-------------------------------------------
 if exists('g:loaded_config_fzf_vim_vim')
     finish
 endif
@@ -19,8 +19,10 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden"
 " coc-fzf也使用这个变量
 let g:fzf_layout = {
     \ 'window': {
-        \ 'up': '~90%', 'width': 0.6, 'height': 0.8, 'yoffset':0.5,
-        \ 'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp'
+        \ 'up': '~90%', 'width': 0.7, 'height': 0.9, 
+        \ 'yoffset': 0.5, 'xoffset': 0.5, 
+        \ 'highlight': 'Green',
+        \ 'border': 'sharp'
     \ }
 \ }
 
@@ -28,15 +30,15 @@ let g:fzf_layout = {
 let s:preview_window_config = 'up:50%:wrap'
 let s:preview_window = '--preview-window=' . s:preview_window_config
 let g:fzf_preview_window = s:preview_window_config
-" 自定义窗口预览程序
+" " 自定义窗口预览程序
 let s:preview_program = g:scripts_root_path . "/preview.sh"
 
 " 如果存在buffer，那么跳转过去
 let g:fzf_buffers_jump = 1
 
-"-----------------------------------------------------------------------------
+"--------------------------------------
 " 主题配置
-"-----------------------------------------------------------------------------
+"--------------------------------------
 " 配色与主题同色
 " fg表示未选中行的前景色
 " hl表示搜索到的文字的颜色
