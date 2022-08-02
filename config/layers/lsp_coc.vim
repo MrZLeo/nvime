@@ -6,7 +6,6 @@ Plug 'antoinemadec/coc-fzf', { 'branch': 'release' }
 let g:coc_global_extensions = [
     \ 'coc-vimlsp',
     \ 'coc-sh',
-    \ 'coc-snippets',
     \ 'coc-clangd',
     \ 'coc-lists',
     \ 'coc-word',
@@ -16,4 +15,5 @@ let g:coc_global_extensions = [
     \ 'coc-rust-analyzer',
     \ 'coc-json',
     \ 'coc-lua',
+    \ 'coc-snippets'
   \ ]

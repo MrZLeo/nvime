@@ -19,8 +19,8 @@ let $FZF_DEFAULT_COMMAND = "rg --files --hidden"
 " coc-fzf也使用这个变量
 let g:fzf_layout = {
     \ 'window': {
-        \ 'up': '~90%', 'width': 0.7, 'height': 0.9, 
-        \ 'yoffset': 0.5, 'xoffset': 0.5, 
+        \ 'up': '~90%', 'width': 0.7, 'height': 0.9,
+        \ 'yoffset': 0.5, 'xoffset': 0.5,
         \ 'highlight': 'Green',
         \ 'border': 'sharp'
     \ }
@@ -418,3 +418,6 @@ nnoremap <M-J> :FzfJumps<CR>
 " quickfix与locationlist
 nnoremap <F8> :FzfQuickfix<CR>
 nnoremap <F9> :FzfLocationList<CR>
+
+" goto file shortcut
+nnoremap <leader>f :CocFzfList files<CR>

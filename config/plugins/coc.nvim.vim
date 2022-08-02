@@ -18,27 +18,29 @@ autocmd User CocNvimInit call s:uninstall_unused_coc_extensions()
 " 检查当前光标前面是不是空白字符
 function! s:check_back_space() abort
     let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
+    return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 " tab触发补全或者选择下一个补全
 inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<c-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
+	\ coc#pum#visible() ? coc#pum#next(1):
+	\ <SID>check_back_space() ? "\<Tab>" :
+	\ coc#refresh()
 
 " shift tab 选择上一个补全
 inoremap <silent><expr> <S-TAB>
-    \ pumvisible() ? "\<C-p>" :
+    \ coc#pum#visible() ? coc#pum#prev(1) :
     \ "\<C-h>"
 
 " down 选择下一个补全
 inoremap <silent><expr> <down>
-    \ pumvisible() ? "\<C-n>" : "\<down>"
+    \ coc#pum#visible() ? coc#pum#next(1) :
+    \ "\<down>"
 
 " up 选择上一个补全
 inoremap <silent><expr> <up>
-    \ pumvisible() ? "\<C-p>" : "\<up>"
+    \ coc#pum#visible() ? coc#pum#prev(1) :
+    \ "\<up>"
 
 " alt w b 用于补全块的跳转，优先补全块跳转
 if common#functions#HasCocPlug('coc-snippets')
@@ -47,12 +49,7 @@ if common#functions#HasCocPlug('coc-snippets')
 endif
 
 " 回车选中或者扩展选中的补全内容
-if exists('*complete_info')
-    " 如果您的(Neo)Vim版本支持，则使用`complete_info`
-    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
+inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
 
 " diagnostic 跳转
 nmap <silent> <M-j> <Plug>(coc-diagnostic-next)

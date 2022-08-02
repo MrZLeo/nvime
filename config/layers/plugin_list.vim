@@ -16,9 +16,6 @@ Plug 'ntpeters/vim-better-whitespace'
 " 缩进线
 Plug 'glepnir/indent-guides.nvim'
 
-" 多光标
-Plug 'mg979/vim-visual-multi'
-
 " 悬浮终端
 Plug 'voldikss/vim-floaterm', {'on': ['FloatermNew', 'FloatermToggle']}
 
@@ -40,9 +37,6 @@ Plug 'norcalli/nvim-colorizer.lua'
 
 " 查看启动时间
 Plug 'dstein64/vim-startuptime', {'on':'StartupTime'}
-
-" 语法检查
-Plug 'rhysd/vim-grammarous', {'for': ['markdown', 'vimwiki', 'md', 'tex']}
 
 " fondler
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}

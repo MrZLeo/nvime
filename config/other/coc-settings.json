@@ -38,6 +38,7 @@
         "value": "",
         "variable": ""
     },
+    "suggest.labelMaxLength": 50,
     "diagnostic.errorSign": "■",
     "diagnostic.warningSign": "▲",
     "diagnostic.infoSign": "●",
@@ -55,7 +56,7 @@
     ],
     "clangd.path": "/usr/bin/clangd",
     "clangd.fallbackFlags": [],
-    "clangd.disableDiagnostics": true,
+    "clangd.disableDiagnostics": false,
     "rust-analyzer.checkOnSave.allTargets": false,
     "rust-analyzer.checkOnSave.command": "clippy",
     "rust-analyzer.server.path": "/opt/homebrew/bin/rust-analyzer",

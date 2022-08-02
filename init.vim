@@ -36,7 +36,3 @@ for [plugName, _] in items(g:plugs)
     endif
 endfor
 
-"gtags"
-let $GTAGSLABEL = 'native-pygments'
-let $GTAGSCONF = '/opt/homebrew/share/gtags/gtags.conf'
-
