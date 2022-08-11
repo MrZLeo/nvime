@@ -21,8 +21,8 @@ let g:fzf_layout = {
     \ 'window': {
         \ 'up': '~90%', 'width': 0.7, 'height': 0.9,
         \ 'yoffset': 0.5, 'xoffset': 0.5,
-        \ 'highlight': 'Green',
-        \ 'border': 'sharp'
+        \ 'border': 'sharp',
+        \ 'highlight': 'Green'
     \ }
 \ }
 

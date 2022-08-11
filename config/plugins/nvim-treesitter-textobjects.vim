@@ -1,4 +1,4 @@
-lua <<EOF
+lua << EOF
     require'nvim-treesitter.configs'.setup {
         -- 文本块，可以快速操作一些函数块，比如代码块，类块等
         textobjects = {

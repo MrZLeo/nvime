@@ -46,3 +46,7 @@ Plug 'tpope/vim-commentary'
 
 " pair bracket
 Plug 'jiangmiao/auto-pairs'
+
+" todo comment
+Plug 'nvim-lua/plenary.nvim'
+Plug 'folke/todo-comments.nvim'
