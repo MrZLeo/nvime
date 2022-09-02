@@ -2,7 +2,6 @@
 let g:coc_data_home = g:cache_root_path . 'coc/'
 " coc-settings.json所在目录
 let g:coc_config_home = g:other_config_root_path
-
 " 卸载不在列表中的插件
 function! s:uninstall_unused_coc_extensions() abort
     if has_key(g:, 'coc_global_extensions')
@@ -80,8 +79,10 @@ function! s:show_documentation()
         call CocAction('doHover')
     endif
 endfunction
+
 " 函数文档
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
 " 函数参数的文档
 nnoremap <silent> <space>k :call CocActionAsync('showSignatureHelp')<CR>
 " au CursorHoldI * sil call CocActionAsync('showSignatureHelp')
