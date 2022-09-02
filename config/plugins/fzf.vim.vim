@@ -119,9 +119,6 @@ function! s:RipgrepFzfWithWiki(query, fullscreen) abort
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 
-function! s:RipgrepFzfWithWikiVisual(fullscreen) abort range
-    call s:RipgrepFzfWithWiki(common#functions#getVisualSelection(), a:fullscreen)
-endfunction
 " TODO 还需要优化，尽量合并成一个函数，通过参数来操作
 command! -nargs=* -bang GrepWithWiki call s:RipgrepFzfWithWiki(<q-args>, <bang>0)
 command! -range=% -bang  GrepWithWikiVisual <line1>,<line2>call s:RipgrepFzfWithWikiVisual(<bang>0)
@@ -373,51 +370,6 @@ function s:FzfBLinesVisual() abort
 endfunction
 command! -bang -nargs=* FzfBLines call s:FzfBLines()
 command! -range=% -bang FzfBLinesVisual <line1>,<line2>call s:FzfBLinesVisual()
-
-"-----------------------------------------------------------------------------
-" yank depends on coc-yank
-"-----------------------------------------------------------------------------
-
-"-----------------------------------------------------------------------------
-" register
-"-----------------------------------------------------------------------------
-
-"-----------------------------------------------------------------------------
-" 自定义快捷键
-"-----------------------------------------------------------------------------
-nnoremap <M-f> :FWW<CR>
-nnoremap <M-F> :FWW $HOME<CR>
-nnoremap <M-b> :Buffers<CR>
-if common#functions#HasPlug('vista.vim')
-    let g:vista_fzf_preview = ['up:50%:wrap']
-    noremap <M-t> :Vista finder<CR>
-else
-    nnoremap <M-t> :BTags<CR>
-endif
-nnoremap <M-T> :Tags<CR>
-nnoremap <M-s> :GrepWithWiki<CR>
-vnoremap <M-s> :GrepWithWikiVisual<CR>
-" 模糊搜索当前buffer
-nnoremap ? :FzfBLines<CR>
-vnoremap ? :FzfBLinesVisual<CR>
-nnoremap <M-r> :History<CR>
-" TODO 增加changes 需要自定义
-nnoremap <M-c> :Commands<CR>
-" 如果coc-fzf支持marks的话就用coc-fzf+coc-bookmarks
-nnoremap <M-m> :FzfMarks<CR>
-" nnoremap <M-m> :Marks<CR>
-nnoremap <M-M> :Maps<CR>
-nnoremap <M-w> :Windows<CR>
-if common#functions#HasPlug('coc-fzf')
-    nnoremap <M-y> :<c-u>CocFzfList yank<CR>
-endif
-" TODO 编写高亮
-nnoremap <M-J> :FzfJumps<CR>
-
-" TODO 编写高亮
-" quickfix与locationlist
-nnoremap <F8> :FzfQuickfix<CR>
-nnoremap <F9> :FzfLocationList<CR>
 
 " goto file shortcut
 nnoremap <leader>f :CocFzfList files<CR>

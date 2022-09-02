@@ -1,4 +1,3 @@
-lua << EOF
 require('vgit').setup({
     debug = false,
     hunks_enabled = true,
@@ -222,4 +221,3 @@ require('vgit').setup({
         },
     },
 })
-EOF
