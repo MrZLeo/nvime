@@ -33,7 +33,7 @@ require "settings.chadtree"
 require "settings.lualine"
 require "settings.telescope"
 require "settings.dressing"
--- require "settings.nvim-autopairs"
+require "settings.nvim-autopairs"
 
 -- " clang-format
 -- " autocmd FileType c,cpp autocmd BufWritePre * :Autoformat

@@ -61,9 +61,9 @@ cmp.setup {
                 fallback()
             end
         end, {
-                "i",
-                "s",
-            }),
+            "i",
+            "s",
+        }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
@@ -71,10 +71,12 @@ cmp.setup {
                 fallback()
             end
         end, {
-                "i",
-                "s",
-            }),
+            "i",
+            "s",
+        }),
     },
+
+    -- present format
     formatting = {
         fields = { "abbr", "kind", "menu" },
         format = function(entry, vim_item)
@@ -110,3 +112,9 @@ cmp.setup {
         native_menu = false,
     },
 }
+
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on(
+    'confirm_done',
+    cmp_autopairs.on_confirm_done()
+)

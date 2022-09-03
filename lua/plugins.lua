@@ -41,10 +41,10 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
     -- My plugins here
-    use "wbthomason/packer.nvim"  -- Have packer manage itself
-    use "tpope/vim-surround"      -- surrounding
-    use 'p00f/nvim-ts-rainbow'    -- rainbow bracket
-    use 'sainnhe/edge'            -- theme
+    use "wbthomason/packer.nvim" -- Have packer manage itself
+    use "tpope/vim-surround" -- surrounding
+    use 'p00f/nvim-ts-rainbow' -- rainbow bracket
+    use 'sainnhe/edge' -- theme
 
     -- treesitter
     use 'nvim-treesitter/nvim-treesitter-refactor'
@@ -148,15 +148,15 @@ return packer.startup(function(use)
     use 'lukoshkin/trailing-whitespace'
 
     -- pair brackets
-    -- use "windwp/nvim-autopairs"
+    use "windwp/nvim-autopairs"
 
 
     -- startup page
     use {
         "goolord/alpha-nvim",
-        config = function ()
-            local alpha = require'alpha'
-            local dashboard = require'alpha.themes.dashboard'
+        config = function()
+            local alpha = require 'alpha'
+            local dashboard = require 'alpha.themes.dashboard'
             dashboard.section.header.val = {
                 [[ ███▄    █ ██▒   █▓ ██▓ ███▄ ▄███▓▓█████]],
                 [[ ██ ▀█   █▓██░   █▒▓██▒▓██▒▀█▀ ██▒▓█   ▀]],
@@ -169,16 +169,17 @@ return packer.startup(function(use)
                 [[         ░']],
             }
             dashboard.section.buttons.val = {
-                dashboard.button( "e", "New file" , ":ene <BAR> startinsert <CR>"),
-                dashboard.button( "u", "Update Plugin", ":PackerSync<CR>" ),
-                dashboard.button( "s", "Start Time", ":StartupTime<CR>" ),
-                dashboard.button( "q", "Quit NVIM" , ":qa<CR>")
-            } local handle = io.popen('fortune')
+                dashboard.button("e", "New file", ":ene <BAR> startinsert <CR>"),
+                dashboard.button("u", "Update Plugin", ":PackerSync<CR>"),
+                dashboard.button("s", "Start Time", ":StartupTime<CR>"),
+                dashboard.button("q", "Quit NVIM", ":qa<CR>")
+            }
+            local handle = io.popen('fortune')
             local fortune = handle:read("*a")
             handle:close()
             dashboard.section.footer.val = fortune
             dashboard.config.opts.noautocmd = true
-            vim.cmd[[autocmd User AlphaReady echo 'ready']]
+            vim.cmd [[autocmd User AlphaReady echo 'ready']]
             alpha.setup(dashboard.config)
         end
 
@@ -191,14 +192,14 @@ return packer.startup(function(use)
     -- use 'junegunn/fzf.vim'
 
     -- LSP support
-    use "hrsh7th/nvim-cmp"          -- The completion plugin
-    use "hrsh7th/cmp-buffer"        -- buffer completions
-    use "hrsh7th/cmp-path"          -- path completions
-    use 'delphinus/cmp-ctags'       -- ctags completions
-    use "neovim/nvim-lspconfig"     -- enable LSP
-    use "hrsh7th/cmp-nvim-lsp"      -- LSP provider
-    use 'simrat39/rust-tools.nvim'  -- Rust LSP
-    use 'hrsh7th/vim-vsnip'         -- Snippet engine
+    use "hrsh7th/nvim-cmp" -- The completion plugin
+    use "hrsh7th/cmp-buffer" -- buffer completions
+    use "hrsh7th/cmp-path" -- path completions
+    use 'delphinus/cmp-ctags' -- ctags completions
+    use "neovim/nvim-lspconfig" -- enable LSP
+    use "hrsh7th/cmp-nvim-lsp" -- LSP provider
+    use 'simrat39/rust-tools.nvim' -- Rust LSP
+    use 'hrsh7th/vim-vsnip' -- Snippet engine
 
     -- float windows
     use {
@@ -210,9 +211,9 @@ return packer.startup(function(use)
     --telescope
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
-        requires = { {'nvim-lua/plenary.nvim'} }
+        requires = { { 'nvim-lua/plenary.nvim' } }
     }
-    use {'stevearc/dressing.nvim'}
+    use { 'stevearc/dressing.nvim' }
 
     -- special format plugin for clang-format
     -- use 'vim-autoformat/vim-autoformat'
