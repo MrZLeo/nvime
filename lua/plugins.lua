@@ -200,6 +200,8 @@ return packer.startup(function(use)
     use "hrsh7th/cmp-nvim-lsp" -- LSP provider
     use 'simrat39/rust-tools.nvim' -- Rust LSP
     use 'hrsh7th/vim-vsnip' -- Snippet engine
+    use "hrsh7th/cmp-nvim-lua" -- Lua LSP
+    use 'p00f/clangd_extensions.nvim' -- C/C++ LSP
 
     -- float windows
     use {

@@ -88,16 +88,18 @@ cmp.setup {
             -- the icons with the name of the item kind
             vim_item.menu = ({
                 nvim_lsp = "[LSP]",
+                nvim_lua = "[LSP]",
                 cmp_ctags = "[Tag]",
+                vsnip = "[Snip]",
                 buffer = "[Buf]",
                 path = "[Path]",
-                vsnip = "[Snip]",
             })[entry.source.name]
             return vim_item
         end,
     },
     sources = {
         { name = "nvim_lsp" },
+        { name = "nvim_lua" },
         { name = 'vsnip' },
         { name = 'cmp_ctags' },
         { name = "buffer" },

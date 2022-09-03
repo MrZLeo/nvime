@@ -6,6 +6,7 @@ end
 require("lsp.settings").setup()
 require("lsp.rust")
 require("lsp.lua")
+require("lsp.clangd")
 
 -- auto format
 vim.cmd [[ autocmd FileType rust,c,cpp,lua autocmd BufWritePre * :lua vim.lsp.buf.formatting_sync() ]]

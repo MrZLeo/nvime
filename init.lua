@@ -2,7 +2,7 @@
 require "config"
 
 -- use for load vim script
-vim.cmd [[command! -nargs=1 LoadScript exec 'source ' . g:config_root_path . '<args>']]
+-- vim.cmd [[command! -nargs=1 LoadScript exec 'source ' . g:config_root_path . '<args>']]
 
 -- load basic settings
 require "base"
