@@ -6,9 +6,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
     PACKER_BOOTSTRAP = fn.system {
         "git",
         "clone",
-        "--depth",
-        "1",
-        "https://github.com/wbthomason/packer.nvim",
+        "--depth", "1", "https://github.com/wbthomason/packer.nvim",
         install_path,
     }
     print "Installing packer close and reopen Neovim..."
@@ -145,7 +143,7 @@ return packer.startup(function(use)
     }
 
     -- remove space in the end of line
-    use 'lukoshkin/trailing-whitespace'
+    use 'ntpeters/vim-better-whitespace'
 
     -- pair brackets
     use "windwp/nvim-autopairs"
