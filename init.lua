@@ -18,10 +18,12 @@ require "colorscheme"
 
 -- load plugin configuration
 
-vim.cmd [[ LoadScript plugins/coc-fzf.vim ]]
-vim.cmd [[ LoadScript plugins/coc.nvim.vim ]]
-vim.cmd [[ LoadScript plugins/fzf.vim.vim ]]
+-- vim.cmd [[ LoadScript plugins/coc-fzf.vim ]]
+-- vim.cmd [[ LoadScript plugins/coc.nvim.vim ]]
+-- vim.cmd [[ LoadScript plugins/fzf.vim.vim ]]
 
+require "settings.cmp"
+require "lsp"
 require "settings.nvim-ts-rainbow"
 require "settings.nvim-treesitter-refactor"
 require "settings.nvim-treesitter-textobjects"
@@ -29,7 +31,9 @@ require "settings.nvim-treesitter"
 require "settings.vgit"
 require "settings.chadtree"
 require "settings.lualine"
-require "settings.nvim-autopairs"
+require "settings.telescope"
+require "settings.dressing"
+-- require "settings.nvim-autopairs"
 
 -- " clang-format
 -- " autocmd FileType c,cpp autocmd BufWritePre * :Autoformat

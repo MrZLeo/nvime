@@ -148,7 +148,7 @@ return packer.startup(function(use)
     use 'lukoshkin/trailing-whitespace'
 
     -- pair brackets
-    use "windwp/nvim-autopairs"
+    -- use "windwp/nvim-autopairs"
 
 
     -- startup page
@@ -185,10 +185,34 @@ return packer.startup(function(use)
     }
 
     -- coc & fzf
-    use { 'neoclide/coc.nvim',  branch = 'release'  }
-    use { 'antoinemadec/coc-fzf',  branch = 'release' }
-    use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
-    use 'junegunn/fzf.vim'
+    -- use { 'neoclide/coc.nvim',  branch = 'release'  }
+    -- use { 'antoinemadec/coc-fzf',  branch = 'release' }
+    -- use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
+    -- use 'junegunn/fzf.vim'
+
+    -- LSP support
+    use "hrsh7th/nvim-cmp"          -- The completion plugin
+    use "hrsh7th/cmp-buffer"        -- buffer completions
+    use "hrsh7th/cmp-path"          -- path completions
+    use 'delphinus/cmp-ctags'       -- ctags completions
+    use "neovim/nvim-lspconfig"     -- enable LSP
+    use "hrsh7th/cmp-nvim-lsp"      -- LSP provider
+    use 'simrat39/rust-tools.nvim'  -- Rust LSP
+    use 'hrsh7th/vim-vsnip'         -- Snippet engine
+
+    -- float windows
+    use {
+        "akinsho/toggleterm.nvim", tag = 'v2.*', config = function()
+            require("toggleterm").setup()
+        end
+    }
+
+    --telescope
+    use {
+        'nvim-telescope/telescope.nvim', tag = '0.1.0',
+        requires = { {'nvim-lua/plenary.nvim'} }
+    }
+    use {'stevearc/dressing.nvim'}
 
     -- special format plugin for clang-format
     -- use 'vim-autoformat/vim-autoformat'
