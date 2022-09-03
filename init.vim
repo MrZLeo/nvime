@@ -31,3 +31,5 @@ lua require "settings.chadtree"
 lua require "settings.lualine"
 lua require "settings.nvim-autopairs"
 
+" clang-format
+autocmd FileType c,cpp autocmd BufWritePre * :Autoformat
