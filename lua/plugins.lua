@@ -45,20 +45,39 @@ return packer.startup(function(use)
     use "tpope/vim-surround"      -- surrounding
     use 'p00f/nvim-ts-rainbow'    -- rainbow bracket
     use 'sainnhe/edge'            -- theme
+
     use 'nvim-treesitter/nvim-treesitter-refactor'
     use 'romgrk/nvim-treesitter-context'
     use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
     use 'yianwillis/vimcdoc'
+
+    -- count the hightlight
     use 'kevinhwang91/nvim-hlslens'
+
+    -- comment
     use 'tpope/vim-commentary'
+
     use 'nvim-lua/plenary.nvim'
+
+    -- todo
     use 'folke/todo-comments.nvim'
+
+    -- start time
     use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
-    -- use 'glepnir/indent-guides.nvim' -- indent line
+
+    -- indent line
     use "lukas-reineke/indent-blankline.nvim"
+
+    -- git
     use 'tanvirtin/vgit.nvim'
+
+    -- color
     use 'norcalli/nvim-colorizer.lua'
+
+    -- file explorer
     use { 'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps' }
+
+    -- status line
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true }
@@ -93,8 +112,7 @@ return packer.startup(function(use)
                 dashboard.button( "q", "Quit NVIM" , ":qa<CR>"),
                 dashboard.button( "u", "Update Plugin", ":PackerSync<CR>" ),
                 dashboard.button( "s", "Start Time", ":StartupTime<CR>" )
-            }
-            local handle = io.popen('fortune')
+            } local handle = io.popen('fortune')
             local fortune = handle:read("*a")
             handle:close()
             dashboard.section.footer.val = fortune
@@ -111,7 +129,7 @@ return packer.startup(function(use)
     use 'junegunn/fzf.vim'
 
     -- special format plugin for clang-format
-    use 'vim-autoformat/vim-autoformat'
+    -- use 'vim-autoformat/vim-autoformat'
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

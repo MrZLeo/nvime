@@ -1,20 +1,20 @@
 " 载入个人配置
-:luafile ~/.config/nvim/config.lua
+lua require "config"
 
 " 定义载入配置命令
 command! -nargs=1 LoadScript exec 'source ' . g:config_root_path . '<args>'
 
 " 载入基础配置
-:luafile ~/.config/nvim/config/base.lua
+lua require "base"
 
 " packer
 lua require "plugins"
 
 " 载入快捷键配置
-:luafile ~/.config/nvim/config/keymap.lua
+lua require "keymap"
 
 " 载入主题配置
-LoadScript theme/theme.vim
+lua require "colorscheme"
 
 " load plugin configuration
 LoadScript plugins/coc-fzf.vim
@@ -32,4 +32,4 @@ lua require "settings.lualine"
 lua require "settings.nvim-autopairs"
 
 " clang-format
-autocmd FileType c,cpp autocmd BufWritePre * :Autoformat
+" autocmd FileType c,cpp autocmd BufWritePre * :Autoformat

@@ -34,7 +34,13 @@ local default_option = {
     matchtime = 2,
     clipboard = "unnamedplus",
     signcolumn = "yes",
-    syntax = "on"
+    syntax = "on",
+    termguicolors = true,
+    incsearch = true,
+    cursorline = true,
+    colorcolumn = "80",
+    pumheight = 20,
+    pumblend = 20
 }
 
 -- enable all setting
