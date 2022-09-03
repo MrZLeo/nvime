@@ -17,10 +17,10 @@ end
 
 -- Autocommand that reloads neovim whenever you save the plugins.lua file
 vim.cmd [[
-augroup packer_user_config
-autocmd!
-autocmd BufWritePost plugins.lua source <afile> | PackerSync
-augroup end
+    augroup packer_user_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+    augroup end
 ]]
 
 -- Use a protected call so we don't error out on first use
@@ -170,9 +170,9 @@ return packer.startup(function(use)
             }
             dashboard.section.buttons.val = {
                 dashboard.button( "e", "New file" , ":ene <BAR> startinsert <CR>"),
-                dashboard.button( "q", "Quit NVIM" , ":qa<CR>"),
                 dashboard.button( "u", "Update Plugin", ":PackerSync<CR>" ),
-                dashboard.button( "s", "Start Time", ":StartupTime<CR>" )
+                dashboard.button( "s", "Start Time", ":StartupTime<CR>" ),
+                dashboard.button( "q", "Quit NVIM" , ":qa<CR>")
             } local handle = io.popen('fortune')
             local fortune = handle:read("*a")
             handle:close()
@@ -183,6 +183,7 @@ return packer.startup(function(use)
         end
 
     }
+
     -- coc & fzf
     use { 'neoclide/coc.nvim',  branch = 'release'  }
     use { 'antoinemadec/coc-fzf',  branch = 'release' }

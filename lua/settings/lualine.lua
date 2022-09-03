@@ -8,8 +8,8 @@ local lualine = require('lualine')
 local colors = {
   bg       = '#202328',
   fg       = '#bbc2cf',
-  yellow   = '#ECBE7B',
-  cyan     = '#008080',
+  yellow   = '#FFD700',
+  cyan     = '#5CBAC0',
   darkblue = '#081633',
   green    = '#98be65',
   orange   = '#FF8800',
@@ -133,18 +133,26 @@ ins_left {
   color = { fg = colors.magenta, gui = 'bold' },
 }
 
-ins_left { 'location' }
+ins_left {
+  'filetype',
+  cond = conditions.buffer_not_empty,
+  color = { fg = colors.cyan  },
+}
 
-ins_left { 'progress', color = { fg = colors.fg, gui = 'bold' } }
+ins_left {
+    'progress',
+    color = { fg = colors.fg, gui = 'bold' }
+}
 
 ins_left {
   'diagnostics',
-  sources = { 'nvim_diagnostic' },
-  symbols = { error = ' ', warn = ' ', info = ' ' },
+  sources = { 'nvim_diagnostic', 'coc' },
+  symbols = { error = ' ', warn = ' ', info = ' ', hint = '✦ ' },
   diagnostics_color = {
-    color_error = { fg = colors.red },
-    color_warn = { fg = colors.yellow },
-    color_info = { fg = colors.cyan },
+    error = { fg = colors.red },
+    warn = { fg = colors.yellow },
+    info = { fg = colors.blue },
+    hint = { fg = colors.green}
   },
 }
 
