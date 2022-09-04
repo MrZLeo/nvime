@@ -10,3 +10,4 @@ nerdtree.json
 *.old
 *~
 test.vim
+packer_compiled.lua
