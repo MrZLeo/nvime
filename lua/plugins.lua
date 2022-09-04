@@ -173,6 +173,9 @@ return packer.startup(function(use)
                 dashboard.button("q", "Quit NVIM", ":qa<CR>")
             }
             local handle = io.popen('fortune')
+            if handle == nil then
+                return
+            end
             local fortune = handle:read("*a")
             handle:close()
             dashboard.section.footer.val = fortune
@@ -182,12 +185,6 @@ return packer.startup(function(use)
         end
 
     }
-
-    -- coc & fzf
-    -- use { 'neoclide/coc.nvim',  branch = 'release'  }
-    -- use { 'antoinemadec/coc-fzf',  branch = 'release' }
-    -- use {'junegunn/fzf', dir = '~/.fzf', run = './install --all' }
-    -- use 'junegunn/fzf.vim'
 
     -- LSP support
     use "hrsh7th/nvim-cmp" -- The completion plugin

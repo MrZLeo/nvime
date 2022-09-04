@@ -3,9 +3,6 @@ if not status_ok then
     return
 end
 
--- telescope.load_extension('media_files')
--- telescope.load_extension('lsp_handlers')
-
 local actions = require "telescope.actions"
 
 telescope.setup {
@@ -90,18 +87,17 @@ telescope.setup {
         -- builtin picker
     },
     extensions = {
-        media_files = {
-            -- filetypes whitelist
-            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-            filetypes = {"png", "webp", "jpg", "jpeg"},
-            find_cmd = "rg" -- find command (defaults to `fd`)
-        },
         -- Your extension configuration goes here:
-        lsp_handlers = {
-			code_action = {
-				telescope = require('telescope.themes').get_dropdown({}),
-			},
-        },
         -- please take a look at the readme of the extension you want to configure
     },
 }
+
+-- key map
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+keymap("n", "<leader>f",
+    "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>"
+    , opts)
+
+keymap("n", "<Space>t", "<cmd>Telescope live_grep<cr>", opts)
