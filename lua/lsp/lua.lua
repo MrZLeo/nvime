@@ -1,5 +1,5 @@
-require 'lspconfig'.sumneko_lua.setup {
-    on_attach = require("lsp.settings").on_attach,
+-- require 'lspconfig'.sumneko_lua.setup {
+local opt = {
     settings = {
         Lua = {
             runtime = {
@@ -23,3 +23,5 @@ require 'lspconfig'.sumneko_lua.setup {
         },
     },
 }
+
+return opt

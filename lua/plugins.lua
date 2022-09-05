@@ -197,6 +197,8 @@ return packer.startup(function(use)
     use 'hrsh7th/vim-vsnip' -- Snippet engine
     use "hrsh7th/cmp-nvim-lua" -- Lua LSP
     use 'p00f/clangd_extensions.nvim' -- C/C++ LSP
+    use 'williamboman/mason.nvim' -- LSP installer
+    use "williamboman/mason-lspconfig.nvim" -- lspconfig Adapter
 
     -- float windows
     use {

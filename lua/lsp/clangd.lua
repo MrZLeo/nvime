@@ -1,7 +1,7 @@
-require("clangd_extensions").setup {
+local opt = {
     server = {
         -- options to pass to nvim-lspconfig
-        on_attach = require 'lsp.settings'.on_attach,
+        -- on_attach = require 'lsp.settings'.on_attach,
         settings = {
             ["clangd"] = {
                 argument = {
@@ -83,3 +83,5 @@ require("clangd_extensions").setup {
         },
     },
 }
+
+return opt

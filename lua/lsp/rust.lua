@@ -1,5 +1,6 @@
 -- local nvim_lsp = require 'lspconfig'
 -- local rt = require 'rust-tools'
+--
 
 local opts = {
     tools = { -- rust-tools options
@@ -58,18 +59,11 @@ local opts = {
         --     -- Code action groups
         --     vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr })
         -- end,
-        on_attach = require('lsp.settings').on_attach,
         settings = {
             ["rust-analyzer"] = {
-                server = {
-                    path = "/opt/homebrew/bin/rust-analyzer"
-                },
                 checkOnSave = {
                     command = "clippy",
                     allTargets = false
-                },
-                procMacro = {
-                    enable = true
                 },
             }
         },
@@ -79,4 +73,5 @@ local opts = {
 vim.cmd [[ autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false }) ]]
 vim.keymap.set('n', '<Space>r', ':RustRunnables<CR>');
 
-require('rust-tools').setup(opts)
+-- require('rust-tools').setup(opts)
+return opts

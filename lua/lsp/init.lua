@@ -4,9 +4,8 @@ if not status_ok then
 end
 
 require("lsp.settings").setup()
-require("lsp.rust")
-require("lsp.lua")
-require("lsp.clangd")
+require("lsp.mason")
+require("lsp.mason-lspconfig")
 
 -- auto format
-vim.cmd [[ autocmd FileType rust,c,cpp,lua autocmd BufWritePre * :lua vim.lsp.buf.formatting_sync(nil, 200) ]]
+vim.cmd [[ autocmd FileType rust,c,cpp,lua autocmd BufWritePre * :lua vim.lsp.buf.formatting_sync() ]]
