@@ -194,7 +194,8 @@ return packer.startup(function(use)
     use "neovim/nvim-lspconfig" -- enable LSP
     use "hrsh7th/cmp-nvim-lsp" -- LSP provider
     use 'simrat39/rust-tools.nvim' -- Rust LSP
-    use 'hrsh7th/vim-vsnip' -- Snippet engine
+    use 'L3MON4D3/LuaSnip' -- Snippet engine
+    use 'saadparwaiz1/cmp_luasnip' -- Snippet cmp interface
     use "hrsh7th/cmp-nvim-lua" -- Lua LSP
     use 'p00f/clangd_extensions.nvim' -- C/C++ LSP
     use 'williamboman/mason.nvim' -- LSP installer

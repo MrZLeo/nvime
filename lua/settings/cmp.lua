@@ -5,6 +5,15 @@
 local cmp_status_ok, cmp = pcall(require, "cmp")
 if not cmp_status_ok then
     return
+elseif cmp == nil then
+    return
+end
+
+local snip_status_ok, luasnip = pcall(require, "luasnip")
+if not snip_status_ok then
+    return
+elseif luasnip == nil then
+    return
 end
 
 -- utils function
@@ -45,7 +54,7 @@ cmp.setup {
     -- Enable LSP snippets
     snippet = {
         expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
+            luasnip.lsp_expand(args.body)
         end,
     },
 
@@ -55,6 +64,8 @@ cmp.setup {
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
+            elseif luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
             elseif check_backspace() then
                 fallback()
             else
@@ -90,7 +101,7 @@ cmp.setup {
                 nvim_lsp = "[LSP]",
                 nvim_lua = "[LSP]",
                 cmp_ctags = "[Tag]",
-                vsnip = "[Snip]",
+                luasnip = "[Snip]",
                 buffer = "[Buf]",
                 path = "[Path]",
             })[entry.source.name]
@@ -100,7 +111,7 @@ cmp.setup {
     sources = {
         { name = "nvim_lsp" },
         { name = "nvim_lua" },
-        { name = 'vsnip' },
+        { name = 'luasnip' },
         { name = 'cmp_ctags' },
         { name = "buffer" },
         { name = "path" },
