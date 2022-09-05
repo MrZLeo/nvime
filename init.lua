@@ -1,6 +1,3 @@
--- load config const
-require "config"
-
 -- load basic settings
 require "base"
 
@@ -17,5 +14,5 @@ require "colorscheme"
 require "lsp"
 require "settings"
 
--- " clang-format
--- " autocmd FileType c,cpp autocmd BufWritePre * :Autoformat
+-- clang-format
+-- vim.cmd[[ autocmd FileType c,cpp autocmd BufWritePre * :Autoformat ]]
