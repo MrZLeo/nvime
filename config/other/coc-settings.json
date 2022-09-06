@@ -52,12 +52,10 @@
         "--header-insertion=iwyu",
         "--pch-storage=disk"
     ],
-    "clangd.path": "/usr/bin/clangd",
     "clangd.fallbackFlags": [],
     "clangd.disableDiagnostics": true,
     "rust-analyzer.checkOnSave.allTargets": false,
     "rust-analyzer.checkOnSave.command": "clippy",
-    "rust-analyzer.server.path": "/opt/homebrew/bin/rust-analyzer",
     "Lua.workspace.library": {
         "/usr/share/nvim/runtime/lua": true,
         "/usr/share/nvim/runtime/lua/vim": true,
