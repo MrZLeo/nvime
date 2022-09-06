@@ -30,6 +30,7 @@ require "settings.vgit"
 require "settings.chadtree"
 require "settings.lualine"
 require "settings.nvim-autopairs"
+require "settings.nvim-colorizer"
 
 -- " clang-format
 -- " autocmd FileType c,cpp autocmd BufWritePre * :Autoformat
