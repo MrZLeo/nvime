@@ -40,7 +40,17 @@ packer.init {
 return packer.startup(function(use)
     -- My plugins here
     use "wbthomason/packer.nvim" -- Have packer manage itself
-    use "tpope/vim-surround" -- surrounding
+
+    -- surrounding
+    use({
+        "kylechui/nvim-surround",
+        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = function()
+            require("nvim-surround").setup({
+                -- Configuration here, or leave empty to use defaults
+            })
+        end
+    })
     use 'p00f/nvim-ts-rainbow' -- rainbow bracket
     use 'sainnhe/edge' -- theme
 
@@ -190,7 +200,6 @@ return packer.startup(function(use)
     use "hrsh7th/nvim-cmp" -- The completion plugin
     use "hrsh7th/cmp-buffer" -- buffer completions
     use "hrsh7th/cmp-path" -- path completions
-    use 'delphinus/cmp-ctags' -- ctags completions
     use "neovim/nvim-lspconfig" -- enable LSP
     use "hrsh7th/cmp-nvim-lsp" -- LSP provider
     use 'simrat39/rust-tools.nvim' -- Rust LSP
@@ -200,6 +209,7 @@ return packer.startup(function(use)
     use 'p00f/clangd_extensions.nvim' -- C/C++ LSP
     use 'williamboman/mason.nvim' -- LSP installer
     use "williamboman/mason-lspconfig.nvim" -- lspconfig Adapter
+    use 'j-hui/fidget.nvim' -- UI for LSP loading
 
     --telescope
     use {
@@ -210,6 +220,10 @@ return packer.startup(function(use)
 
     -- outline
     use 'simrat39/symbols-outline.nvim'
+
+    -- improve performance
+    use 'nathom/filetype.nvim'
+    use 'lewis6991/impatient.nvim'
 
     -- special format plugin for clang-format
     -- use 'vim-autoformat/vim-autoformat'

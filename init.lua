@@ -1,3 +1,6 @@
+-- improve performance
+require "performance"
+
 -- load basic settings
 require "base"
 
