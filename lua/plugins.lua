@@ -201,19 +201,15 @@ return packer.startup(function(use)
     use 'williamboman/mason.nvim' -- LSP installer
     use "williamboman/mason-lspconfig.nvim" -- lspconfig Adapter
 
-    -- float windows
-    use {
-        "akinsho/toggleterm.nvim", tag = 'v2.*', config = function()
-            require("toggleterm").setup()
-        end
-    }
-
     --telescope
     use {
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
     use { 'stevearc/dressing.nvim' }
+
+    -- outline
+    use 'simrat39/symbols-outline.nvim'
 
     -- special format plugin for clang-format
     -- use 'vim-autoformat/vim-autoformat'
