@@ -1,6 +1,6 @@
 require("mason-lspconfig").setup({
     automatic_installation = true,
-    ensure_installed = { "rust_analyzer", "sumneko_lua", "clangd" }
+    ensure_installed = { "rust_analyzer", "sumneko_lua", "clangd", "taplo" }
 })
 
 local on_attach = require("lsp.settings").on_attach

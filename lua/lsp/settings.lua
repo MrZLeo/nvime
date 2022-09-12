@@ -25,7 +25,7 @@ M.setup = function()
         float = {
             focusable = false,
             style = "minimal",
-            border = "rounded",
+            border = "single",
             source = "always",
         },
     }

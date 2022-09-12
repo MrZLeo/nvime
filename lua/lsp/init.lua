@@ -8,7 +8,7 @@ require("lsp.mason")
 require("lsp.mason-lspconfig")
 
 -- auto format
-vim.cmd [[ autocmd FileType rust,c,cpp,lua autocmd BufWritePre * :lua vim.lsp.buf.formatting_sync() ]]
+vim.cmd [[ autocmd FileType rust,c,cpp,lua,toml autocmd BufWritePre * :lua vim.lsp.buf.formatting_sync() ]]
 
 -- UI
 require("fidget").setup {}
