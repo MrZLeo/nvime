@@ -181,6 +181,7 @@ ins_left {
         end
         return msg
     end,
+    cond = conditions.buffer_not_empty,
     icon = ' LSP:',
     color = { fg = '#ffffff', gui = 'bold' },
 }
