@@ -17,8 +17,8 @@ local opts = {
     keymaps = { -- These keymaps can be a string or a table for multiple keys
         close = { "<Esc>", "q" },
         goto_location = "<Cr>",
-        focus_location = "o",
-        hover_symbol = "<TAB>",
+        focus_location = "<TAB>",
+        hover_symbol = "o",
         toggle_preview = "K",
         rename_symbol = "r",
         code_actions = "a",
@@ -59,5 +59,8 @@ local opts = {
         TypeParameter = { icon = "𝙏", hl = "TSParameter" }
     }
 }
+
+-- open symbols keymap
+vim.keymap.set('n', '<Space>o', ':SymbolsOutline<CR>');
 
 require("symbols-outline").setup(opts)

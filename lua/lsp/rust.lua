@@ -70,8 +70,7 @@ local opts = {
     },
 }
 
-vim.cmd [[ autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false }) ]]
+-- Rust run code
 vim.keymap.set('n', '<Space>r', ':RustRunnables<CR>');
 
--- require('rust-tools').setup(opts)
 return opts

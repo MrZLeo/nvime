@@ -16,6 +16,3 @@ require "colorscheme"
 -- load plugin configuration
 require "lsp"
 require "settings"
-
--- clang-format
--- vim.cmd[[ autocmd FileType c,cpp autocmd BufWritePre * :Autoformat ]]
