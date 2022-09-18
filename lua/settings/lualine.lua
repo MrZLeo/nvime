@@ -164,6 +164,7 @@ ins_left {
     end,
 }
 
+-- FIXME: should not show up this when open `outline`
 ins_left {
     -- Lsp server name .
     function()

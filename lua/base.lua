@@ -40,7 +40,8 @@ local default_option = {
     cursorline = true,
     colorcolumn = "80",
     pumheight = 20,
-    pumblend = 20
+    pumblend = 20,
+    guifont = { "Comic Code", ":h15" },
 }
 
 -- enable all setting
