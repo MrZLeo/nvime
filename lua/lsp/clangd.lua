@@ -14,7 +14,6 @@ local opt = {
                     "--header-insertion=iwyu",
                     "--pch-storage=disk"
                 },
-                path = "/usr/bin/clangd"
             }
         }
     },

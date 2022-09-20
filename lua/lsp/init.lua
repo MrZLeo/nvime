@@ -11,8 +11,8 @@ require("lsp.mason-lspconfig")
 -- auto format
 local pattern = {
     "*.rs",
-    "*.c",
-    "*.h",
+    -- "*.c",
+    -- "*.h",
     "*.cpp",
     "*.hpp",
     "*.cc",
@@ -29,7 +29,7 @@ vim.api.nvim_create_autocmd(
 )
 
 -- auto show diagnostic
--- FIXME: if diagnostic show up, we cannot check function document
+-- FIXME: if diagnostic show up, we cannot check function document, use `KK` to check document right now
 vim.api.nvim_create_autocmd(
     { "CursorHold" },
     {
