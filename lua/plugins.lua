@@ -39,11 +39,11 @@ packer.init {
 -- Install your plugins here
 return packer.startup(function(use)
     -- My plugins here
-    use "wbthomason/packer.nvim" -- Have packer manage itself
+    use 'wbthomason/packer.nvim' -- Have packer manage itself
 
     -- surrounding
     use({
-        "kylechui/nvim-surround",
+        'kylechui/nvim-surround',
         tag = "*", -- Use for stability; omit to use `main` branch for the latest features
         config = function()
             require("nvim-surround").setup({
@@ -75,7 +75,7 @@ return packer.startup(function(use)
 
     -- todo in comment
     use {
-        "folke/todo-comments.nvim",
+        'folke/todo-comments.nvim',
         requires = "nvim-lua/plenary.nvim",
         config = function()
             require("todo-comments").setup {
@@ -140,7 +140,7 @@ return packer.startup(function(use)
     use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
 
     -- indent line
-    use "lukas-reineke/indent-blankline.nvim"
+    use 'lukas-reineke/indent-blankline.nvim'
 
     -- git
     use 'tanvirtin/vgit.nvim'
@@ -161,59 +161,25 @@ return packer.startup(function(use)
     use 'ntpeters/vim-better-whitespace'
 
     -- pair brackets
-    use "windwp/nvim-autopairs"
+    use 'windwp/nvim-autopairs'
 
 
     -- startup page
-    use {
-        "goolord/alpha-nvim",
-        config = function()
-            local alpha = require 'alpha'
-            local dashboard = require 'alpha.themes.dashboard'
-            dashboard.section.header.val = {
-                [[ ███▄    █ ██▒   █▓ ██▓ ███▄ ▄███▓▓█████]],
-                [[ ██ ▀█   █▓██░   █▒▓██▒▓██▒▀█▀ ██▒▓█   ▀]],
-                [[▓██  ▀█ ██▒▓██  █▒░▒██▒▓██    ▓██░▒███]],
-                [[▓██▒  ▐▌██▒ ▒██ █░░░██░▒██    ▒██ ▒▓█  ▄]],
-                [[▒██░   ▓██░  ▒▀█░  ░██░▒██▒   ░██▒░▒████▒]],
-                [[░ ▒░   ▒ ▒   ░ ▐░  ░▓  ░ ▒░   ░  ░░░ ▒░ ░]],
-                [[░ ░░   ░ ▒░  ░ ░░   ▒ ░░  ░      ░ ░ ░  ░]],
-                [[   ░   ░ ░     ░░   ▒ ░░             ░]],
-                [[         ░']],
-            }
-            dashboard.section.buttons.val = {
-                dashboard.button("e", "New file", ":ene <BAR> startinsert <CR>"),
-                dashboard.button("u", "Update Plugin", ":PackerSync<CR>"),
-                dashboard.button("s", "Start Time", ":StartupTime<CR>"),
-                dashboard.button("q", "Quit NVIM", ":qa<CR>")
-            }
-            local handle = io.popen('fortune')
-            if handle == nil then
-                return
-            end
-            local fortune = handle:read("*a")
-            handle:close()
-            dashboard.section.footer.val = fortune
-            dashboard.config.opts.noautocmd = true
-            vim.cmd [[autocmd User AlphaReady echo 'ready']]
-            alpha.setup(dashboard.config)
-        end
-
-    }
+    use 'goolord/alpha-nvim'
 
     -- LSP support
-    use "hrsh7th/nvim-cmp" -- The completion plugin
-    use "hrsh7th/cmp-buffer" -- buffer completions
-    use "hrsh7th/cmp-path" -- path completions
-    use "neovim/nvim-lspconfig" -- enable LSP
-    use "hrsh7th/cmp-nvim-lsp" -- LSP provider
+    use 'hrsh7th/nvim-cmp' -- The completion plugin
+    use 'hrsh7th/cmp-buffer' -- buffer completions
+    use 'hrsh7th/cmp-path' -- path completions
+    use 'neovim/nvim-lspconfig' -- enable LSP
+    use 'hrsh7th/cmp-nvim-lsp' -- LSP provider
     use 'simrat39/rust-tools.nvim' -- Rust LSP
     use 'L3MON4D3/LuaSnip' -- Snippet engine
     use 'saadparwaiz1/cmp_luasnip' -- Snippet cmp interface
-    use "hrsh7th/cmp-nvim-lua" -- Lua LSP
+    use 'hrsh7th/cmp-nvim-lua' -- Lua LSP
     use 'p00f/clangd_extensions.nvim' -- C/C++ LSP
     use 'williamboman/mason.nvim' -- LSP installer
-    use "williamboman/mason-lspconfig.nvim" -- lspconfig Adapter
+    use 'williamboman/mason-lspconfig.nvim' -- lspconfig Adapter
     use 'j-hui/fidget.nvim' -- UI for LSP loading
 
     --telescope

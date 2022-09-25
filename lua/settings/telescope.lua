@@ -7,7 +7,7 @@ end
 
 local actions = require "telescope.actions"
 
-telescope.setup {
+telescope.setup({
     defaults = {
 
         prompt_prefix = " ",
@@ -92,7 +92,7 @@ telescope.setup {
         -- Your extension configuration goes here:
         -- please take a look at the readme of the extension you want to configure
     },
-}
+})
 
 -- key map
 local keymap = vim.api.nvim_set_keymap

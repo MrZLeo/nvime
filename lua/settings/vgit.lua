@@ -117,6 +117,7 @@ require('vgit').setup({
             local function round(x)
                 return x >= 0 and math.floor(x + 0.5) or math.ceil(x - 0.5)
             end
+
             local config_author = git_config['user.name']
             local author = blame.author
             if config_author == author then
