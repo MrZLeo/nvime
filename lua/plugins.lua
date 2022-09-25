@@ -64,7 +64,12 @@ return packer.startup(function(use)
     use 'kevinhwang91/nvim-hlslens'
 
     -- comment
-    use 'tpope/vim-commentary'
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end
+    }
 
     use 'nvim-lua/plenary.nvim'
 
