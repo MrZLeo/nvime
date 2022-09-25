@@ -1,4 +1,4 @@
-require('vgit').setup({
+local config = {
     debug = false,
     hunks_enabled = true,
     blames_enabled = true,
@@ -221,4 +221,7 @@ require('vgit').setup({
             change = 'VGitSignChange',
         },
     },
-})
+}
+
+-- enable setting
+require('vgit').setup(config)

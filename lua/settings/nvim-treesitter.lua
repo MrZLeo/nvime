@@ -1,4 +1,4 @@
-require 'nvim-treesitter.configs'.setup({
+local config = {
     -- 解析器的安装，all全部安装
     ensure_installed = { "c", "lua", "rust", "cpp", "bash", "cmake", "css",
         "json", "java", "json5", "llvm", "make", "ninja", "perl", "python",
@@ -32,4 +32,7 @@ require 'nvim-treesitter.configs'.setup({
         enable = true,
         disable = { 'bash' }
     }
-})
+}
+
+-- enable settings
+require("nvim-treesitter.configs").setup(config)

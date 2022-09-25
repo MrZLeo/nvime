@@ -1,17 +1,25 @@
-require "settings.alpha"
-require "settings.chadtree"
-require "settings.cmp"
-require "settings.dressing"
-require "settings.impatient"
-require "settings.lualine"
-require "settings.nvim-autopairs"
-require "settings.nvim-colorizer"
-require "settings.nvim-surround"
-require "settings.nvim-treesitter"
-require "settings.nvim-treesitter-refactor"
-require "settings.nvim-treesitter-textobjects"
-require "settings.nvim-ts-rainbow"
-require "settings.symbols-outline"
-require "settings.telescope"
-require "settings.vgit"
-require "settings.whitespace"
+local plugins = {
+    "alpha",
+    "chadtree",
+    "cmp",
+    "commment",
+    "dressing",
+    "impatient",
+    "lualine",
+    "nvim-autopairs",
+    "nvim-colorizer",
+    "nvim-surround",
+    "nvim-treesitter",
+    "nvim-treesitter-refactor",
+    "nvim-treesitter-textobjects",
+    "nvim-ts-rainbow",
+    "symbols-outline",
+    "telescope",
+    "todo",
+    "vgit",
+    "whitespace"
+}
+
+for _, plugin in pairs(plugins) do
+    require("settings." .. plugin)
+end

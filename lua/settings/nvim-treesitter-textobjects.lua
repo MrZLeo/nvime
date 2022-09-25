@@ -1,4 +1,4 @@
-require 'nvim-treesitter.configs'.setup({
+local config = {
     -- 文本块，可以快速操作一些函数块，比如代码块，类块等
     textobjects = {
         select = {
@@ -81,4 +81,7 @@ require 'nvim-treesitter.configs'.setup({
             },
         },
     },
-})
+}
+
+-- enable settings
+require("nvim-treesitter.configs").setup(config)

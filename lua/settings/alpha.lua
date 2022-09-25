@@ -25,7 +25,15 @@ local fortune = handle:read("*a")
 handle:close()
 dashboard.section.footer.val = fortune
 dashboard.config.opts.noautocmd = true
-vim.cmd [[autocmd User AlphaReady echo 'ready']]
+
+-- autocmd
+vim.api.nvim_create_autocmd(
+    { "User" },
+    {
+        pattern = "AlphaReady",
+        command = "echo 'ready'"
+    }
+)
 
 -- enable setup
 require('alpha').setup(dashboard.config)

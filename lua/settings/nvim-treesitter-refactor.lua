@@ -1,4 +1,4 @@
-require 'nvim-treesitter.configs'.setup({
+local config = {
     refactor = {
         highlight_definitions = { enable = true }, -- 定义高亮 highlight_current_scope = { enable = false }, -- 范围高亮
 
@@ -21,4 +21,7 @@ require 'nvim-treesitter.configs'.setup({
             }
         }
     },
-})
+}
+
+-- enable settings
+require('nvim-treesitter.configs').setup(config)
