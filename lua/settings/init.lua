@@ -1,3 +1,4 @@
+-- list of plugin settings
 local plugins = {
     "alpha",
     "chadtree",

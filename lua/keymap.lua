@@ -23,9 +23,6 @@ vim.keymap.set('v', 'q', '<esc>:close<cr>', { silent = true })
 -- no hightlight
 vim.keymap.set('n', '<BackSpace>', ':nohl<cr>')
 
--- delete EX mode
-vim.keymap.set('n', 'Q', '<nop>', { remap = true })
-
 -- use Q as macro trigger rather than q
 vim.keymap.set('n', 'Q', 'q')
 
