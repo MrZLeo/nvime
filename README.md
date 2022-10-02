@@ -10,7 +10,7 @@ There are two branches support two types of configuration.
 
 First you need to choose one configuration you like. 
 
-As far as I am concerned, *coc* is much mature, and it covers many good feature together with very good performance(start time of coc branch is near 60-80ms in my m1 macbook pro). While *lsp* use builtin lsp support, which is a new staff. It provides a easy way to use lsp and a better & active community to enhance the performance and functionality.
+As far as I am concerned, *coc* is much mature, and it covers many good feature together with very good performance(start time of coc branch is near 60-80ms in my m1 macbook pro, *lsp* use **impatient** plugin will now can achieve this performance as well and even faster). While *lsp* use builtin lsp support, which is a new staff. It provides a easy way to use lsp and a better & active community to enhance the performance and functionality.
 
 This is my suggestion:
 
