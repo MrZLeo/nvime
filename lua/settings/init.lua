@@ -17,7 +17,6 @@ local plugins = {
     "symbols-outline",
     "telescope",
     "todo",
-    "vgit",
     "whitespace"
 }
 

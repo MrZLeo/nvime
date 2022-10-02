@@ -75,16 +75,20 @@ return packer.startup(function(use)
     use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
 
     -- indent line
-    use 'lukas-reineke/indent-blankline.nvim'
+    use { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" }
 
     -- git
-    use 'tanvirtin/vgit.nvim'
+    use { 'tanvirtin/vgit.nvim',
+        opt = true,
+        config = function()
+            require('vgit').setup()
+        end }
 
     -- color
     use 'norcalli/nvim-colorizer.lua'
 
     -- file explorer
-    use { 'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps' }
+    use { 'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps', cmd = 'CHADopen' }
 
     -- status line
     use {

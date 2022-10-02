@@ -17,14 +17,10 @@ dashboard.section.buttons.val = {
     dashboard.button("s", "Start Time", ":StartupTime<CR>"),
     dashboard.button("q", "Quit NVIM", ":qa<CR>")
 }
-local handle = io.popen('fortune')
-if handle == nil then
-    return
-end
-local fortune = handle:read("*a")
-handle:close()
-dashboard.section.footer.val = fortune
 dashboard.config.opts.noautocmd = true
+
+-- enable setup
+require('alpha').setup(dashboard.config)
 
 -- autocmd
 vim.api.nvim_create_autocmd(
@@ -34,6 +30,3 @@ vim.api.nvim_create_autocmd(
         command = "echo 'ready'"
     }
 )
-
--- enable setup
-require('alpha').setup(dashboard.config)
