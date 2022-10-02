@@ -2,13 +2,13 @@
 
 NVIME is a modern neovim configuration used **pure Lua**. It support Lsp feature, file exploer and many other feature.
 
-There are two branches support two types of configuration. 
+There are two branches support two types of configuration.
 - In **lsp** branch, we use pure Lua and builtin lsp support.
 - In **master** branch, we use *coc* architecture and some vimscript is needed to use coc.
 
 ## Get Started
 
-First you need to choose one configuration you like. 
+First you need to choose one configuration you like.
 
 As far as I am concerned, *coc* is much mature, and it covers many good feature together with very good performance(start time of coc branch is near 60-80ms in my m1 macbook pro, *lsp* use **impatient** plugin will now can achieve this performance as well and even faster). While *lsp* use builtin lsp support, which is a new staff. It provides a easy way to use lsp and a better & active community to enhance the performance and functionality.
 
@@ -82,7 +82,7 @@ You will see some notifications from plugins. Don't worry about that. You can ju
 
 For now, this configurations works for myself. So I am sure that it's nice for my development, mainly in **Rust**, often in **C/C++** and **Lua** is needed for this configuration. The system will download the LSP support automatically when you get whole project installed in your PC.
 
-And you can check what you need 
+And you can check what you need
 
 ### *lsp*
 ```
@@ -111,3 +111,4 @@ let g:coc_global_extensions = [
     \ 'coc-snippets'
   \ ]
 ```
+
