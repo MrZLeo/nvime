@@ -4,7 +4,7 @@ require("mason-lspconfig").setup({
 })
 
 -- on_attach function
-local on_attach = require("lsp.settings").on_attach
+local on_attach = require("lsp.on_attach").on_attach
 
 require("mason-lspconfig").setup_handlers({
     -- The first entry (without a key) will be the default handler

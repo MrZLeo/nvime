@@ -1,9 +1,9 @@
--- TODO: improve code architecture
+-- TODO: improve code architecture, split on_attach & setup
 
 -- LSP manager
 require("lsp.mason")
 require("lsp.mason-lspconfig")
-require("lsp.settings").setup()
+require("lsp.settings")
 
 -- auto format
 local pattern = {
