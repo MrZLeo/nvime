@@ -3,6 +3,7 @@ require("mason-lspconfig").setup({
     ensure_installed = { "rust_analyzer", "sumneko_lua", "clangd", "taplo" }
 })
 
+-- on_attach function
 local on_attach = require("lsp.settings").on_attach
 
 require("mason-lspconfig").setup_handlers({
@@ -10,7 +11,9 @@ require("mason-lspconfig").setup_handlers({
     -- and will be called for each installed server that doesn't have
     -- a dedicated handler.
     function(server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {}
+        require("lspconfig")[server_name].setup {
+            on_attach = on_attach
+        }
     end,
 
     -- Next, you can provide targeted overrides for specific servers.
@@ -34,5 +37,6 @@ require("mason-lspconfig").setup_handlers({
         local opt = require("lsp.clangd")
         opt.server.on_attach = on_attach
         require("clangd_extensions").setup(opt)
-    end
+    end,
+
 })

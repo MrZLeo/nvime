@@ -1,7 +1,3 @@
--- local nvim_lsp = require 'lspconfig'
--- local rt = require 'rust-tools'
---
-
 local opts = {
     tools = { -- rust-tools options
         autoSetHints = true,

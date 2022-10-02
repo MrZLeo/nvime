@@ -1,14 +1,9 @@
 -- TODO: improve code architecture
 
-local status_ok, _ = pcall(require, "lspconfig")
-if not status_ok then
-    return
-end
-
 -- LSP manager
-require("lsp.settings").setup()
 require("lsp.mason")
 require("lsp.mason-lspconfig")
+require("lsp.settings").setup()
 
 -- auto format
 local pattern = {
