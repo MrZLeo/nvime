@@ -1,4 +1,4 @@
--- basic configration
+-- basic configuration
 
 local default_option = {
     compatible = false, -- nocompatible with vi
@@ -12,8 +12,8 @@ local default_option = {
     swapfile = false,
     writebackup = false,
     hidden = true,
-    ignorecase = true,
-    infercase = true,
+    ignorecase = true, -- ignore case when use '/' to search
+    smartcase = true, -- if enter uppercase, don't ignore case
     history = 500,
     splitbelow = true,
     expandtab = true,
@@ -36,12 +36,12 @@ local default_option = {
     signcolumn = "yes", -- prevent shaking when using LSP
     syntax = "on",
     termguicolors = true,
-    incsearch = true,
+    incsearch = true, -- increase search feedback
     cursorline = true,
     colorcolumn = "80",
     pumheight = 20,
     pumblend = 20,
-    guifont = { "Comic Code", ":h15" },
+    guifont = { "Comic Code", ":h15" }, -- only use for GUI, needs to install font
 }
 
 -- enable all setting

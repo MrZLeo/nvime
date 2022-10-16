@@ -1,8 +1,12 @@
 local config = {
     -- 解析器的安装，all全部安装
-    ensure_installed = { "c", "lua", "rust", "cpp", "bash", "cmake", "css",
-        "json", "java", "json5", "llvm", "make", "ninja", "perl", "python",
-        "scala", "toml", "verilog", "vim" },
+    ensure_installed = {
+        "c", "cpp", "rust", "lua",
+        "bash", "cmake", "css",
+        "json", "java", "json5", "llvm",
+        "make", "ninja", "perl", "python",
+        "scala", "toml", "verilog", "vim"
+    },
 
     -- 高亮配置
     highlight = {

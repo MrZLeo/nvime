@@ -1,4 +1,4 @@
-vim.g.one_allow_italics = true
+vim.g.one_allow_italics = false
 
 local colorscheme = "edge"
 

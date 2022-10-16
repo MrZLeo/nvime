@@ -79,7 +79,7 @@ return packer.startup(function(use)
 
     -- git
     use { 'tanvirtin/vgit.nvim',
-        opt = true,
+        -- opt = true,
         config = function()
             require('vgit').setup()
         end }
