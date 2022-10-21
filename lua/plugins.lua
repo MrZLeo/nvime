@@ -57,7 +57,12 @@ return packer.startup(function(use)
     use 'yianwillis/vimcdoc'
 
     -- count the hightlight
-    use 'kevinhwang91/nvim-hlslens'
+    use {
+        'kevinhwang91/nvim-hlslens',
+        config = function()
+            require('hlslens').setup()
+        end
+    }
 
     -- comment
     use 'numToStr/Comment.nvim'
