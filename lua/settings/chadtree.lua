@@ -20,3 +20,6 @@ vim.api.nvim_create_autocmd(
         group = chadtree
     }
 )
+
+-- keymap to open directory
+vim.keymap.set('n', '<Space>d', ':CHADopen<cr>')

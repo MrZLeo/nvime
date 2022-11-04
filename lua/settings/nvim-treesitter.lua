@@ -5,7 +5,8 @@ local config = {
         "bash", "cmake", "css",
         "json", "java", "json5", "llvm",
         "make", "ninja", "perl", "python",
-        "scala", "toml", "verilog", "vim"
+        "scala", "toml", "verilog", "vim",
+        "haskell"
     },
 
     -- 高亮配置
