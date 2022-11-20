@@ -6,7 +6,7 @@ local config = {
         "json", "java", "json5", "llvm",
         "make", "ninja", "perl", "python",
         "scala", "toml", "verilog", "vim",
-        "haskell"
+        "haskell", "go"
     },
 
     -- 高亮配置

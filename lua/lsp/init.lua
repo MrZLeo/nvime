@@ -8,13 +8,15 @@ require("lsp.settings")
 -- auto format
 local pattern = {
     "*.rs",
-    -- "*.c",
-    -- "*.h",
+    "*.c",
+    "*.h",
     "*.cpp",
     "*.hpp",
     "*.cc",
     "*.lua",
-    "*.toml"
+    "*.toml",
+    "*.json",
+    "*.go"
 }
 
 vim.api.nvim_create_autocmd(
