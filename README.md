@@ -50,6 +50,14 @@ Use package manager to install it. For example, in macOS, use `homebrew`:
 brew install ripgrep
 ```
 
+2. tree-sitter
+
+This is used for coloring keywords
+
+```
+brew install tree-sitter
+```
+
 ### Clone project
 
 > You must have neovim installed first
