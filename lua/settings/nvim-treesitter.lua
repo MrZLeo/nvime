@@ -1,12 +1,10 @@
 local config = {
     -- 解析器的安装，all全部安装
     ensure_installed = {
-        "c", "cpp", "rust", "lua",
-        "bash", "cmake", "css",
-        "json", "java", "json5", "llvm",
-        "make", "ninja", "perl", "python",
-        "scala", "toml", "verilog", "vim",
-        "haskell", "go"
+        "bash", "c", "cmake", "comment", "cpp", "diff", "dockerfile", "git_rebase",
+        "gitattributes", "gitignore", "go", "gomod", "gowork", "haskell", "help",
+        "json", "json5", "llvm", "lua", "make", "markdown", "markdown_inline",
+        "ninja", "perl", "python", "rst", "rust", "sql", "toml", "vim", "yaml"
     },
 
     -- 高亮配置
