@@ -71,12 +71,6 @@ return packer.startup(function(use)
 
     use 'nvim-lua/plenary.nvim'
 
-    -- todo in comment
-    use {
-        'folke/todo-comments.nvim',
-        requires = "nvim-lua/plenary.nvim",
-    }
-
     -- start time
     use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
 

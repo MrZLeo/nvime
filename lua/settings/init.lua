@@ -16,7 +16,6 @@ local plugins = {
     "nvim-ts-rainbow",
     "symbols-outline",
     "telescope",
-    "todo",
     "whitespace"
 }
 
