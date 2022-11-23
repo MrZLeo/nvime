@@ -132,7 +132,6 @@ return packer.startup(function(use)
     use 'simrat39/symbols-outline.nvim'
 
     -- improve performance
-    use 'nathom/filetype.nvim'
     use 'lewis6991/impatient.nvim'
 
     -- Automatically set up your configuration after cloning packer.nvim
