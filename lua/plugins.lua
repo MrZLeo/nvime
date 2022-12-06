@@ -68,7 +68,6 @@ return packer.startup(function(use)
     -- comment
     use 'numToStr/Comment.nvim'
 
-
     use 'nvim-lua/plenary.nvim'
 
     -- start time
@@ -101,7 +100,6 @@ return packer.startup(function(use)
 
     -- pair brackets
     use 'windwp/nvim-autopairs'
-
 
     -- startup page
     use 'goolord/alpha-nvim'

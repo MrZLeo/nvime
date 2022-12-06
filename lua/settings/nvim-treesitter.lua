@@ -4,8 +4,8 @@ local config = {
         "bash", "bibtex", "c", "cmake", "comment", "cpp", "diff", "dockerfile",
         "git_rebase", "gitattributes", "go", "gomod", "gowork", "haskell",
         "help", "json", "json5", "latex", "llvm", "lua", "make", "markdown",
-        "markdown_inline", "ninja", "perl", "python", "rst", "rust", "sql",
-        "toml", "vim", "yaml"
+        "markdown_inline", "ninja", "perl", "proto", "python", "rst", "rust",
+        "sql", "toml", "vim", "yaml"
     },
 
     -- 高亮配置

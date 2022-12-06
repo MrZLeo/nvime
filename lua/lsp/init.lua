@@ -15,6 +15,7 @@ local pattern = {
     "*.cc",
     "*.lua",
     "*.toml",
+    "*.yaml",
     "*.json",
     "*.go"
 }
@@ -28,7 +29,8 @@ vim.api.nvim_create_autocmd(
 )
 
 -- auto show diagnostic
--- FIXME: if diagnostic show up, we cannot check function document, use `KK` to check document right now
+-- FIXME: if diagnostic show up, we cannot check function document, use `KK`
+--        to check document right now
 vim.api.nvim_create_autocmd(
     { "CursorHold" },
     {
