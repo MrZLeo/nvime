@@ -42,14 +42,19 @@ brew install node
 
 These are dependencies that are needed both for *coc* and *lsp*.
 
-1. ripgrep
+In fedora, you need to install:
 
-Use package manager to install it. For example, in macOS, use `homebrew`:
-
+```bash
+sudo dnf install \
+    ripgrep \
+    nodejs \
+    tree-sitter-cli \
+    gcc \
+    g++ \
+    unzip
 ```
-brew install ripgrep
-```
 
+other OS is the same.
 
 ### Clone project
 

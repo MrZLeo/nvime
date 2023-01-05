@@ -27,4 +27,5 @@ for _, plugin in pairs(disabled_built_ins) do
 end
 
 -- load impatient before all plugins
-pcall(require, "settings.impatient")
+require('impatient')
+require('impatient').enable_profile()

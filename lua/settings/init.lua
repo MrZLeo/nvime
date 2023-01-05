@@ -5,7 +5,6 @@ local plugins = {
     "cmp",
     "commment",
     "dressing",
-    "impatient",
     "lualine",
     "nvim-autopairs",
     "nvim-colorizer",
