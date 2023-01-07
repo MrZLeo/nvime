@@ -48,7 +48,7 @@ return packer.startup(function(use)
     })
 
     -- rainbow and colorscheme
-    use 'p00f/nvim-ts-rainbow' -- rainbow bracket
+    use 'mrjones2014/nvim-ts-rainbow' -- rainbow bracket
     use 'sainnhe/edge' -- theme
 
     -- treesitter
