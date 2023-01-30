@@ -4,8 +4,7 @@ local fn = vim.fn
 local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
     PACKER_BOOTSTRAP = fn.system {
-        "git",
-        "clone",
+        "git", "clone",
         "--depth", "1", "https://github.com/wbthomason/packer.nvim",
         install_path,
     }
@@ -132,6 +131,27 @@ return packer.startup(function(use)
     -- improve performance
     use 'lewis6991/impatient.nvim'
 
+    -- structural replacement
+    use {
+        "cshuaimin/ssr.nvim",
+        module = "ssr",
+        -- Calling setup is optional.
+        config = function()
+            require("ssr").setup {
+                min_width = 50,
+                min_height = 5,
+                max_width = 120,
+                max_height = 25,
+                keymaps = {
+                    close = "q",
+                    next_match = "n",
+                    prev_match = "N",
+                    replace_confirm = "<cr>",
+                    replace_all = "<leader><cr>",
+                },
+            }
+        end
+    }
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then

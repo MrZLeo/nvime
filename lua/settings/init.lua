@@ -15,7 +15,8 @@ local plugins = {
     "nvim-ts-rainbow",
     "symbols-outline",
     "telescope",
-    "whitespace"
+    "whitespace",
+    "ssr"
 }
 
 for _, plugin in pairs(plugins) do

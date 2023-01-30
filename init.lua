@@ -1,7 +1,5 @@
 -- improve performance
 require "performance"
--- load impatient before all plugins
-require('impatient')
 
 -- load basic settings
 require "base"
