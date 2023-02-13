@@ -1,6 +1,6 @@
 require("mason-lspconfig").setup({
     automatic_installation = true,
-    ensure_installed = { "rust_analyzer", "sumneko_lua", "clangd", "taplo" }
+    ensure_installed = { "rust_analyzer", "lua_ls", "clangd", "taplo" }
 })
 
 -- on_attach function
@@ -15,7 +15,6 @@ require("mason-lspconfig").setup_handlers({
             on_attach = on_attach
         }
     end,
-
     -- Next, you can provide targeted overrides for specific servers.
 
     -- 1. rust_analyzer
@@ -24,19 +23,16 @@ require("mason-lspconfig").setup_handlers({
         opt.server.on_attach = on_attach
         require("rust-tools").setup(opt)
     end,
-
-    -- 2. sumneko_lua
-    ["sumneko_lua"] = function()
+    -- 2. lua_ls
+    ["lua_ls"] = function()
         local opt = require("lsp.lua")
         opt.on_attach = on_attach
-        require("lspconfig").sumneko_lua.setup(opt)
+        require("lspconfig").lua_ls.setup(opt)
     end,
-
     -- 3. clangd
     ["clangd"] = function()
         local opt = require("lsp.clangd")
         opt.server.on_attach = on_attach
         require("clangd_extensions").setup(opt)
     end,
-
 })
