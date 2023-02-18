@@ -17,7 +17,7 @@ This is my suggestion:
 - If you are a new user in vim/neovim, then choose *coc*, which is easy to install and use
 - If you are familiar with vim/neovim and want to try new feature, then choose *lsp*
 
-> ⚠️ I think *lsp* has more bugs because I haven't test enough yet. While *coc* has been used for a long time. However, *lsp* will keep improving in the future because it's my main configuration now, and more mordern features will be added into this branch. But *coc* it's literally archived for now.
+> ⚠️  *coc* branch is deprecated and no longer maintained. So try *lsp*.
 
 ### Coc Dependencies
 
