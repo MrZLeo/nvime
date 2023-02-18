@@ -1,140 +1,140 @@
-local fn = vim.fn
+-- local fn = vim.fn
 
--- Automatically install packer
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-    PACKER_BOOTSTRAP = fn.system {
-        "git", "clone",
-        "--depth", "1", "https://github.com/wbthomason/packer.nvim",
-        install_path,
-    }
-    print "Installing packer close and reopen Neovim..."
-    vim.cmd [[packadd packer.nvim]]
+-- Automatically install lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
-
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
-    augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-    augroup end
-]]
+vim.opt.rtp:prepend(lazypath)
 
 -- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
+local status_ok, lazy = pcall(require, "lazy")
 if not status_ok then
     return
 end
 
--- Have packer use a popup window
-packer.init {
-    display = {
-        open_fn = function()
-            return require("packer.util").float { border = "rounded" }
-        end,
-    },
-}
-
 -- Install your plugins here
-return packer.startup(function(use)
-    -- My plugins here
-    use 'wbthomason/packer.nvim' -- Have packer manage itself
-
+lazy.setup({
     -- surrounding
-    use({
+    {
         'kylechui/nvim-surround',
-        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    })
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        lazy = true
+    },
 
     -- rainbow and colorscheme
-    use 'mrjones2014/nvim-ts-rainbow' -- rainbow bracket
-    use 'sainnhe/edge' -- theme
+    'mrjones2014/nvim-ts-rainbow', -- rainbow bracket
+    {
+        'sainnhe/edge', -- theme
+        lazy = false
+    },
 
     -- treesitter
-    use 'nvim-treesitter/nvim-treesitter-refactor'
-    use 'romgrk/nvim-treesitter-context'
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use 'yianwillis/vimcdoc'
+    'nvim-treesitter/nvim-treesitter-refactor',
+    'romgrk/nvim-treesitter-context',
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    { 'yianwillis/vimcdoc',              event = "VeryLazy" },
 
     -- count the hightlight
-    use {
+    {
         'kevinhwang91/nvim-hlslens',
-        config = function()
-            require('hlslens').setup()
-        end
-    }
+        config = true,
+        lazy = true
+    },
 
     -- comment
-    use 'numToStr/Comment.nvim'
-
-    use 'nvim-lua/plenary.nvim'
+    { 'numToStr/Comment.nvim',               lazy = true },
 
     -- start time
-    use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
+    { 'dstein64/vim-startuptime',            cmd = 'StartupTime' },
 
     -- indent line
-    use { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" }
+    { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
 
     -- git
-    use { 'tanvirtin/vgit.nvim',
-        -- opt = true,
-        config = function()
-            require('vgit').setup()
-        end }
+    {
+        'tanvirtin/vgit.nvim',
+        config = true,
+        event = "VeryLazy"
+    },
 
     -- color
-    use 'norcalli/nvim-colorizer.lua'
+    'norcalli/nvim-colorizer.lua',
 
     -- file explorer
-    use { 'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps', cmd = 'CHADopen' }
+    {
+        'ms-jpq/chadtree',
+        branch = 'chad',
+        build = 'python3 -m chadtree deps',
+        cmd = 'CHADopen'
+    },
 
     -- status line
-    use {
+    {
         'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
+        dependencies = { 'kyazdani42/nvim-web-devicons', lazy = true }
+    },
 
     -- remove space in the end of line
-    use 'ntpeters/vim-better-whitespace'
+    { 'ntpeters/vim-better-whitespace', lazy = true },
 
     -- pair brackets
-    use 'windwp/nvim-autopairs'
+    { 'windwp/nvim-autopairs',          lazy = true },
 
     -- startup page
-    use 'goolord/alpha-nvim'
+    'goolord/alpha-nvim',
 
     -- LSP support
-    use 'hrsh7th/nvim-cmp' -- The completion plugin
-    use 'hrsh7th/cmp-buffer' -- buffer completions
-    use 'hrsh7th/cmp-path' -- path completions
-    use 'neovim/nvim-lspconfig' -- enable LSP
-    use 'hrsh7th/cmp-nvim-lsp' -- LSP provider
-    use 'simrat39/rust-tools.nvim' -- Rust LSP
-    use 'L3MON4D3/LuaSnip' -- Snippet engine
-    use 'saadparwaiz1/cmp_luasnip' -- Snippet cmp interface
-    use 'hrsh7th/cmp-nvim-lua' -- Lua LSP
-    use 'p00f/clangd_extensions.nvim' -- C/C++ LSP
-    use 'williamboman/mason.nvim' -- LSP installer
-    use 'williamboman/mason-lspconfig.nvim' -- lspconfig Adapter
-    use 'j-hui/fidget.nvim' -- UI for LSP loading
+    {
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            'hrsh7th/cmp-nvim-lsp', -- LSP provider
+            'hrsh7th/cmp-buffer', -- buffer completions
+            'hrsh7th/cmp-path', -- path completions
+            'neovim/nvim-lspconfig', -- enable LSP
+            'L3MON4D3/LuaSnip', -- Snippet engine
+            'saadparwaiz1/cmp_luasnip', -- Snippet cmp interface
+            'j-hui/fidget.nvim', -- UI for LSP loading
+        },
+        -- load cmp on InsertEnter
+        event = "InsertEnter",
+    }, -- The completion plugin
+    {
+        'williamboman/mason.nvim', -- LSP installer
+        event = "VeryLazy"
+    },
+    {
+        'williamboman/mason-lspconfig.nvim', -- lspconfig Adapter
+        dependencies = {
+            'simrat39/rust-tools.nvim', -- Rust LSP
+            'hrsh7th/cmp-nvim-lua', -- Lua LSP
+            'p00f/clangd_extensions.nvim', -- C/C++ LSP
+        },
+        event = "VeryLazy"
+    },
 
     --telescope
-    use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.0',
-        requires = { 'nvim-lua/plenary.nvim' }
-    }
-    use { 'stevearc/dressing.nvim' }
+    {
+        'nvim-telescope/telescope.nvim', version = '0.1.0',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        lazy = true
+    },
+
+    { "stevearc/dressing.nvim",        event = "VeryLazy" },
 
     -- outline
-    use 'simrat39/symbols-outline.nvim'
-
-    -- improve performance
-    use 'lewis6991/impatient.nvim'
+    { 'simrat39/symbols-outline.nvim', lazy = true },
 
     -- structural replacement
-    use {
+    {
         "cshuaimin/ssr.nvim",
-        module = "ssr",
         -- Calling setup is optional.
         config = function()
             require("ssr").setup {
@@ -150,11 +150,7 @@ return packer.startup(function(use)
                     replace_all = "<leader><cr>",
                 },
             }
-        end
-    }
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if PACKER_BOOTSTRAP then
-        require("packer").sync()
-    end
-end)
+        end,
+        lazy = true
+    },
+})

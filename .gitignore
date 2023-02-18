@@ -12,3 +12,4 @@ nerdtree.json
 .*
 test.vim
 packer_compiled.lua
+lazy-lock.json
