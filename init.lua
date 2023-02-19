@@ -1,10 +1,7 @@
--- improve performance
--- require "performance"
-
 -- load basic settings
 require "base"
 
--- packer
+-- lazy.nvim
 require "plugins"
 
 -- load keymap
