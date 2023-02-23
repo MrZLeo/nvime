@@ -27,7 +27,6 @@ lazy.setup({
         config = true,
         lazy = true
     },
-
     -- rainbow brackets
     {
         'mrjones2014/nvim-ts-rainbow',
@@ -47,43 +46,38 @@ lazy.setup({
         'sainnhe/edge',
         lazy = false
     },
-
     -- treesitter
     'nvim-treesitter/nvim-treesitter-refactor',
     'romgrk/nvim-treesitter-context',
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     { 'yianwillis/vimcdoc',              event = "VeryLazy" },
-
     -- count the hightlight
     {
         'kevinhwang91/nvim-hlslens',
         config = true,
         lazy = true
     },
-
     -- comment
     {
         'numToStr/Comment.nvim',
         config = true,
         lazy = true
     },
-
     -- start time
     { 'dstein64/vim-startuptime',            cmd = 'StartupTime' },
-
     -- indent line
     { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
-
     -- git
     {
         'tanvirtin/vgit.nvim',
         config = true,
         event = "VeryLazy"
     },
-
     -- color
-    'norcalli/nvim-colorizer.lua',
-
+    {
+        'norcalli/nvim-colorizer.lua',
+        config = true
+    },
     -- file explorer
     {
         'ms-jpq/chadtree',
@@ -91,16 +85,13 @@ lazy.setup({
         build = 'python3 -m chadtree deps',
         cmd = 'CHADopen'
     },
-
     -- status line
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'kyazdani42/nvim-web-devicons', lazy = true }
     },
-
     -- remove space in the end of line
     { 'ntpeters/vim-better-whitespace', lazy = true },
-
     -- pair brackets
     {
         'windwp/nvim-autopairs',
@@ -113,10 +104,35 @@ lazy.setup({
         end,
         lazy = true
     },
-
     -- startup page
-    'goolord/alpha-nvim',
+    {
+        'goolord/alpha-nvim',
+        config = function()
+            -- define my dashboard
+            local dashboard = require 'alpha.themes.dashboard'
+            dashboard.section.header.val = {
+                [[ ███▄    █ ██▒   █▓ ██▓ ███▄ ▄███▓▓█████]],
+                [[ ██ ▀█   █▓██░   █▒▓██▒▓██▒▀█▀ ██▒▓█   ▀]],
+                [[▓██  ▀█ ██▒▓██  █▒░▒██▒▓██    ▓██░▒███]],
+                [[▓██▒  ▐▌██▒ ▒██ █░░░██░▒██    ▒██ ▒▓█  ▄]],
+                [[▒██░   ▓██░  ▒▀█░  ░██░▒██▒   ░██▒░▒████▒]],
+                [[░ ▒░   ▒ ▒   ░ ▐░  ░▓  ░ ▒░   ░  ░░░ ▒░ ░]],
+                [[░ ░░   ░ ▒░  ░ ░░   ▒ ░░  ░      ░ ░ ░  ░]],
+                [[   ░   ░ ░     ░░   ▒ ░░             ░]],
+                [[         ░']],
+            }
+            dashboard.section.buttons.val = {
+                dashboard.button("e", "New file", ":ene <BAR> startinsert <CR>"),
+                dashboard.button("u", "Update Plugin", ":Lazy sync<CR>"),
+                dashboard.button("s", "Start Time", ":StartupTime<CR>"),
+                dashboard.button("q", "Quit NVIM", ":qa<CR>")
+            }
+            dashboard.config.opts.noautocmd = true
 
+            -- enable setup
+            require('alpha').setup(dashboard.config)
+        end
+    },
     -- LSP support
     {
         'hrsh7th/nvim-cmp',
@@ -145,19 +161,109 @@ lazy.setup({
         },
         event = "VeryLazy"
     },
-
     --telescope
     {
         'nvim-telescope/telescope.nvim', version = '0.1.0',
         dependencies = { 'nvim-lua/plenary.nvim' },
         lazy = true
     },
+    {
+        "stevearc/dressing.nvim",
+        config = function()
+            local config = {
+                input = {
+                    -- Set to false to disable the vim.ui.input implementation
+                    enabled = true,
 
-    { "stevearc/dressing.nvim",         event = "VeryLazy" },
+                    -- Default prompt string
+                    default_prompt = "Input:",
 
+                    -- Can be 'left', 'right', or 'center'
+                    prompt_align = "left",
+
+                    -- When true, <Esc> will close the modal
+                    insert_only = true,
+
+                    -- When true, input will start in insert mode.
+                    start_in_insert = false,
+
+                    -- These are passed to nvim_open_win
+                    anchor = "SW",
+                    border = "rounded",
+                    -- 'editor' and 'win' will default to being centered
+                    relative = "cursor",
+
+                    -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+                    prefer_width = 40,
+                    width = nil,
+                    -- min_width and max_width can be a list of mixed types.
+                    -- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
+                    max_width = { 140, 0.9 },
+                    min_width = { 20, 0.2 },
+
+                    win_options = {
+                        -- Window transparency (0-100)
+                        winblend = 10,
+                        -- Disable line wrapping
+                        wrap = false,
+                    },
+
+                    -- Set to `false` to disable
+                    mappings = {
+                        n = {
+                            ["<Esc>"] = "Close",
+                            ["q"] = "Close",
+                            ["<CR>"] = "Confirm",
+                            ["j"] = "HistoryNext",
+                            ["k"] = "HistoryPrev"
+                        },
+                        i = {
+                            ["<C-c>"] = "Close",
+                            ["<CR>"] = "Confirm",
+                            ["<Up>"] = "HistoryPrev",
+                            ["<Down>"] = "HistoryNext",
+                        },
+                    },
+
+                    override = function(conf)
+                        -- This is the config that will be passed to nvim_open_win.
+                        -- Change values here to customize the layout
+                        return conf
+                    end,
+
+                    -- see :help dressing_get_config
+                    get_config = nil,
+                },
+                select = {
+                    -- Set to false to disable the vim.ui.select implementation
+                    enabled = true,
+
+                    -- Priority list of preferred vim.select implementations
+                    backend = "telescope",
+
+                    -- Trim trailing `:` from prompt
+                    trim_prompt = true,
+
+                    -- Options for telescope selector
+                    -- These are passed into the telescope picker directly. Can be used like:
+                    -- telescope = require('telescope.themes').get_ivy({...})
+                    telescope = require('telescope.themes').get_cursor({}),
+
+                    -- Used to override format_item. See :help dressing-format
+                    format_item_override = {},
+
+                    -- see :help dressing_get_config
+                    get_config = nil,
+                },
+            }
+
+            -- enable settings
+            require('dressing').setup(config)
+        end,
+        event = "VeryLazy"
+    },
     -- outline
     { 'simrat39/symbols-outline.nvim',  lazy = true },
-
     -- structural replacement
     {
         "cshuaimin/ssr.nvim",

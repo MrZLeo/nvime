@@ -1,5 +1,4 @@
 -- Configuration of cmp
---
 
 -- get cmp
 local cmp_status_ok, cmp = pcall(require, "cmp")
@@ -104,12 +103,12 @@ cmp.setup {
             -- This concatonates
             -- the icons with the name of the item kind
             vim_item.menu = ({
-                nvim_lsp = "[LSP]",
-                nvim_lua = "[LSP]",
-                luasnip = "[Snip]",
-                buffer = "[Buf]",
-                path = "[Path]",
-            })[entry.source.name]
+                    nvim_lsp = "[LSP]",
+                    nvim_lua = "[LSP]",
+                    luasnip = "[Snip]",
+                    buffer = "[Buf]",
+                    path = "[Path]",
+                })[entry.source.name]
             return vim_item
         end,
     },
