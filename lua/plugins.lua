@@ -24,13 +24,27 @@ lazy.setup({
     {
         'kylechui/nvim-surround',
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = true,
         lazy = true
     },
 
-    -- rainbow and colorscheme
-    'mrjones2014/nvim-ts-rainbow', -- rainbow bracket
+    -- rainbow brackets
     {
-        'sainnhe/edge', -- theme
+        'mrjones2014/nvim-ts-rainbow',
+        config = function()
+            local config = {
+                rainbow = {
+                    enable = true,
+                    -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+                    extended_mode = true,
+                }
+            }
+            require 'nvim-treesitter.configs'.setup(config)
+        end
+    },
+    -- color theme
+    {
+        'sainnhe/edge',
         lazy = false
     },
 
@@ -48,7 +62,11 @@ lazy.setup({
     },
 
     -- comment
-    { 'numToStr/Comment.nvim',               lazy = true },
+    {
+        'numToStr/Comment.nvim',
+        config = true,
+        lazy = true
+    },
 
     -- start time
     { 'dstein64/vim-startuptime',            cmd = 'StartupTime' },
@@ -84,7 +102,17 @@ lazy.setup({
     { 'ntpeters/vim-better-whitespace', lazy = true },
 
     -- pair brackets
-    { 'windwp/nvim-autopairs',          lazy = true },
+    {
+        'windwp/nvim-autopairs',
+        config = function()
+            local config = {
+                map_cr = true,
+                map_complete = false
+            }
+            require("nvim-autopairs").setup(config)
+        end,
+        lazy = true
+    },
 
     -- startup page
     'goolord/alpha-nvim',
@@ -125,10 +153,10 @@ lazy.setup({
         lazy = true
     },
 
-    { "stevearc/dressing.nvim",        event = "VeryLazy" },
+    { "stevearc/dressing.nvim",         event = "VeryLazy" },
 
     -- outline
-    { 'simrat39/symbols-outline.nvim', lazy = true },
+    { 'simrat39/symbols-outline.nvim',  lazy = true },
 
     -- structural replacement
     {
