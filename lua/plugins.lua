@@ -27,7 +27,6 @@ lazy.setup({
         config = true,
         event = "BufReadPre"
     },
-
     -- rainbow brackets
     {
         'mrjones2014/nvim-ts-rainbow',
@@ -42,51 +41,42 @@ lazy.setup({
             require 'nvim-treesitter.configs'.setup(config)
         end
     },
-
     -- color theme
     {
         'sainnhe/edge',
         lazy = false
     },
-
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
     'nvim-treesitter/nvim-treesitter-refactor',
     'romgrk/nvim-treesitter-context',
-
     -- count the hightlight
     {
         'kevinhwang91/nvim-hlslens',
         config = true,
         event = "InsertEnter",
     },
-
     -- comment
     {
         'numToStr/Comment.nvim',
         config = true,
         event = "BufReadPre"
     },
-
     -- start time
     { 'dstein64/vim-startuptime',            cmd = 'StartupTime' },
-
     -- indent line
     { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
-
     -- git message
     {
         'tanvirtin/vgit.nvim',
         config = true,
         event = "VeryLazy"
     },
-
     -- color
     {
         'norcalli/nvim-colorizer.lua',
         config = true
     },
-
     -- file explorer
     {
         'ms-jpq/chadtree',
@@ -94,7 +84,6 @@ lazy.setup({
         build = 'python3 -m chadtree deps',
         cmd = 'CHADopen'
     },
-
     -- status line
     {
         'nvim-lualine/lualine.nvim',
@@ -103,13 +92,11 @@ lazy.setup({
             config = true,
         }
     },
-
     -- remove space in the end of line
     {
         'ntpeters/vim-better-whitespace',
         event = "BufWritePre"
     },
-
     -- pair brackets
     {
         'windwp/nvim-autopairs',
@@ -122,7 +109,6 @@ lazy.setup({
         end,
         lazy = true
     },
-
     -- startup page
     {
         'goolord/alpha-nvim',
@@ -152,7 +138,6 @@ lazy.setup({
             require('alpha').setup(dashboard.config)
         end
     },
-
     -- LSP support
     {
         'hrsh7th/nvim-cmp',
@@ -168,12 +153,10 @@ lazy.setup({
         -- load cmp on InsertEnter
         event = "InsertEnter",
     }, -- The completion plugin
-
     {
         'williamboman/mason.nvim', -- LSP installer
         event = "VeryLazy"
     },
-
     {
         'williamboman/mason-lspconfig.nvim', -- lspconfig Adapter
         dependencies = {
@@ -183,7 +166,6 @@ lazy.setup({
         },
         event = "VeryLazy"
     },
-
     -- telescope
     {
         'nvim-telescope/telescope.nvim', version = '0.1.0',
@@ -268,7 +250,6 @@ lazy.setup({
         end,
         event = "VeryLazy"
     },
-
     {
         "stevearc/dressing.nvim",
         config = function()
@@ -364,7 +345,6 @@ lazy.setup({
         end,
         event = "VeryLazy"
     },
-
     -- outline
     {
         'simrat39/symbols-outline.nvim',
@@ -389,7 +369,6 @@ lazy.setup({
         end,
         cmd = 'SymbolsOutline'
     },
-
     -- structural replacement
     {
         "cshuaimin/ssr.nvim",
@@ -410,5 +389,27 @@ lazy.setup({
             }
         end,
         lazy = true
+    },
+    performance = {
+        cache = {
+            enabled = true,
+        },
+        reset_packpath = true, -- reset the package path to improve startup time
+        rtp = {
+            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
+            ---@type string[]
+            paths = {}, -- add any custom paths here that you want to includes in the rtp
+            ---@type string[] list any plugins you want to disable here
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
     },
 })
