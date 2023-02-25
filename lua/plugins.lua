@@ -98,7 +98,10 @@ lazy.setup({
     -- status line
     {
         'nvim-lualine/lualine.nvim',
-        dependencies = { 'kyazdani42/nvim-web-devicons', lazy = true }
+        dependencies = {
+            'kyazdani42/nvim-web-devicons',
+            config = true,
+        }
     },
 
     -- remove space in the end of line
