@@ -2,7 +2,7 @@
 local plugins = {
     "alpha",
     "chadtree",
-    "cmp",
+    -- "cmp",
     "lualine",
     "nvim-treesitter",
     "nvim-treesitter-refactor",

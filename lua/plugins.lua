@@ -18,8 +18,34 @@ if not status_ok then
     return
 end
 
--- Install your plugins here
-lazy.setup({
+-- Lazy option
+local option = {
+    performance = {
+        cache = {
+            enabled = true,
+        },
+        reset_packpath = true, -- reset the package path to improve startup time
+        rtp = {
+            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
+            ---@type string[]
+            paths = {}, -- add any custom paths here that you want to includes in the rtp
+            ---@type string[] list any plugins you want to disable here
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
+    },
+}
+
+-- list of plugins
+local plugins = {
     -- surrounding
     {
         'kylechui/nvim-surround',
@@ -140,31 +166,59 @@ lazy.setup({
     },
     -- LSP support
     {
+        -- The completion plugin
         'hrsh7th/nvim-cmp',
         dependencies = {
             'hrsh7th/cmp-nvim-lsp', -- LSP provider
+            'neovim/nvim-lspconfig', -- enable LSP
             'hrsh7th/cmp-buffer', -- buffer completions
             'hrsh7th/cmp-path', -- path completions
-            'neovim/nvim-lspconfig', -- enable LSP
+            'hrsh7th/cmp-nvim-lua', -- Lua LSP
             'L3MON4D3/LuaSnip', -- Snippet engine
             'saadparwaiz1/cmp_luasnip', -- Snippet cmp interface
-            'j-hui/fidget.nvim', -- UI for LSP loading
         },
+        config = function()
+            require("settings.cmp")
+        end,
         -- load cmp on InsertEnter
         event = "InsertEnter",
-    }, -- The completion plugin
+    },
+    -- LSP installer
+    -- lspconfig Adapter
     {
-        'williamboman/mason.nvim', -- LSP installer
+        'williamboman/mason.nvim',
+        config = function()
+            require("mason").setup({
+                ui = {
+                    icons = {
+                        package_installed = "✓",
+                        package_pending = "➜",
+                        package_uninstalled = "✗"
+                    }
+                }
+            })
+        end,
         event = "VeryLazy"
     },
     {
-        'williamboman/mason-lspconfig.nvim', -- lspconfig Adapter
-        dependencies = {
-            'simrat39/rust-tools.nvim', -- Rust LSP
-            'hrsh7th/cmp-nvim-lua', -- Lua LSP
-            'p00f/clangd_extensions.nvim', -- C/C++ LSP
-        },
+        'j-hui/fidget.nvim', -- UI for LSP loading
+        config = true,
         event = "VeryLazy"
+    },
+    {
+        'williamboman/mason-lspconfig.nvim',
+        config = function()
+            require("lsp.mason-lspconfig")
+        end,
+        -- event = "VeryLazy",
+    },
+    {
+        'simrat39/rust-tools.nvim', -- Rust LSP
+        ft = "rust",
+    },
+    {
+        'p00f/clangd_extensions.nvim', -- C/C++ LSP
+        ft = { "c", "c++" }
     },
     -- telescope
     {
@@ -248,6 +302,7 @@ lazy.setup({
                 },
             })
         end,
+        -- cmd = 'telescope'
         event = "VeryLazy"
     },
     {
@@ -390,26 +445,6 @@ lazy.setup({
         end,
         lazy = true
     },
-    performance = {
-        cache = {
-            enabled = true,
-        },
-        reset_packpath = true, -- reset the package path to improve startup time
-        rtp = {
-            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
-            ---@type string[]
-            paths = {}, -- add any custom paths here that you want to includes in the rtp
-            ---@type string[] list any plugins you want to disable here
-            disabled_plugins = {
-                "gzip",
-                "matchit",
-                "matchparen",
-                "netrwPlugin",
-                "tarPlugin",
-                "tohtml",
-                "tutor",
-                "zipPlugin",
-            },
-        },
-    },
-})
+}
+
+lazy.setup(plugins, option)
