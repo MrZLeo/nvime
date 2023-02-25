@@ -25,8 +25,9 @@ lazy.setup({
         'kylechui/nvim-surround',
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
         config = true,
-        lazy = true
+        event = "BufReadPre"
     },
+
     -- rainbow brackets
     {
         'mrjones2014/nvim-ts-rainbow',
@@ -41,43 +42,51 @@ lazy.setup({
             require 'nvim-treesitter.configs'.setup(config)
         end
     },
+
     -- color theme
     {
         'sainnhe/edge',
         lazy = false
     },
+
     -- treesitter
+    { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
     'nvim-treesitter/nvim-treesitter-refactor',
     'romgrk/nvim-treesitter-context',
-    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-    { 'yianwillis/vimcdoc',              event = "VeryLazy" },
+
     -- count the hightlight
     {
         'kevinhwang91/nvim-hlslens',
         config = true,
-        lazy = true
+        event = "InsertEnter",
     },
+
     -- comment
     {
         'numToStr/Comment.nvim',
         config = true,
-        lazy = true
+        event = "BufReadPre"
     },
+
     -- start time
     { 'dstein64/vim-startuptime',            cmd = 'StartupTime' },
+
     -- indent line
     { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
-    -- git
+
+    -- git message
     {
         'tanvirtin/vgit.nvim',
         config = true,
         event = "VeryLazy"
     },
+
     -- color
     {
         'norcalli/nvim-colorizer.lua',
         config = true
     },
+
     -- file explorer
     {
         'ms-jpq/chadtree',
@@ -85,13 +94,19 @@ lazy.setup({
         build = 'python3 -m chadtree deps',
         cmd = 'CHADopen'
     },
+
     -- status line
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'kyazdani42/nvim-web-devicons', lazy = true }
     },
+
     -- remove space in the end of line
-    { 'ntpeters/vim-better-whitespace', lazy = true },
+    {
+        'ntpeters/vim-better-whitespace',
+        event = "BufWritePre"
+    },
+
     -- pair brackets
     {
         'windwp/nvim-autopairs',
@@ -104,6 +119,7 @@ lazy.setup({
         end,
         lazy = true
     },
+
     -- startup page
     {
         'goolord/alpha-nvim',
@@ -133,6 +149,7 @@ lazy.setup({
             require('alpha').setup(dashboard.config)
         end
     },
+
     -- LSP support
     {
         'hrsh7th/nvim-cmp',
@@ -148,10 +165,12 @@ lazy.setup({
         -- load cmp on InsertEnter
         event = "InsertEnter",
     }, -- The completion plugin
+
     {
         'williamboman/mason.nvim', -- LSP installer
         event = "VeryLazy"
     },
+
     {
         'williamboman/mason-lspconfig.nvim', -- lspconfig Adapter
         dependencies = {
@@ -161,12 +180,92 @@ lazy.setup({
         },
         event = "VeryLazy"
     },
-    --telescope
+
+    -- telescope
     {
         'nvim-telescope/telescope.nvim', version = '0.1.0',
         dependencies = { 'nvim-lua/plenary.nvim' },
-        lazy = true
+        config = function()
+            local telescope = require("telescope")
+            local actions = require "telescope.actions"
+
+            telescope.setup({
+                defaults = {
+
+                    prompt_prefix = " ",
+                    selection_caret = " ",
+                    path_display = { "smart" },
+
+                    mappings = {
+                        i = {
+                            ["<C-n>"] = actions.cycle_history_next,
+                            ["<C-p>"] = actions.cycle_history_prev,
+
+                            ["<C-j>"] = actions.move_selection_next,
+                            ["<C-k>"] = actions.move_selection_previous,
+
+                            ["<C-c>"] = actions.close,
+
+                            ["<Down>"] = actions.move_selection_next,
+                            ["<Up>"] = actions.move_selection_previous,
+
+                            ["<CR>"] = actions.select_default,
+                            ["<C-x>"] = actions.select_horizontal,
+                            ["<C-v>"] = actions.select_vertical,
+                            ["<C-t>"] = actions.select_tab,
+
+                            ["<C-u>"] = actions.preview_scrolling_up,
+                            ["<C-d>"] = actions.preview_scrolling_down,
+
+                            ["<PageUp>"] = actions.results_scrolling_up,
+                            ["<PageDown>"] = actions.results_scrolling_down,
+
+                            ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                            ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                            ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                            ["<C-l>"] = actions.complete_tag,
+                            ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
+                        },
+
+                        n = {
+                            ["<esc>"] = actions.close,
+                            ["<CR>"] = actions.select_default,
+                            ["<C-x>"] = actions.select_horizontal,
+                            ["<C-v>"] = actions.select_vertical,
+                            ["<C-t>"] = actions.select_tab,
+
+                            ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                            ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                            ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+
+                            ["j"] = actions.move_selection_next,
+                            ["k"] = actions.move_selection_previous,
+                            ["H"] = actions.move_to_top,
+                            ["M"] = actions.move_to_middle,
+                            ["L"] = actions.move_to_bottom,
+
+                            ["<Down>"] = actions.move_selection_next,
+                            ["<Up>"] = actions.move_selection_previous,
+                            ["gg"] = actions.move_to_top,
+                            ["G"] = actions.move_to_bottom,
+
+                            ["<C-u>"] = actions.preview_scrolling_up,
+                            ["<C-d>"] = actions.preview_scrolling_down,
+
+                            ["<PageUp>"] = actions.results_scrolling_up,
+                            ["<PageDown>"] = actions.results_scrolling_down,
+
+                            ["?"] = actions.which_key,
+                        },
+                    },
+                },
+            })
+        end,
+        event = "VeryLazy"
     },
+
     {
         "stevearc/dressing.nvim",
         config = function()
@@ -262,8 +361,32 @@ lazy.setup({
         end,
         event = "VeryLazy"
     },
+
     -- outline
-    { 'simrat39/symbols-outline.nvim',  lazy = true },
+    {
+        'simrat39/symbols-outline.nvim',
+        config = function()
+            local opts = {
+                keymaps = {
+                    close = { "<Esc>", "q" },
+                    goto_location = "<Cr>",
+                    focus_location = "<Tab>",
+                    hover_symbol = "K",
+                    toggle_preview = "p",
+                    rename_symbol = "r",
+                    code_actions = "a",
+                    fold = "h",
+                    unfold = "l",
+                    fold_all = "W",
+                    unfold_all = "E",
+                    fold_reset = "R",
+                },
+            }
+            require("symbols-outline").setup(opts)
+        end,
+        cmd = 'SymbolsOutline'
+    },
+
     -- structural replacement
     {
         "cshuaimin/ssr.nvim",
