@@ -26,9 +26,9 @@ local option = {
         },
         reset_packpath = true, -- reset the package path to improve startup time
         rtp = {
-            reset = true, -- reset the runtime path to $VIMRUNTIME and your config directory
+            reset = true,      -- reset the runtime path to $VIMRUNTIME and your config directory
             ---@type string[]
-            paths = {}, -- add any custom paths here that you want to includes in the rtp
+            paths = {},        -- add any custom paths here that you want to includes in the rtp
             ---@type string[] list any plugins you want to disable here
             disabled_plugins = {
                 "gzip",
@@ -169,12 +169,12 @@ local plugins = {
         -- The completion plugin
         'hrsh7th/nvim-cmp',
         dependencies = {
-            'hrsh7th/cmp-nvim-lsp', -- LSP provider
-            'neovim/nvim-lspconfig', -- enable LSP
-            'hrsh7th/cmp-buffer', -- buffer completions
-            'hrsh7th/cmp-path', -- path completions
-            'hrsh7th/cmp-nvim-lua', -- Lua LSP
-            'L3MON4D3/LuaSnip', -- Snippet engine
+            'hrsh7th/cmp-nvim-lsp',     -- LSP provider
+            'neovim/nvim-lspconfig',    -- enable LSP
+            'hrsh7th/cmp-buffer',       -- buffer completions
+            'hrsh7th/cmp-path',         -- path completions
+            'hrsh7th/cmp-nvim-lua',     -- Lua LSP
+            'L3MON4D3/LuaSnip',         -- Snippet engine
             'saadparwaiz1/cmp_luasnip', -- Snippet cmp interface
         },
         config = function()
@@ -222,7 +222,8 @@ local plugins = {
     },
     -- telescope
     {
-        'nvim-telescope/telescope.nvim', version = '0.1.0',
+        'nvim-telescope/telescope.nvim',
+        version = '0.1.0',
         dependencies = { 'nvim-lua/plenary.nvim' },
         config = function()
             local telescope = require("telescope")
@@ -230,35 +231,26 @@ local plugins = {
 
             telescope.setup({
                 defaults = {
-
                     prompt_prefix = " ",
                     selection_caret = " ",
                     path_display = { "smart" },
-
                     mappings = {
                         i = {
                             ["<C-n>"] = actions.cycle_history_next,
                             ["<C-p>"] = actions.cycle_history_prev,
-
                             ["<C-j>"] = actions.move_selection_next,
                             ["<C-k>"] = actions.move_selection_previous,
-
                             ["<C-c>"] = actions.close,
-
                             ["<Down>"] = actions.move_selection_next,
                             ["<Up>"] = actions.move_selection_previous,
-
                             ["<CR>"] = actions.select_default,
                             ["<C-x>"] = actions.select_horizontal,
                             ["<C-v>"] = actions.select_vertical,
                             ["<C-t>"] = actions.select_tab,
-
                             ["<C-u>"] = actions.preview_scrolling_up,
                             ["<C-d>"] = actions.preview_scrolling_down,
-
                             ["<PageUp>"] = actions.results_scrolling_up,
                             ["<PageDown>"] = actions.results_scrolling_down,
-
                             ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
                             ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
                             ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
@@ -266,36 +258,29 @@ local plugins = {
                             ["<C-l>"] = actions.complete_tag,
                             ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
                         },
-
                         n = {
                             ["<esc>"] = actions.close,
                             ["<CR>"] = actions.select_default,
                             ["<C-x>"] = actions.select_horizontal,
                             ["<C-v>"] = actions.select_vertical,
                             ["<C-t>"] = actions.select_tab,
-
                             ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
                             ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
                             ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
                             ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-
                             ["j"] = actions.move_selection_next,
                             ["k"] = actions.move_selection_previous,
                             ["H"] = actions.move_to_top,
                             ["M"] = actions.move_to_middle,
                             ["L"] = actions.move_to_bottom,
-
                             ["<Down>"] = actions.move_selection_next,
                             ["<Up>"] = actions.move_selection_previous,
                             ["gg"] = actions.move_to_top,
                             ["G"] = actions.move_to_bottom,
-
                             ["<C-u>"] = actions.preview_scrolling_up,
                             ["<C-d>"] = actions.preview_scrolling_down,
-
                             ["<PageUp>"] = actions.results_scrolling_up,
                             ["<PageDown>"] = actions.results_scrolling_down,
-
                             ["?"] = actions.which_key,
                         },
                     },
@@ -312,25 +297,19 @@ local plugins = {
                 input = {
                     -- Set to false to disable the vim.ui.input implementation
                     enabled = true,
-
                     -- Default prompt string
                     default_prompt = "Input:",
-
                     -- Can be 'left', 'right', or 'center'
                     prompt_align = "left",
-
                     -- When true, <Esc> will close the modal
                     insert_only = true,
-
                     -- When true, input will start in insert mode.
                     start_in_insert = false,
-
                     -- These are passed to nvim_open_win
                     anchor = "SW",
                     border = "rounded",
                     -- 'editor' and 'win' will default to being centered
                     relative = "cursor",
-
                     -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
                     prefer_width = 40,
                     width = nil,
@@ -338,14 +317,12 @@ local plugins = {
                     -- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
                     max_width = { 140, 0.9 },
                     min_width = { 20, 0.2 },
-
                     win_options = {
                         -- Window transparency (0-100)
                         winblend = 10,
                         -- Disable line wrapping
                         wrap = false,
                     },
-
                     -- Set to `false` to disable
                     mappings = {
                         n = {
@@ -362,34 +339,27 @@ local plugins = {
                             ["<Down>"] = "HistoryNext",
                         },
                     },
-
                     override = function(conf)
                         -- This is the config that will be passed to nvim_open_win.
                         -- Change values here to customize the layout
                         return conf
                     end,
-
                     -- see :help dressing_get_config
                     get_config = nil,
                 },
                 select = {
                     -- Set to false to disable the vim.ui.select implementation
                     enabled = true,
-
                     -- Priority list of preferred vim.select implementations
                     backend = "telescope",
-
                     -- Trim trailing `:` from prompt
                     trim_prompt = true,
-
                     -- Options for telescope selector
                     -- These are passed into the telescope picker directly. Can be used like:
                     -- telescope = require('telescope.themes').get_ivy({...})
                     telescope = require('telescope.themes').get_cursor({}),
-
                     -- Used to override format_item. See :help dressing-format
                     format_item_override = {},
-
                     -- see :help dressing_get_config
                     get_config = nil,
                 },
