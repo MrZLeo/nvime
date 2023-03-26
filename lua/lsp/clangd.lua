@@ -59,7 +59,6 @@ local opt = {
                 statement = "",
                 ["template argument"] = "",
             },
-
             kind_icons = {
                 Compound = "",
                 Recovery = "",
@@ -69,7 +68,6 @@ local opt = {
                 TemplateTemplateParm = "",
                 TemplateParamObject = "",
             },
-
             highlights = {
                 detail = "Comment",
             },
