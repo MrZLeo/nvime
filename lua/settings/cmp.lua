@@ -59,12 +59,10 @@ cmp.setup {
 
     -- key mapping
     mapping = {
-        ["<CR>"] = cmp.mapping.confirm { select = true },
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
         ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
-            elseif check_backspace() then
-                fallback()
             else
                 fallback()
             end
