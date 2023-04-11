@@ -3,7 +3,7 @@ local config = {
     ensure_installed = {
         "bash", "bibtex", "c", "cmake", "comment", "cpp", "diff", "dockerfile",
         "fish", "git_rebase", "gitattributes", "go", "gomod", "gowork", "haskell",
-        "help", "json", "json5", "latex", "llvm", "lua", "make", "markdown",
+        "json", "json5", "latex", "llvm", "lua", "make", "markdown",
         "markdown_inline", "ninja", "perl", "proto", "python", "rst", "rust",
         "sql", "toml", "vim", "yaml"
     },
@@ -17,7 +17,7 @@ local config = {
         enable = true,
         disable = {},
         keymaps = {
-                                       -- mappings for incremental selection (visual mappings)
+            -- mappings for incremental selection (visual mappings)
             init_selection = 'gnn',    -- maps in normal mode to init the node/scope selection
             node_incremental = "grn",  -- increment to the upper named parent
             scope_incremental = "grc", -- increment to the upper scope (as defined in locals.scm)
