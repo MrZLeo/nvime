@@ -2,20 +2,14 @@ local opt = {
     server = {
         -- options to pass to nvim-lspconfig
         -- on_attach = require 'lsp.settings'.on_attach,
-        settings = {
-            ["clangd"] = {
-                argument = {
-                    "--background-index",
-                    "--compile-commands-dir=build",
-                    "-j=12",
-                    "--query-driver=/usr/bin/clang++",
-                    "--clang-tidy",
-                    "--completion-style=detailed",
-                    "--header-insertion=iwyu",
-                    "--pch-storage=disk"
-                },
-            }
-        }
+        cmd = {
+            "clangd",
+            "--background-index",
+            "--query-driver=/usr/bin/gcc",
+            "--completion-style=detailed",
+            "--header-insertion=iwyu",
+            "--pch-storage=disk",
+        },
     },
     extensions = {
         -- defaults:
