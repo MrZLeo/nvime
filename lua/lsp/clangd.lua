@@ -5,10 +5,14 @@ local opt = {
         cmd = {
             "clangd",
             "--background-index",
-            "--query-driver=/usr/bin/gcc",
+            "--clang-tidy",
+            "--query-driver=/usr/bin/gcc,/usr/bin/clang,/usr/bin/g++,/usr/bin/clang++",
             "--completion-style=detailed",
             "--header-insertion=iwyu",
-            "--pch-storage=disk",
+            "--pch-storage=memory",
+            "--malloc-trim",
+            "-j",
+            "24"
         },
     },
     extensions = {
