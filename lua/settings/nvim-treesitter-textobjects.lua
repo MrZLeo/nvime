@@ -41,7 +41,6 @@ local config = {
                 ["im"] = "@call.inner"
             },
         },
-
         swap = {
             enable = true,
             swap_next = {
@@ -51,8 +50,6 @@ local config = {
                 ["<leader>A"] = "@parameter.inner",
             },
         },
-
-
         move = {
             enable = true,
             goto_next_start = {
@@ -72,7 +69,6 @@ local config = {
                 ["[]"] = "@class.outer",
             },
         },
-
         lsp_interop = {
             enable = false,
             peek_definition_code = {

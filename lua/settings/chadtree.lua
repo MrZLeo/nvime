@@ -16,7 +16,8 @@ vim.api.nvim_create_autocmd(
 vim.api.nvim_create_autocmd(
     { "VimEnter" },
     {
-        command = "if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') | execute 'CHADopen' | execute 'cd '.argv()[0] | endif",
+        command =
+        "if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') | execute 'CHADopen' | execute 'cd '.argv()[0] | endif",
         group = chadtree
     }
 )

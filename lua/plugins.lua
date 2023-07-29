@@ -1,140 +1,400 @@
-local fn = vim.fn
-
--- Automatically install packer
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-    PACKER_BOOTSTRAP = fn.system {
-        "git", "clone",
-        "--depth", "1", "https://github.com/wbthomason/packer.nvim",
-        install_path,
-    }
-    print "Installing packer close and reopen Neovim..."
-    vim.cmd [[packadd packer.nvim]]
+-- Automatically install lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
-
--- Autocommand that reloads neovim whenever you save the plugins.lua file
-vim.cmd [[
-    augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins.lua source <afile> | PackerSync
-    augroup end
-]]
+vim.opt.rtp:prepend(lazypath)
 
 -- Use a protected call so we don't error out on first use
-local status_ok, packer = pcall(require, "packer")
+local status_ok, lazy = pcall(require, "lazy")
 if not status_ok then
     return
 end
 
--- Have packer use a popup window
-packer.init {
-    display = {
-        open_fn = function()
-            return require("packer.util").float { border = "rounded" }
-        end,
+-- Lazy option
+local option = {
+    performance = {
+        cache = {
+            enabled = true,
+        },
+        reset_packpath = true, -- reset the package path to improve startup time
+        rtp = {
+            reset = true,      -- reset the runtime path to $VIMRUNTIME and your config directory
+            ---@type string[]
+            paths = {},        -- add any custom paths here that you want to includes in the rtp
+            ---@type string[] list any plugins you want to disable here
+            disabled_plugins = {
+                "gzip",
+                "matchit",
+                "matchparen",
+                "netrwPlugin",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+            },
+        },
     },
 }
 
--- Install your plugins here
-return packer.startup(function(use)
-    -- My plugins here
-    use 'wbthomason/packer.nvim' -- Have packer manage itself
-
+-- list of plugins
+local plugins = {
     -- surrounding
-    use({
+    {
         'kylechui/nvim-surround',
-        tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    })
-
-    -- rainbow and colorscheme
-    use 'mrjones2014/nvim-ts-rainbow' -- rainbow bracket
-    use 'sainnhe/edge' -- theme
-
-    -- treesitter
-    use 'nvim-treesitter/nvim-treesitter-refactor'
-    use 'romgrk/nvim-treesitter-context'
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-    use 'yianwillis/vimcdoc'
-
-    -- count the hightlight
-    use {
-        'kevinhwang91/nvim-hlslens',
+        version = "*", -- Use for stability; omit to use `main` branch for the latest features
+        config = true,
+        event = "BufReadPre"
+    },
+    -- rainbow brackets
+    {
+        'mrjones2014/nvim-ts-rainbow',
         config = function()
-            require('hlslens').setup()
+            local config = {
+                rainbow = {
+                    enable = true,
+                    -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
+                    extended_mode = true,
+                }
+            }
+            require 'nvim-treesitter.configs'.setup(config)
         end
-    }
-
+    },
+    -- color theme
+    {
+        'sainnhe/edge',
+        lazy = false
+    },
+    -- treesitter
+    { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
+    'nvim-treesitter/nvim-treesitter-refactor',
+    'romgrk/nvim-treesitter-context',
+    -- count the hightlight
+    {
+        'kevinhwang91/nvim-hlslens',
+        config = true,
+        event = "InsertEnter",
+    },
     -- comment
-    use 'numToStr/Comment.nvim'
-
-    use 'nvim-lua/plenary.nvim'
-
-    -- start time
-    use { 'dstein64/vim-startuptime', cmd = 'StartupTime' }
-
+    {
+        'numToStr/Comment.nvim',
+        config = true,
+        event = "BufReadPre"
+    },
     -- indent line
-    use { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" }
-
-    -- git
-    use { 'tanvirtin/vgit.nvim',
-        -- opt = true,
-        config = function()
-            require('vgit').setup()
-        end }
-
+    { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
+    -- git message
+    {
+        'tanvirtin/vgit.nvim',
+        config = true,
+        event = "VeryLazy"
+    },
     -- color
-    use 'norcalli/nvim-colorizer.lua'
-
+    {
+        'norcalli/nvim-colorizer.lua',
+        config = true
+    },
     -- file explorer
-    use { 'ms-jpq/chadtree', branch = 'chad', run = 'python3 -m chadtree deps', cmd = 'CHADopen' }
-
+    {
+        'ms-jpq/chadtree',
+        branch = 'chad',
+        build = 'python3 -m chadtree deps',
+        cmd = 'CHADopen'
+    },
     -- status line
-    use {
+    {
         'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-    }
-
+        dependencies = {
+            'kyazdani42/nvim-web-devicons',
+            config = true,
+        }
+    },
     -- remove space in the end of line
-    use 'ntpeters/vim-better-whitespace'
-
+    {
+        'ntpeters/vim-better-whitespace',
+        event = "BufWritePre"
+    },
     -- pair brackets
-    use 'windwp/nvim-autopairs'
-
+    {
+        'windwp/nvim-autopairs',
+        config = function()
+            local config = {
+                map_cr = true,
+                map_complete = false
+            }
+            require("nvim-autopairs").setup(config)
+        end,
+        lazy = true
+    },
     -- startup page
-    use 'goolord/alpha-nvim'
+    {
+        'goolord/alpha-nvim',
+        config = function()
+            -- define my dashboard
+            local dashboard = require 'alpha.themes.dashboard'
+            dashboard.section.header.val = {
+                [[ ███▄    █ ██▒   █▓ ██▓ ███▄ ▄███▓▓█████]],
+                [[ ██ ▀█   █▓██░   █▒▓██▒▓██▒▀█▀ ██▒▓█   ▀]],
+                [[▓██  ▀█ ██▒▓██  █▒░▒██▒▓██    ▓██░▒███]],
+                [[▓██▒  ▐▌██▒ ▒██ █░░░██░▒██    ▒██ ▒▓█  ▄]],
+                [[▒██░   ▓██░  ▒▀█░  ░██░▒██▒   ░██▒░▒████▒]],
+                [[░ ▒░   ▒ ▒   ░ ▐░  ░▓  ░ ▒░   ░  ░░░ ▒░ ░]],
+                [[░ ░░   ░ ▒░  ░ ░░   ▒ ░░  ░      ░ ░ ░  ░]],
+                [[   ░   ░ ░     ░░   ▒ ░░             ░]],
+                [[         ░']],
+            }
+            dashboard.section.buttons.val = {
+                dashboard.button("e", "New file", ":ene <BAR> startinsert <CR>"),
+                dashboard.button("u", "Update Plugin", ":Lazy sync<CR>"),
+                dashboard.button("p", "Profile", ":Lazy profile<CR>"),
+                dashboard.button("q", "Quit NVIM", ":qa<CR>")
+            }
+            dashboard.config.opts.noautocmd = true
 
+            -- enable setup
+            require('alpha').setup(dashboard.config)
+        end
+    },
     -- LSP support
-    use 'hrsh7th/nvim-cmp' -- The completion plugin
-    use 'hrsh7th/cmp-buffer' -- buffer completions
-    use 'hrsh7th/cmp-path' -- path completions
-    use 'neovim/nvim-lspconfig' -- enable LSP
-    use 'hrsh7th/cmp-nvim-lsp' -- LSP provider
-    use 'simrat39/rust-tools.nvim' -- Rust LSP
-    use 'L3MON4D3/LuaSnip' -- Snippet engine
-    use 'saadparwaiz1/cmp_luasnip' -- Snippet cmp interface
-    use 'hrsh7th/cmp-nvim-lua' -- Lua LSP
-    use 'p00f/clangd_extensions.nvim' -- C/C++ LSP
-    use 'williamboman/mason.nvim' -- LSP installer
-    use 'williamboman/mason-lspconfig.nvim' -- lspconfig Adapter
-    use 'j-hui/fidget.nvim' -- UI for LSP loading
+    {
+        -- The completion plugin
+        'hrsh7th/nvim-cmp',
+        dependencies = {
+            'hrsh7th/cmp-nvim-lsp',     -- LSP provider
+            'neovim/nvim-lspconfig',    -- enable LSP
+            'hrsh7th/cmp-buffer',       -- buffer completions
+            'hrsh7th/cmp-path',         -- path completions
+            'hrsh7th/cmp-nvim-lua',     -- Lua LSP
+            'L3MON4D3/LuaSnip',         -- Snippet engine
+            'saadparwaiz1/cmp_luasnip', -- Snippet cmp interface
+        },
+        config = function()
+            require("settings.cmp")
+        end,
+        -- load cmp on InsertEnter
+        event = "InsertEnter",
+    },
+    -- LSP installer
+    -- lspconfig Adapter
+    {
+        'williamboman/mason.nvim',
+        config = function()
+            require("mason").setup({
+                ui = {
+                    icons = {
+                        package_installed = "✓",
+                        package_pending = "➜",
+                        package_uninstalled = "✗"
+                    }
+                }
+            })
+        end,
+        event = "VeryLazy"
+    },
+    {
+        'j-hui/fidget.nvim', -- UI for LSP loading
+        config = true,
+        event = "VeryLazy"
+    },
+    {
+        'williamboman/mason-lspconfig.nvim',
+        config = function()
+            require("lsp.mason-lspconfig")
+        end,
+        -- event = "VeryLazy",
+    },
+    {
+        'simrat39/rust-tools.nvim', -- Rust LSP
+        ft = "rust",
+    },
+    {
+        'p00f/clangd_extensions.nvim', -- C/C++ LSP
+        ft = { "c", "c++" }
+    },
+    -- telescope
+    {
+        'nvim-telescope/telescope.nvim',
+        version = '0.1.0',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        config = function()
+            local telescope = require("telescope")
+            local actions = require "telescope.actions"
 
-    --telescope
-    use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.0',
-        requires = { 'nvim-lua/plenary.nvim' }
-    }
-    use { 'stevearc/dressing.nvim' }
+            telescope.setup({
+                defaults = {
+                    prompt_prefix = " ",
+                    selection_caret = " ",
+                    path_display = { "smart" },
+                    mappings = {
+                        i = {
+                            ["<C-n>"] = actions.cycle_history_next,
+                            ["<C-p>"] = actions.cycle_history_prev,
+                            ["<C-j>"] = actions.move_selection_next,
+                            ["<C-k>"] = actions.move_selection_previous,
+                            ["<C-c>"] = actions.close,
+                            ["<Down>"] = actions.move_selection_next,
+                            ["<Up>"] = actions.move_selection_previous,
+                            ["<CR>"] = actions.select_default,
+                            ["<C-x>"] = actions.select_horizontal,
+                            ["<C-v>"] = actions.select_vertical,
+                            ["<C-t>"] = actions.select_tab,
+                            ["<C-u>"] = actions.preview_scrolling_up,
+                            ["<C-d>"] = actions.preview_scrolling_down,
+                            ["<PageUp>"] = actions.results_scrolling_up,
+                            ["<PageDown>"] = actions.results_scrolling_down,
+                            ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                            ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                            ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                            ["<C-l>"] = actions.complete_tag,
+                            ["<C-_>"] = actions.which_key, -- keys from pressing <C-/>
+                        },
+                        n = {
+                            ["<esc>"] = actions.close,
+                            ["<CR>"] = actions.select_default,
+                            ["<C-x>"] = actions.select_horizontal,
+                            ["<C-v>"] = actions.select_vertical,
+                            ["<C-t>"] = actions.select_tab,
+                            ["<Tab>"] = actions.toggle_selection + actions.move_selection_worse,
+                            ["<S-Tab>"] = actions.toggle_selection + actions.move_selection_better,
+                            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+                            ["<M-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
+                            ["j"] = actions.move_selection_next,
+                            ["k"] = actions.move_selection_previous,
+                            ["H"] = actions.move_to_top,
+                            ["M"] = actions.move_to_middle,
+                            ["L"] = actions.move_to_bottom,
+                            ["<Down>"] = actions.move_selection_next,
+                            ["<Up>"] = actions.move_selection_previous,
+                            ["gg"] = actions.move_to_top,
+                            ["G"] = actions.move_to_bottom,
+                            ["<C-u>"] = actions.preview_scrolling_up,
+                            ["<C-d>"] = actions.preview_scrolling_down,
+                            ["<PageUp>"] = actions.results_scrolling_up,
+                            ["<PageDown>"] = actions.results_scrolling_down,
+                            ["?"] = actions.which_key,
+                        },
+                    },
+                },
+            })
+        end,
+        -- cmd = 'telescope'
+        event = "VeryLazy"
+    },
+    {
+        "stevearc/dressing.nvim",
+        config = function()
+            local config = {
+                input = {
+                    -- Set to false to disable the vim.ui.input implementation
+                    enabled = true,
+                    -- Default prompt string
+                    default_prompt = "Input:",
+                    -- Can be 'left', 'right', or 'center'
+                    prompt_align = "left",
+                    -- When true, <Esc> will close the modal
+                    insert_only = true,
+                    -- When true, input will start in insert mode.
+                    start_in_insert = false,
+                    -- These are passed to nvim_open_win
+                    anchor = "SW",
+                    border = "rounded",
+                    -- 'editor' and 'win' will default to being centered
+                    relative = "cursor",
+                    -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
+                    prefer_width = 40,
+                    width = nil,
+                    -- min_width and max_width can be a list of mixed types.
+                    -- min_width = {20, 0.2} means "the greater of 20 columns or 20% of total"
+                    max_width = { 140, 0.9 },
+                    min_width = { 20, 0.2 },
+                    win_options = {
+                        -- Window transparency (0-100)
+                        winblend = 10,
+                        -- Disable line wrapping
+                        wrap = false,
+                    },
+                    -- Set to `false` to disable
+                    mappings = {
+                        n = {
+                            ["<Esc>"] = "Close",
+                            ["q"] = "Close",
+                            ["<CR>"] = "Confirm",
+                            ["j"] = "HistoryNext",
+                            ["k"] = "HistoryPrev"
+                        },
+                        i = {
+                            ["<C-c>"] = "Close",
+                            ["<CR>"] = "Confirm",
+                            ["<Up>"] = "HistoryPrev",
+                            ["<Down>"] = "HistoryNext",
+                        },
+                    },
+                    override = function(conf)
+                        -- This is the config that will be passed to nvim_open_win.
+                        -- Change values here to customize the layout
+                        return conf
+                    end,
+                    -- see :help dressing_get_config
+                    get_config = nil,
+                },
+                select = {
+                    -- Set to false to disable the vim.ui.select implementation
+                    enabled = true,
+                    -- Priority list of preferred vim.select implementations
+                    backend = "telescope",
+                    -- Trim trailing `:` from prompt
+                    trim_prompt = true,
+                    -- Options for telescope selector
+                    -- These are passed into the telescope picker directly. Can be used like:
+                    -- telescope = require('telescope.themes').get_ivy({...})
+                    telescope = require('telescope.themes').get_cursor({}),
+                    -- Used to override format_item. See :help dressing-format
+                    format_item_override = {},
+                    -- see :help dressing_get_config
+                    get_config = nil,
+                },
+            }
 
+            -- enable settings
+            require('dressing').setup(config)
+        end,
+        event = "VeryLazy"
+    },
     -- outline
-    use 'simrat39/symbols-outline.nvim'
-
-    -- improve performance
-    use 'lewis6991/impatient.nvim'
-
+    {
+        'simrat39/symbols-outline.nvim',
+        config = function()
+            local opts = {
+                keymaps = {
+                    close = { "<Esc>", "q" },
+                    goto_location = "<Cr>",
+                    focus_location = "<Tab>",
+                    hover_symbol = "K",
+                    toggle_preview = "p",
+                    rename_symbol = "r",
+                    code_actions = "a",
+                    fold = "h",
+                    unfold = "l",
+                    fold_all = "W",
+                    unfold_all = "E",
+                    fold_reset = "R",
+                },
+            }
+            require("symbols-outline").setup(opts)
+        end,
+        cmd = 'SymbolsOutline'
+    },
     -- structural replacement
-    use {
+    {
         "cshuaimin/ssr.nvim",
-        module = "ssr",
         -- Calling setup is optional.
         config = function()
             require("ssr").setup {
@@ -150,11 +410,9 @@ return packer.startup(function(use)
                     replace_all = "<leader><cr>",
                 },
             }
-        end
-    }
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if PACKER_BOOTSTRAP then
-        require("packer").sync()
-    end
-end)
+        end,
+        lazy = true
+    },
+}
+
+lazy.setup(plugins, option)

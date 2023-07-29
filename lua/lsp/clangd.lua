@@ -2,20 +2,18 @@ local opt = {
     server = {
         -- options to pass to nvim-lspconfig
         -- on_attach = require 'lsp.settings'.on_attach,
-        settings = {
-            ["clangd"] = {
-                argument = {
-                    "--background-index",
-                    "--compile-commands-dir=build",
-                    "-j=12",
-                    "--query-driver=/usr/bin/clang++",
-                    "--clang-tidy",
-                    "--completion-style=detailed",
-                    "--header-insertion=iwyu",
-                    "--pch-storage=disk"
-                },
-            }
-        }
+        cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--query-driver=/usr/bin/gcc,/usr/bin/clang,/usr/bin/g++,/usr/bin/clang++",
+            "--completion-style=detailed",
+            "--header-insertion=iwyu",
+            "--pch-storage=memory",
+            "--malloc-trim",
+            "-j",
+            "24"
+        },
     },
     extensions = {
         -- defaults:
@@ -59,7 +57,6 @@ local opt = {
                 statement = "",
                 ["template argument"] = "",
             },
-
             kind_icons = {
                 Compound = "",
                 Recovery = "",
@@ -69,7 +66,6 @@ local opt = {
                 TemplateTemplateParm = "",
                 TemplateParamObject = "",
             },
-
             highlights = {
                 detail = "Comment",
             },

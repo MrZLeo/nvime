@@ -1,5 +1,6 @@
 require("mason-lspconfig").setup({
     automatic_installation = true,
+    -- FIXME: clangd no support linux-aarch64
     ensure_installed = { "rust_analyzer", "lua_ls", "clangd", "taplo" }
 })
 

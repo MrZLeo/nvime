@@ -1,7 +1,7 @@
 -- basic configuration
 
 local default_option = {
-    compatible = false, -- nocompatible with vi
+    compatible = false,     -- nocompatible with vi
     fileencoding = "utf-8", -- coding format utf-8
     number = true,
     relativenumber = true,
@@ -13,7 +13,7 @@ local default_option = {
     writebackup = false,
     hidden = true,
     ignorecase = true, -- ignore case when use '/' to search
-    smartcase = true, -- if enter uppercase, don't ignore case
+    smartcase = true,  -- if enter uppercase, don't ignore case
     history = 500,
     splitbelow = true,
     expandtab = true,
