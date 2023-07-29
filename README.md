@@ -14,29 +14,30 @@ As far as I am concerned, *coc* is much mature, and it covers many good feature 
 
 This is my suggestion:
 
-- If you are a new user in vim/neovim, then choose *coc*, which is easy to install and use
+- ~If you are a new user in vim/neovim, then choose *coc*, which is easy to install and use~
 - If you are familiar with vim/neovim and want to try new feature, then choose *lsp*
 
 > ⚠️  *coc* branch is deprecated and no longer maintained. So try *lsp*.
 
-### Coc Dependencies
 
-These are dependencies that are needed for *coc*:
+~### Coc Dependencies~
 
-1. neovim
-
-This is neovim support in pip, use pip3 to install it:
-```bash
-pip3 install neovim
-```
-
-2. Node.js
-
-Use package manager to install it. For instance, in macOS, use `hoembrew`:
-
-```
-brew install node
-```
+<!-- These are dependencies that are needed for *coc*: -->
+<!---->
+<!-- 1. neovim -->
+<!---->
+<!-- This is neovim support in pip, use pip3 to install it: -->
+<!-- ```bash -->
+<!-- pip3 install neovim -->
+<!-- ``` -->
+<!---->
+<!-- 2. Node.js -->
+<!---->
+<!-- Use package manager to install it. For instance, in macOS, use `hoembrew`: -->
+<!---->
+<!-- ``` -->
+<!-- brew install node -->
+<!-- ``` -->
 
 ### Commen Dependencies
 
@@ -51,10 +52,15 @@ sudo dnf install \
     tree-sitter-cli \
     gcc \
     g++ \
+    wget \
     unzip
 ```
 
 other OS is the same.
+
+#### !!! Archlinux installation scripts
+
+if you are using arch linux, use `arch-install.sh` to help you install all Dependencies you need. Check the hints carefully.
 
 ### Clone project
 
