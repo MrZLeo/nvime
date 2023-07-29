@@ -64,7 +64,6 @@ For now, this configurations works for myself. So I am sure that it's nice for m
 
 And you can check what you need
 
-### *lsp*
 ```
 :Mason
 ```
