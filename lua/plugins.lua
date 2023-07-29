@@ -88,8 +88,6 @@ local plugins = {
         config = true,
         event = "BufReadPre"
     },
-    -- start time
-    { 'dstein64/vim-startuptime',            cmd = 'StartupTime' },
     -- indent line
     { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
     -- git message
@@ -155,7 +153,7 @@ local plugins = {
             dashboard.section.buttons.val = {
                 dashboard.button("e", "New file", ":ene <BAR> startinsert <CR>"),
                 dashboard.button("u", "Update Plugin", ":Lazy sync<CR>"),
-                dashboard.button("s", "Start Time", ":StartupTime<CR>"),
+                dashboard.button("p", "Profile", ":Lazy profile<CR>"),
                 dashboard.button("q", "Quit NVIM", ":qa<CR>")
             }
             dashboard.config.opts.noautocmd = true
