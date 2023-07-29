@@ -19,6 +19,12 @@ This is my suggestion:
 
 > ⚠️  *coc* branch is deprecated and no longer maintained. So try *lsp*.
 
+### !!! Archlinux installation scripts
+
+if you are using arch linux, use `arch-install.sh` to help you install. Check the hints carefully.
+
+if you are not, continue reading.
+
 
 ~### Coc Dependencies~
 
@@ -58,16 +64,13 @@ sudo dnf install \
 
 other OS is the same.
 
-#### !!! Archlinux installation scripts
-
-if you are using arch linux, use `arch-install.sh` to help you install all Dependencies you need. Check the hints carefully.
 
 ### Clone project
 
 > You must have neovim installed first
 
 ```
-git clone --depth=1 https://github.com/MrZLeo/nvime ~/.config/nvim
+git clone https://github.com/MrZLeo/nvime ~/.config/nvim
 ```
 
 And you can open neovim:
@@ -76,13 +79,8 @@ And you can open neovim:
 nvim
 ```
 
-Then type command:
 
-```
-:PackerSync
-```
-
-When finished, exit and reopen your nvim:
+installation will start automatically, when finished, exit and reopen your nvim:
 
 ```
 :q
@@ -101,26 +99,26 @@ And you can check what you need
 :Mason
 ```
 
-### *coc*
-```bash
-nvim ~/.config/nvim/config/plugins/coc.nvim.vim
-```
-
-and modify
-```vim
-let g:coc_global_extensions = [
-    \ 'coc-vimlsp',
-    \ 'coc-sh',
-    \ 'coc-clangd',
-    \ 'coc-lists',
-    \ 'coc-word',
-    \ 'coc-ci',
-    \ 'coc-zi',
-    \ 'coc-marketplace',
-    \ 'coc-rust-analyzer',
-    \ 'coc-json',
-    \ 'coc-lua',
-    \ 'coc-snippets'
-  \ ]
-```
-
+<!-- ### *coc* -->
+<!-- ```bash -->
+<!-- nvim ~/.config/nvim/config/plugins/coc.nvim.vim -->
+<!-- ``` -->
+<!---->
+<!-- and modify -->
+<!-- ```vim -->
+<!-- let g:coc_global_extensions = [ -->
+<!--     \ 'coc-vimlsp', -->
+<!--     \ 'coc-sh', -->
+<!--     \ 'coc-clangd', -->
+<!--     \ 'coc-lists', -->
+<!--     \ 'coc-word', -->
+<!--     \ 'coc-ci', -->
+<!--     \ 'coc-zi', -->
+<!--     \ 'coc-marketplace', -->
+<!--     \ 'coc-rust-analyzer', -->
+<!--     \ 'coc-json', -->
+<!--     \ 'coc-lua', -->
+<!--     \ 'coc-snippets' -->
+<!--   \ ] -->
+<!-- ``` -->
+<!---->
