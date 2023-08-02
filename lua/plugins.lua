@@ -304,7 +304,6 @@ local plugins = {
                     -- When true, input will start in insert mode.
                     start_in_insert = false,
                     -- These are passed to nvim_open_win
-                    anchor = "SW",
                     border = "rounded",
                     -- 'editor' and 'win' will default to being centered
                     relative = "cursor",
