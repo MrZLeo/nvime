@@ -1,7 +1,7 @@
 local opt = {
     server = {
         -- options to pass to nvim-lspconfig
-        -- on_attach = require 'lsp.settings'.on_attach,
+        on_attach = require("lsp.on_attach").on_attach,
         cmd = {
             "clangd",
             "--background-index",
@@ -18,9 +18,11 @@ local opt = {
     extensions = {
         -- defaults:
         -- Automatically set inlay hints (type hints)
-        autoSetHints = true,
+        autoSetHints = false,
         -- These apply to the default ClangdSetInlayHints command
         inlay_hints = {
+            inline = false,
+
             -- Only show inlay hints for the current line
             only_current_line = false,
             -- Event which triggers a refersh of the inlay hints.

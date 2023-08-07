@@ -27,4 +27,4 @@ vim.keymap.set('n', '<BackSpace>', ':nohl<cr>')
 vim.keymap.set('n', 'Q', 'q')
 
 -- use double space to save file
-vim.keymap.set('n', '<space><space>', '<esc>:w<cr>', { silent = true })
+vim.keymap.set('n', '<space><space>', '<esc>:w | TSDisable rainbow | TSEnable rainbow<CR>', { silent = true })

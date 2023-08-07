@@ -168,7 +168,6 @@ local plugins = {
         'hrsh7th/nvim-cmp',
         dependencies = {
             'hrsh7th/cmp-nvim-lsp',     -- LSP provider
-            'neovim/nvim-lspconfig',    -- enable LSP
             'hrsh7th/cmp-buffer',       -- buffer completions
             'hrsh7th/cmp-path',         -- path completions
             'hrsh7th/cmp-nvim-lua',     -- Lua LSP
@@ -181,7 +180,35 @@ local plugins = {
         -- load cmp on InsertEnter
         event = "InsertEnter",
     },
-    -- LSP installer
+    {
+        'lvimuser/lsp-inlayhints.nvim',
+        branch = "anticonceal",
+        opts   = {},
+        lazy   = true,
+        init   = function()
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("LspAttach_inlayhints", {}),
+                callback = function(args)
+                    if not (args.data and args.data.client_id) then
+                        return
+                    end
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    require("lsp-inlayhints").on_attach(client, args.buf)
+                end,
+            })
+        end,
+    },
+    {
+        'neovim/nvim-lspconfig', -- enable LSP
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim"
+        },
+        -- opts = {
+        --     inlay_hints = { enabled = true },
+        -- }
+    },
     -- lspconfig Adapter
     {
         'williamboman/mason.nvim',

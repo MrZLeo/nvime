@@ -28,11 +28,6 @@ local function lsp_keymaps(bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "<Space>l", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 end
 
-M.on_attach = function(client, bufnr)
-    lsp_keymaps(bufnr)
-    lsp_highlight_document(client)
-end
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
@@ -41,5 +36,34 @@ if not status_ok then
 end
 
 M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+
+M.on_attach = function(client, bufnr)
+    lsp_keymaps(bufnr)
+    lsp_highlight_document(client)
+    -- if client.server_capabilities.inlayHintProvider then
+    --     vim.lsp.inlay_hint(bufnr, true)
+    -- end
+
+    -- vim.api.nvim_create_autocmd("InsertEnter", {
+    --     buffer = bufnr,
+    -- if client.server_capabilities.inlayHintProvider then
+    --     vim.g.inlay_hints_visible = true
+    --     vim.lsp.inlay_hint(bufnr, true)
+    -- else
+    --     print("no inlay hints available")
+    -- end
+    --     group = "lsp_augroup",
+    -- })
+end
+
+M.rust_on_attach = function(client, bufnr)
+    lsp_keymaps(bufnr)
+    lsp_highlight_document(client)
+
+    vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+        callback = function() vim.lsp.buf.inlay_hint(0, true) end,
+    })
+end
+
 
 return M

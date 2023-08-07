@@ -6,6 +6,7 @@ require("mason-lspconfig").setup({
 
 -- on_attach function
 local on_attach = require("lsp.on_attach").on_attach
+-- local rust_on_attach = require("lsp.on_attach").rust_on_attach
 
 require("mason-lspconfig").setup_handlers({
     -- The first entry (without a key) will be the default handler
@@ -33,7 +34,7 @@ require("mason-lspconfig").setup_handlers({
     -- 3. clangd
     ["clangd"] = function()
         local opt = require("lsp.clangd")
-        opt.server.on_attach = on_attach
+        -- opt.server.on_attach = on_attach
         require("clangd_extensions").setup(opt)
     end,
 })
