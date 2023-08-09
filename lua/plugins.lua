@@ -205,9 +205,6 @@ local plugins = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim"
         },
-        -- opts = {
-        --     inlay_hints = { enabled = true },
-        -- }
     },
     -- lspconfig Adapter
     {

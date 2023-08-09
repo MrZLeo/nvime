@@ -34,7 +34,21 @@ require("mason-lspconfig").setup_handlers({
     -- 3. clangd
     ["clangd"] = function()
         local opt = require("lsp.clangd")
-        -- opt.server.on_attach = on_attach
         require("clangd_extensions").setup(opt)
+        require("lspconfig")["clangd"].setup {
+            on_attach = on_attach,
+            cmd = {
+                "clangd",
+                "--background-index",
+                "--clang-tidy",
+                "--query-driver=/usr/bin/gcc,/usr/bin/clang,/usr/bin/g++,/usr/bin/clang++",
+                "--completion-style=detailed",
+                "--header-insertion=iwyu",
+                "--pch-storage=memory",
+                "--malloc-trim",
+                "-j",
+                "24"
+            },
+        }
     end,
 })
