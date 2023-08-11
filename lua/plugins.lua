@@ -225,6 +225,7 @@ local plugins = {
     {
         'j-hui/fidget.nvim', -- UI for LSP loading
         config = true,
+        branch = 'legacy',
         event = "VeryLazy"
     },
     {
