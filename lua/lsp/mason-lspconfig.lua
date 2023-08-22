@@ -45,7 +45,6 @@ require("mason-lspconfig").setup_handlers({
                 "--completion-style=detailed",
                 "--header-insertion=iwyu",
                 "--pch-storage=memory",
-                "--malloc-trim",
                 "-j",
                 "24"
             },
