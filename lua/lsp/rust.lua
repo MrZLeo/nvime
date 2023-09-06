@@ -9,7 +9,7 @@ local opts = {
         inlay_hints = {
             -- automatically set inlay hints (type hints)
             -- default: true
-            auto = false,
+            auto = true,
 
             -- Only show inlay hints for the current line
             only_current_line = false,

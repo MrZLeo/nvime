@@ -1,10 +1,10 @@
 local opt = {
     -- defaults:
     -- Automatically set inlay hints (type hints)
-    autoSetHints = false,
+    autoSetHints = true,
     -- These apply to the default ClangdSetInlayHints command
     inlay_hints = {
-        inline = false,
+        inline = true,
 
         -- Only show inlay hints for the current line
         only_current_line = false,

@@ -41,12 +41,11 @@ require("mason-lspconfig").setup_handlers({
                 "clangd",
                 "--background-index",
                 "--clang-tidy",
-                "--query-driver=/usr/bin/gcc,/usr/bin/clang,/usr/bin/g++,/usr/bin/clang++",
-                "--completion-style=detailed",
+                -- "--query-driver=/usr/bin/gcc,/usr/bin/clang,/usr/bin/g++,/usr/bin/clang++",
+                -- "--completion-style=detailed",
+                "--malloc-trim",
                 "--header-insertion=iwyu",
                 "--pch-storage=memory",
-                "-j",
-                "24"
             },
         }
     end,

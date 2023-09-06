@@ -3,19 +3,22 @@ local M = {}
 local function lsp_highlight_document(client)
     -- Set autocommands conditional on server_capabilities
     if client.server_capabilities.document_highlight then
-        vim.api.nvim_exec(
-            [[
+        -- vim.api.nvim_exec(
+        vim.cmd [[
                 augroup lsp_document_highlight
                 autocmd! * <buffer>
                 autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
                 autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
                 augroup END
-            ]],
-            false
-        )
+            ]]
+        --     false
+        -- )
     end
 end
 
+-- FIXME: use a better function for 'K'
+-- function show_doc() ... end
+-- vim.keymap.set('n', 'K', show_documentation, { silent = true })
 local function lsp_keymaps(bufnr)
     local opts = { noremap = true, silent = true }
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
