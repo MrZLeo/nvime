@@ -5,7 +5,7 @@ local config = {
         "fish", "git_rebase", "gitattributes", "go", "gomod", "gowork", "haskell",
         "json", "json5", "latex", "llvm", "lua", "make", "markdown",
         "markdown_inline", "ninja", "perl", "proto", "python", "rst", "rust",
-        "sql", "toml", "vim", "yaml"
+        "sql", "toml", "vim", "yaml", "kdl"
     },
     -- 高亮配置
     highlight = {
@@ -31,7 +31,7 @@ local config = {
     -- rainbow
     rainbow = {
         enable = true,
-        disable = { 'bash' }
+        -- disable = { 'bash' }
     }
 }
 

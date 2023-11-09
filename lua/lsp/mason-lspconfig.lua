@@ -34,7 +34,6 @@ require("mason-lspconfig").setup_handlers({
     -- 3. clangd
     ["clangd"] = function()
         local opt = require("lsp.clangd")
-        require("clangd_extensions").setup(opt)
         require("lspconfig")["clangd"].setup {
             on_attach = on_attach,
             cmd = {
@@ -48,5 +47,6 @@ require("mason-lspconfig").setup_handlers({
                 "--pch-storage=memory",
             },
         }
+        require("clangd_extensions").setup(opt)
     end,
 })
