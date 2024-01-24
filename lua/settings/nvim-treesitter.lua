@@ -5,12 +5,12 @@ local config = {
         "fish", "git_rebase", "gitattributes", "go", "gomod", "gowork", "haskell",
         "json", "json5", "latex", "llvm", "lua", "make", "markdown",
         "markdown_inline", "ninja", "perl", "proto", "python", "rst", "rust",
-        "sql", "toml", "vim", "yaml", "kdl"
+        "sql", "toml", "vim", "yaml", "kdl", "gn", "typescript"
     },
     -- 高亮配置
     highlight = {
         enable = true, -- false将禁用整个插件
-        disable = {},  -- 不使用该插件的语言
+        -- disable = { "javascript" }, -- 不使用该插件的语言
     },
     -- 块选择，还不太会使用，暂时保留
     incremental_selection = {
@@ -31,7 +31,7 @@ local config = {
     -- rainbow
     rainbow = {
         enable = true,
-        -- disable = { 'bash' }
+        -- disable = { "javascript" }
     }
 }
 

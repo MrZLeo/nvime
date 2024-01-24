@@ -13,3 +13,6 @@ require "colorscheme"
 -- load plugin configuration
 require "lsp"
 require "settings"
+
+-- load utils
+require "utils"

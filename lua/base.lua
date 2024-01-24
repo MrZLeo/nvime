@@ -41,10 +41,20 @@ local default_option = {
     colorcolumn = "80",
     pumheight = 20,
     pumblend = 20,
-    guifont = { "Comic Code", ":h15" }, -- only use for GUI, needs to install font
+    guifont = { "Monaspace Argon", ":h12" }, -- only use for GUI, needs to install font
 }
 
 -- enable all setting
 for k, v in pairs(default_option) do
     vim.opt[k] = v
 end
+
+-- neovim cannot detect gn format right now
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.gn", "*.gni" },
+    command = "set filetype=gn",
+})
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.ets" },
+    command = "set filetype=typescript",
+})

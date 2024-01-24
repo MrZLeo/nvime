@@ -37,16 +37,31 @@ require("mason-lspconfig").setup_handlers({
         require("lspconfig")["clangd"].setup {
             on_attach = on_attach,
             cmd = {
-                "clangd",
-                "--background-index",
+                -- "clangd",
+                "/home/mrzleo/oh-weekly/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clangd",
+                -- "--background-index",
                 "--clang-tidy",
                 -- "--query-driver=/usr/bin/gcc,/usr/bin/clang,/usr/bin/g++,/usr/bin/clang++",
-                -- "--completion-style=detailed",
-                "--malloc-trim",
+                -- "--query-driver=/home/mrzleo/oh/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clang",
+                "--completion-style=detailed",
+                -- "--malloc-trim",
                 "--header-insertion=iwyu",
                 "--pch-storage=memory",
             },
         }
         require("clangd_extensions").setup(opt)
     end,
+    -- 4. pylyzer
+    ["pylyzer"] = function()
+        require("lspconfig")["pylyzer"].setup {
+            on_attach = on_attach,
+            -- python = {
+            --     checkOnType = false,
+            --     diagnostics = true,
+            --     inlayHints = true,
+            --     smartCompletion = true
+            -- },
+            single_file_support = true
+        }
+    end
 })

@@ -8,19 +8,17 @@ require("lsp.settings")
 -- auto format
 local pattern = {
     "*.rs",
-    "*.c",
-    "*.h",
-    "*.cpp",
-    "*.hpp",
-    "*.cc",
+    -- "*.c",
+    -- "*.h",
+    -- "*.cpp",
+    -- "*.hpp",
+    -- "*.cc",
     "*.lua",
     "*.toml",
     "*.yaml",
     "*.json",
     "*.go"
 }
-
-
 
 vim.api.nvim_create_autocmd(
     { "BufWritePre" },
