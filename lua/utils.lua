@@ -1,3 +1,4 @@
+---@diagnostic disable:unused-local
 ---@diagnostic disable:unused-function
 
 local function delete_buffers_over_x(x)
