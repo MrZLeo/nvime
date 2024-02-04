@@ -69,7 +69,11 @@ local opts = {
 }
 
 -- Rust run code
-vim.keymap.set('n', '<Space>r', ':RustRunnables<CR>');
-
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "rust",
+    callback = function()
+        vim.keymap.set('n', '<Space>r', ':RustRunnables<CR>', { buffer = true })
+    end
+})
 
 return opts
