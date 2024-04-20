@@ -39,7 +39,7 @@ require("mason-lspconfig").setup_handlers({
             cmd = {
                 "clangd",
                 -- "/home/mrzleo/oh-weekly/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clangd",
-                -- "--background-index",
+                "--background-index",
                 "--clang-tidy",
                 -- "--query-driver=/usr/bin/gcc,/usr/bin/clang,/usr/bin/g++,/usr/bin/clang++",
                 -- "--query-driver=/home/mrzleo/oh/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clang",

@@ -51,7 +51,7 @@ local plugins = {
         'kylechui/nvim-surround',
         version = "*", -- Use for stability; omit to use `main` branch for the latest features
         config = true,
-        event = "BufReadPre"
+        event = "BufReadPre",
     },
     -- rainbow brackets
     {
@@ -74,8 +74,6 @@ local plugins = {
     },
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
-    'nvim-treesitter/nvim-treesitter-refactor',
-    'romgrk/nvim-treesitter-context',
     -- count the hightlight
     {
         'kevinhwang91/nvim-hlslens',
@@ -90,12 +88,6 @@ local plugins = {
     },
     -- indent line
     { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
-    -- git message
-    {
-        'tanvirtin/vgit.nvim',
-        config = true,
-        -- cmd = "VGit toggle_live_blame"
-    },
     -- color
     {
         'norcalli/nvim-colorizer.lua',
@@ -114,7 +106,8 @@ local plugins = {
         dependencies = {
             'kyazdani42/nvim-web-devicons',
             config = true,
-        }
+        },
+        lazy = true
     },
     -- remove space in the end of line
     {
@@ -180,24 +173,6 @@ local plugins = {
         -- load cmp on InsertEnter
         event = "InsertEnter",
     },
-    -- {
-    --     'lvimuser/lsp-inlayhints.nvim',
-    --     branch = "anticonceal",
-    --     opts   = {},
-    --     lazy   = true,
-    --     init   = function()
-    --         vim.api.nvim_create_autocmd("LspAttach", {
-    --             group = vim.api.nvim_create_augroup("LspAttach_inlayhints", {}),
-    --             callback = function(args)
-    --                 if not (args.data and args.data.client_id) then
-    --                     return
-    --                 end
-    --                 local client = vim.lsp.get_client_by_id(args.data.client_id)
-    --                 require("lsp-inlayhints").on_attach(client, args.buf)
-    --             end,
-    --         })
-    --     end,
-    -- },
     {
         'neovim/nvim-lspconfig', -- enable LSP
         event = { "BufReadPre", "BufNewFile" },
@@ -250,16 +225,6 @@ local plugins = {
         'p00f/clangd_extensions.nvim', -- C/C++ LSP
         ft = { "c", "c++" }
     },
-    -- telescope
-    {
-        'nvim-telescope/telescope.nvim',
-        branch = '0.1.x',
-        dependencies = { 'nvim-lua/plenary.nvim' }
-    },
-    {
-        'stevearc/dressing.nvim',
-        opts = {},
-    },
     -- outline
     {
         'simrat39/symbols-outline.nvim',
@@ -283,27 +248,6 @@ local plugins = {
             require("symbols-outline").setup(opts)
         end,
         cmd = 'SymbolsOutline'
-    },
-    -- structural replacement
-    {
-        "cshuaimin/ssr.nvim",
-        -- Calling setup is optional.
-        config = function()
-            require("ssr").setup {
-                min_width = 50,
-                min_height = 5,
-                max_width = 120,
-                max_height = 25,
-                keymaps = {
-                    close = "q",
-                    next_match = "n",
-                    prev_match = "N",
-                    replace_confirm = "<cr>",
-                    replace_all = "<leader><cr>",
-                },
-            }
-        end,
-        lazy = true
     },
     -- ssh copy/paste
     {
