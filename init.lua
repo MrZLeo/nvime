@@ -1,18 +1,18 @@
 -- load basic settings
-require "base"
+require("base")
 
 -- lazy.nvim
-require "plugins"
+require("plugins")
 
 -- load keymap
-require "keymap"
+require("keymap")
 
 -- load theme
-require "colorscheme"
+require("colorscheme")
 
 -- load plugin configuration
-require "lsp"
-require "settings"
+require("lsp")
+require("settings")
 
 -- load utils
-require "utils"
+require("utils")

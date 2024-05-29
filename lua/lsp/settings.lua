@@ -33,5 +33,3 @@ local config = {
 }
 
 vim.diagnostic.config(config)
-
-local fxxxx = 1;

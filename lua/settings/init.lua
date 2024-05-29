@@ -1,11 +1,9 @@
 -- list of plugin settings
 local plugins = {
-    "alpha",
     "chadtree",
     "lualine",
     "nvim-treesitter",
     "nvim-ts-rainbow",
-    "symbols-outline",
     "whitespace",
 }
 

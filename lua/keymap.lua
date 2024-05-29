@@ -28,3 +28,30 @@ vim.keymap.set('n', 'Q', 'q')
 
 -- use double space to save file
 vim.keymap.set('n', '<space><space>', '<esc>:w | TSDisable rainbow | TSEnable rainbow<CR>', { silent = true })
+
+-- Copy/Paste when using ssh on a remote server
+-- Only works on Neovim >= 0.10.0
+-- FIXME: some problem of osc52 right now
+local function no_paste(reg)
+    return function(lines)
+        -- Do nothing! We can't paste with OSC52
+    end
+end
+
+if vim.env.SSH_CONNECTION then
+    vim.g.clipboard = {
+        name = 'OSC 52',
+        copy = {
+            ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+            ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+        },
+        -- paste = {
+        --     ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+        --     ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+        -- },
+        paste = {
+            ["+"] = no_paste("+"), -- Pasting disabled
+            ["*"] = no_paste("*"), -- Pasting disabled
+        }
+    }
+end

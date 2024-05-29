@@ -80,12 +80,6 @@ local plugins = {
         config = true,
         event = "InsertEnter",
     },
-    -- comment
-    {
-        'numToStr/Comment.nvim',
-        config = true,
-        event = "BufReadPre"
-    },
     -- indent line
     { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
     -- color
@@ -153,6 +147,15 @@ local plugins = {
 
             -- enable setup
             require('alpha').setup(dashboard.config)
+
+            -- when started
+            vim.api.nvim_create_autocmd(
+                { "User" },
+                {
+                    pattern = "AlphaReady",
+                    command = "echo 'ready'"
+                }
+            )
         end
     },
     -- LSP support
@@ -216,8 +219,9 @@ local plugins = {
     },
     {
         'saecki/crates.nvim',
-        dependencies = { 'nvim-lua/plenary.nvim' },
-        config       = function()
+        tag = 'stable',
+        event = { "BufRead Cargo.toml" },
+        config = function()
             require('crates').setup()
         end,
     },
@@ -246,18 +250,27 @@ local plugins = {
                 },
             }
             require("symbols-outline").setup(opts)
+
+            -- open symbols keymap
+            vim.keymap.set('n', '<Space>o', ':SymbolsOutline<CR>');
         end,
         cmd = 'SymbolsOutline'
     },
-    -- ssh copy/paste
+    -- for symbols searching
     {
-        'ojroques/nvim-osc52',
-        config = function()
-            vim.keymap.set('n', '<leader>c', require('osc52').copy_operator, { expr = true })
-            vim.keymap.set('n', '<leader>cc', '<leader>c_', { remap = true })
-            vim.keymap.set('v', '<leader>c', require('osc52').copy_visual)
-        end
+        'nvim-telescope/telescope.nvim',
+        branch = '0.1.x',
+        dependencies = { 'nvim-lua/plenary.nvim' }
     },
+    {
+        "MysticalDevil/inlay-hints.nvim",
+        event = "LspAttach",
+        dependencies = { "neovim/nvim-lspconfig" },
+        config = function()
+            require("inlay-hints").setup()
+        end
+    }
+
 }
 
 lazy.setup(plugins, option)
