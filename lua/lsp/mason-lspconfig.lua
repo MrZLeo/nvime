@@ -8,6 +8,8 @@ local is_support_clangd = function(arch)
     return false
 end
 
+local preinstall_lsp = { "rust_analyzer", "lua_ls", "clangd", "taplo" }
+
 require("mason-lspconfig").setup({
     automatic_installation = true,
     ensure_installed = vim.tbl_filter(function(server)
@@ -15,7 +17,7 @@ require("mason-lspconfig").setup({
             return is_support_clangd(vim.uv.os_uname().machine)
         end
         return true
-    end, { "rust_analyzer", "lua_ls", "clangd", "taplo" })
+    end, preinstall_lsp)
 })
 
 -- on_attach function

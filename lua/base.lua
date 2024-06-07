@@ -42,6 +42,11 @@ local default_option = {
     pumheight = 20,
     pumblend = 20,
     guifont = { "Monaspace Argon", ":h12" }, -- only use for GUI, needs to install font
+
+    -- use smart fold
+    foldmethod = "expr",
+    foldlevel = 20,
+    foldexpr = "nvim_treesitter#foldexpr()"
 }
 
 -- enable all setting
