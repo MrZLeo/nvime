@@ -8,8 +8,8 @@ require("lsp.settings")
 -- auto format
 local pattern = {
     "*.rs",
-    -- "*.c",
-    -- "*.h",
+    "*.c",
+    "*.h",
     -- "*.cpp",
     -- "*.hpp",
     -- "*.cc",

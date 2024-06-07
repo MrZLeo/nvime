@@ -250,9 +250,6 @@ local plugins = {
                 },
             }
             require("symbols-outline").setup(opts)
-
-            -- open symbols keymap
-            vim.keymap.set('n', '<Space>o', ':SymbolsOutline<CR>');
         end,
         cmd = 'SymbolsOutline'
     },
