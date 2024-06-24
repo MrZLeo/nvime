@@ -31,10 +31,11 @@ vim.keymap.set('n', '<space><space>', '<esc>:w | TSDisable rainbow | TSEnable ra
 
 -- Copy/Paste when using ssh on a remote server
 -- Only works on Neovim >= 0.10.0
--- FIXME: some problem of osc52 right now
 local function no_paste(reg)
     return function(lines)
-        -- Do nothing! We can't paste with OSC52
+        -- return register "" as the content of 'p' operation
+        local content = vim.fn.getreg('"')
+        return vim.split(content, '\n')
     end
 end
 
@@ -45,10 +46,6 @@ if vim.env.SSH_CONNECTION then
             ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
             ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
         },
-        -- paste = {
-        --     ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-        --     ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
-        -- },
         paste = {
             ["+"] = no_paste("+"), -- Pasting disabled
             ["*"] = no_paste("*"), -- Pasting disabled
