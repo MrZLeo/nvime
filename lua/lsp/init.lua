@@ -17,7 +17,8 @@ local pattern = {
     "*.toml",
     "*.yaml",
     "*.json",
-    "*.go"
+    "*.go",
+    "*.build"
 }
 
 vim.api.nvim_create_autocmd(
