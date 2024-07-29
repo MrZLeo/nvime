@@ -266,6 +266,10 @@ local plugins = {
         config = function()
             require("inlay-hints").setup()
         end
+    },
+    {
+        'lewis6991/gitsigns.nvim',
+        config = true
     }
 
 }
