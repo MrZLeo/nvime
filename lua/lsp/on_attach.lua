@@ -1,9 +1,8 @@
-local M = {}
+-- Initialize control flags
+local skip_diagnostic_float = false
+local diagnostic_timer = nil
 
--- 自定义变量来跟踪悬浮窗口状态
-vim.b.lsp_hover_doc_shown = false
-
--- 自定义函数来显示诊断信息
+-- Custom function to display diagnostic information
 local function show_diagnostics()
     local opts = {
         focusable = false,
@@ -11,33 +10,46 @@ local function show_diagnostics()
         border = 'rounded',
         source = 'always',
         prefix = ' ',
-        scope = 'cursor', -- 仅显示光标下的错误
+        scope = 'cursor', -- Only show errors under the cursor
     }
     vim.diagnostic.open_float(nil, opts)
 end
 
--- 设置LSP的诊断信息自动弹出
-local function lsp_diagnostics_autopopup(client)
-    if client.server_capabilities.document_highlight then
-        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-            pattern = "*",
-            callback = function()
-                show_diagnostics()
-            end,
-        })
+-- Set LSP diagnostic information to pop up automatically
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+    pattern = "*",
+    callback = function()
+        if not skip_diagnostic_float then
+            show_diagnostics()
+        end
+    end,
+})
+
+-- Define a function to toggle the hover window display
+function ToggleHoverDoc()
+    -- Set the flag to skip displaying the diagnostic floating window
+    skip_diagnostic_float = true
+
+    -- Show function documentation
+    vim.lsp.buf.hover()
+
+    -- If there is an existing timer, stop it first
+    if diagnostic_timer then
+        diagnostic_timer:stop()
     end
+
+    -- Set a timer to reset the flag after 1 second
+    diagnostic_timer = vim.defer_fn(function()
+        skip_diagnostic_float = false
+    end, 1000) -- Reset after 1 second (1000 milliseconds)
 end
 
--- 定义切换悬浮窗口显示的函数
-function ToggleHoverDoc()
-    vim.lsp.buf.hover()
-end
+local M = {}
 
 local function lsp_keymaps(bufnr)
     local opts = { noremap = true, silent = true }
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-    -- vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "K",
         "<cmd>lua ToggleHoverDoc()<CR>", opts)
     vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
@@ -58,7 +70,6 @@ M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
 
 M.on_attach = function(client, bufnr)
     lsp_keymaps(bufnr)
-    lsp_diagnostics_autopopup(client)
 end
 
 return M
