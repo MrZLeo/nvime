@@ -231,27 +231,28 @@ local plugins = {
     },
     -- outline
     {
-        'simrat39/symbols-outline.nvim',
-        config = function()
-            local opts = {
-                keymaps = {
-                    close = { "<Esc>", "q" },
-                    goto_location = "<Cr>",
-                    focus_location = "<Tab>",
-                    hover_symbol = "K",
-                    toggle_preview = "p",
-                    rename_symbol = "r",
-                    code_actions = "a",
-                    fold = "h",
-                    unfold = "l",
-                    fold_all = "W",
-                    unfold_all = "E",
-                    fold_reset = "R",
-                },
+        'hedyhli/outline.nvim',
+        lazy = true,
+        cmd = { "Outline", "OutlineOpen" },
+        keys = { -- Example mapping to toggle outline
+            { "<Space>o", "<cmd>Outline<CR>", desc = "Toggle outline" },
+        },
+        opts = {
+            keymaps = {
+                close = { "<Esc>", "q" },
+                code_actions = "a",
+                fold = "h",
+                fold_all = "W",
+                fold_reset = "R",
+                goto_location = "<Cr>",
+                hover_symbol = "K",
+                peek_location = "<Tab>",
+                rename_symbol = "r",
+                toggle_preview = "p",
+                unfold = "l",
+                unfold_all = "E"
             }
-            require("symbols-outline").setup(opts)
-        end,
-        cmd = 'SymbolsOutline'
+        }
     },
     -- for symbols searching
     {
