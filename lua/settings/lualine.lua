@@ -31,6 +31,10 @@ local conditions = {
         local gitdir = vim.fn.finddir('.git', filepath .. ';')
         return gitdir and #gitdir > 0 and #gitdir < #filepath
     end,
+    support_lsp = function()
+        local buf_clients = vim.lsp.get_clients({ bufnr = vim.api.nvim_get_current_buf() })
+        return #buf_clients > 0
+    end,
 }
 
 -- Config
@@ -139,10 +143,6 @@ ins_left {
     color = { fg = colors.cyan },
 }
 
-ins_left {
-    'progress',
-    color = { fg = colors.fg, gui = 'bold' }
-}
 
 ins_left {
     'diagnostics',
@@ -164,13 +164,12 @@ ins_left {
     end,
 }
 
--- FIXME: should not show up this when open `outline`
 ins_left {
     -- Lsp server name .
     function()
         local msg = 'No Active Lsp'
-        local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-        local clients = vim.lsp.get_active_clients()
+        local buf_ft = vim.bo.filetype
+        local clients = vim.lsp.get_clients()
         if next(clients) == nil then
             return msg
         end
@@ -182,12 +181,17 @@ ins_left {
         end
         return msg
     end,
-    cond = conditions.buffer_not_empty,
+    cond = conditions.support_lsp,
     icon = ' LSP:',
     color = { fg = '#ffffff', gui = 'bold' },
 }
 
 -- Add components to right sections
+ins_right {
+    'progress',
+    color = { fg = colors.fg, gui = 'bold' }
+}
+
 ins_right {
     'o:encoding',       -- option component same as &encoding in viml
     fmt = string.upper, -- I'm not sure why it's upper case either ;)
@@ -196,15 +200,9 @@ ins_right {
 }
 
 ins_right {
-    'fileformat',
-    fmt = string.upper,
-    icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-    color = { fg = colors.green, gui = 'bold' },
-}
-
-ins_right {
     'branch',
     icon = '',
+    cond = conditions.check_git_workspace,
     color = { fg = colors.violet, gui = 'bold' },
 }
 
