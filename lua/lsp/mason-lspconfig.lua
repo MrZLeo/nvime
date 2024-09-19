@@ -63,6 +63,7 @@ require("mason-lspconfig").setup_handlers({
                 -- "--malloc-trim",
                 "--header-insertion=iwyu",
                 "--pch-storage=memory",
+                "--offset-encoding=utf-16"
             },
         }
         require("clangd_extensions").setup(opt)

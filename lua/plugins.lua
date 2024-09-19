@@ -274,7 +274,16 @@ local plugins = {
     {
         "zbirenbaum/copilot.lua",
         config = function()
-            require("copilot").setup()
+            require("copilot").setup({
+                suggestion = {
+                    enabled = true,
+                    auto_trigger = true,
+                    keymap = {
+                        accept = "<Tab>",
+                        dismiss = "<C-]"
+                    },
+                }
+            })
         end,
     },
     {
@@ -284,8 +293,8 @@ local plugins = {
         version = false, -- set this if you want to always pull the latest change
         opts = {
             provider = "openai",
-            auto_suggestions_provider = "copilot",
             openai = {
+                endpoint = "http://ipads.chat.gpt:3006/v1",
                 model = "gpt-4o-2024-08-06",
                 -- model = "o1-mini",
                 temperature = 0,
