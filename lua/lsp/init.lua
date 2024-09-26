@@ -10,7 +10,7 @@ local pattern = {
     "*.rs",
     "*.c",
     "*.h",
-    -- "*.cpp",
+    "*.cpp",
     -- "*.hpp",
     -- "*.cc",
     "*.lua",
