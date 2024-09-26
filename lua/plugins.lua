@@ -296,10 +296,11 @@ local plugins = {
             provider = "openai",
             openai = {
                 endpoint = "http://ipads.chat.gpt:3006/v1",
-                model = "gpt-4o-2024-08-06",
+                model = "claude-3-5",
+                -- model = "gpt-4o-2024-08-06",
                 -- model = "o1-mini",
                 temperature = 0,
-                max_tokens = 8192,
+                max_tokens = 4096,
             },
             behaviour = {
                 auto_suggestions = false, -- Experimental stage
