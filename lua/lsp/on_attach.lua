@@ -2,17 +2,26 @@
 local skip_diagnostic_float = false
 local diagnostic_timer = nil
 
+-- Function to check if nvim-cmp's completion menu is visible
+local function is_cmp_visible()
+    local cmp = require('cmp')
+    return cmp.visible()
+end
+
 -- Custom function to display diagnostic information
 local function show_diagnostics()
-    local opts = {
-        focusable = false,
-        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = 'rounded',
-        source = 'always',
-        prefix = ' ',
-        scope = 'cursor', -- Only show errors under the cursor
-    }
-    vim.diagnostic.open_float(nil, opts)
+    -- Only show diagnostics if nvim-cmp's completion menu is not visible
+    if not is_cmp_visible() then
+        local opts = {
+            focusable = false,
+            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+            border = 'rounded',
+            source = 'always',
+            prefix = ' ',
+            scope = 'cursor', -- Only show errors under the cursor
+        }
+        vim.diagnostic.open_float(nil, opts)
+    end
 end
 
 -- Set LSP diagnostic information to pop up automatically

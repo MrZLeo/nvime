@@ -169,6 +169,7 @@ local plugins = {
             'hrsh7th/cmp-nvim-lua',     -- Lua LSP
             'L3MON4D3/LuaSnip',         -- Snippet engine
             'saadparwaiz1/cmp_luasnip', -- Snippet cmp interface
+            'onsails/lspkind.nvim',     -- LSP icons
         },
         config = function()
             require("settings.cmp")
@@ -202,8 +203,6 @@ local plugins = {
     },
     {
         'j-hui/fidget.nvim', -- UI for LSP loading
-        config = true,
-        -- branch = 'legacy',
         event = "VeryLazy"
     },
     {
@@ -277,15 +276,24 @@ local plugins = {
         config = function()
             require("copilot").setup({
                 suggestion = {
-                    enabled = true,
-                    auto_trigger = true,
-                    keymap = {
-                        accept = "<Tab>",
-                        dismiss = "<C-]"
-                    },
+                    enabled = false,
+                    -- auto_trigger = true,
+                    -- keymap = {
+                    --     accept = "<Tab>",
+                    --     dismiss = "<C-]"
+                    -- },
+                },
+                panel = {
+                    enabled = false
                 }
             })
         end,
+    },
+    {
+        "zbirenbaum/copilot-cmp",
+        config = function()
+            require("copilot_cmp").setup()
+        end
     },
     {
         "yetone/avante.nvim",
