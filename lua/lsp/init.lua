@@ -4,6 +4,7 @@
 -- require("lsp.mason")
 -- require("lsp.mason-lspconfig")
 require("lsp.settings")
+require("lsp.rust")
 
 -- auto format
 local pattern = {

@@ -203,18 +203,21 @@ local plugins = {
     },
     {
         'j-hui/fidget.nvim', -- UI for LSP loading
-        event = "VeryLazy"
+        opts = {
+            -- options
+        }
     },
     {
         'williamboman/mason-lspconfig.nvim',
         config = function()
             require("lsp.mason-lspconfig")
         end,
-        -- event = "VeryLazy",
+        event = "VeryLazy",
     },
     {
-        'simrat39/rust-tools.nvim', -- Rust LSP
-        ft = "rust",
+        'mrcjkb/rustaceanvim',
+        version = '^5', -- Recommended
+        lazy = false,   -- This plugin is already lazy
     },
     {
         'saecki/crates.nvim',

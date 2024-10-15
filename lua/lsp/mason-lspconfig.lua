@@ -36,11 +36,12 @@ require("mason-lspconfig").setup_handlers({
     -- Next, you can provide targeted overrides for specific servers.
 
     -- 1. rust_analyzer
-    ["rust_analyzer"] = function()
-        local opt = require("lsp.rust")
-        opt.server.on_attach = on_attach
-        require("rust-tools").setup(opt)
-    end,
+    ['rust_analyzer'] = function() end,
+    -- ["rust_analyzer"] = function()
+    --     local opt = require("lsp.rust")
+    --     opt.server.on_attach = on_attach
+    --     require("rust-tools").setup(opt)
+    -- end,
     -- 2. lua_ls
     ["lua_ls"] = function()
         local opt = require("lsp.lua")
