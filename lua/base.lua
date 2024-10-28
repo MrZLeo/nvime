@@ -54,7 +54,8 @@ local default_option = {
 if vim.fn.has('termguicolors') == 0 or
     (not vim.env.TERM:match('.*256color') and
         vim.env.COLORTERM ~= 'truecolor' and
-        vim.env.COLORTERM ~= '24bit') then
+        vim.env.COLORTERM ~= '24bit') or
+    vim.env.TERM_PROGRAM == 'Apple_Terminal' then
     default_option.termguicolors = false
 end
 
