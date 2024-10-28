@@ -49,14 +49,14 @@ local default_option = {
     foldexpr = "nvim_treesitter#foldexpr()"
 }
 
-if vim.fn.has('termguicolors') == 0 or
-    (vim.env.COLORTERM ~= 'truecolor' and vim.env.COLORTERM ~= '24bit') then
-    default_option.termguicolors = false
-end
-
 -- enable all setting
 for k, v in pairs(default_option) do
     vim.opt[k] = v
+end
+
+if vim.fn.has('termguicolors') == 0 or
+    (vim.env.COLORTERM ~= 'truecolor' and vim.env.COLORTERM ~= '24bit') then
+    default_option.termguicolors = false
 end
 
 -- neovim cannot detect gn format right now
