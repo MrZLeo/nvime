@@ -49,14 +49,18 @@ local default_option = {
     foldexpr = "nvim_treesitter#foldexpr()"
 }
 
+-- Disable true color if not supported
+-- FIXME: some plugins seem to require truecolor to work
+if vim.fn.has('termguicolors') == 0 or
+    (not vim.env.TERM:match('.*256color') and
+        vim.env.COLORTERM ~= 'truecolor' and
+        vim.env.COLORTERM ~= '24bit') then
+    default_option.termguicolors = false
+end
+
 -- enable all setting
 for k, v in pairs(default_option) do
     vim.opt[k] = v
-end
-
-if vim.fn.has('termguicolors') == 0 or
-    (vim.env.COLORTERM ~= 'truecolor' and vim.env.COLORTERM ~= '24bit') then
-    default_option.termguicolors = false
 end
 
 -- neovim cannot detect gn format right now
