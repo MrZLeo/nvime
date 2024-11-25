@@ -35,34 +35,14 @@ require("mason-lspconfig").setup_handlers({
     end,
     -- Next, you can provide targeted overrides for specific servers.
 
-    -- 1. rust_analyzer
-    ['rust_analyzer'] = function()
-        -- print("rust_analyzer")
-        vim.g.rustaceanvim = {
-            -- LSP configuration
-            server = {
-                on_attach = require("lsp.on_attach").on_attach,
-                default_settings = {
-                    -- rust-analyzer language server configuration
-                    ['rust-analyzer'] = {
-                        checkOnSave = {
-                            command = "clippy",
-                            allTargets = false
-                        },
-                    },
-                },
-            },
-        }
-    end,
-
-    -- 2. lua_ls
+    -- lua_ls
     ["lua_ls"] = function()
         local opt = require("lsp.lua")
         opt.on_attach = on_attach
         require("lspconfig").lua_ls.setup(opt)
     end,
 
-    -- 3. clangd
+    -- clangd
     ["clangd"] = function()
         local opt = require("lsp.clangd")
         require("lspconfig")["clangd"].setup {
@@ -82,7 +62,7 @@ require("mason-lspconfig").setup_handlers({
         require("clangd_extensions").setup(opt)
     end,
 
-    -- 4. pylyzer
+    -- pylyzer
     ["pylyzer"] = function()
         require("lspconfig")["pylyzer"].setup {
             on_attach = on_attach,

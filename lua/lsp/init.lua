@@ -2,6 +2,7 @@
 
 -- LSP manager
 require("lsp.settings")
+require("lsp.rust")
 
 -- auto format
 local pattern = {
