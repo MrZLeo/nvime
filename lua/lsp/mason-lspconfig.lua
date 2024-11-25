@@ -8,7 +8,7 @@ local is_support_clangd = function(arch)
     return false
 end
 
-local preinstall_lsp = { "rust_analyzer", "lua_ls", "clangd", "taplo" }
+local preinstall_lsp = { "clangd", "taplo" }
 
 require("mason-lspconfig").setup({
     automatic_installation = true,
@@ -36,18 +36,32 @@ require("mason-lspconfig").setup_handlers({
     -- Next, you can provide targeted overrides for specific servers.
 
     -- 1. rust_analyzer
-    ['rust_analyzer'] = function() end,
-    -- ["rust_analyzer"] = function()
-    --     local opt = require("lsp.rust")
-    --     opt.server.on_attach = on_attach
-    --     require("rust-tools").setup(opt)
-    -- end,
+    ['rust_analyzer'] = function()
+        -- print("rust_analyzer")
+        vim.g.rustaceanvim = {
+            -- LSP configuration
+            server = {
+                on_attach = require("lsp.on_attach").on_attach,
+                default_settings = {
+                    -- rust-analyzer language server configuration
+                    ['rust-analyzer'] = {
+                        checkOnSave = {
+                            command = "clippy",
+                            allTargets = false
+                        },
+                    },
+                },
+            },
+        }
+    end,
+
     -- 2. lua_ls
     ["lua_ls"] = function()
         local opt = require("lsp.lua")
         opt.on_attach = on_attach
         require("lspconfig").lua_ls.setup(opt)
     end,
+
     -- 3. clangd
     ["clangd"] = function()
         local opt = require("lsp.clangd")
@@ -55,11 +69,9 @@ require("mason-lspconfig").setup_handlers({
             on_attach = on_attach,
             cmd = {
                 "clangd",
-                -- "/home/mrzleo/oh-weekly/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clangd",
                 "--background-index",
                 "--clang-tidy",
                 "--query-driver=/usr/bin/gcc",
-                -- "--query-driver=/home/mrzleo/oh/prebuilts/clang/ohos/linux-x86_64/llvm/bin/clang",
                 "--completion-style=detailed",
                 -- "--malloc-trim",
                 "--header-insertion=iwyu",
@@ -69,6 +81,7 @@ require("mason-lspconfig").setup_handlers({
         }
         require("clangd_extensions").setup(opt)
     end,
+
     -- 4. pylyzer
     ["pylyzer"] = function()
         require("lspconfig")["pylyzer"].setup {
