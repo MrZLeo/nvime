@@ -46,7 +46,10 @@ local default_option = {
     -- use smart fold
     foldmethod = "expr",
     foldlevel = 20,
-    foldexpr = "nvim_treesitter#foldexpr()"
+    foldexpr = "nvim_treesitter#foldexpr()",
+
+    -- external configuration
+    -- exrc = true
 }
 
 -- Disable true color if not supported

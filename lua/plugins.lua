@@ -272,7 +272,9 @@ local plugins = {
     },
     {
         'lewis6991/gitsigns.nvim',
-        config = true
+        config = function()
+            require('gitsigns').setup()
+        end
     },
     {
         "zbirenbaum/copilot.lua",

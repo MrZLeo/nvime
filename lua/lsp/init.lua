@@ -7,9 +7,9 @@ require("lsp.rust")
 -- auto format
 local pattern = {
     "*.rs",
-    "*.c",
-    "*.h",
-    "*.cpp",
+    -- "*.c",
+    -- "*.h",
+    -- "*.cpp",
     -- "*.hpp",
     -- "*.cc",
     "*.lua",
@@ -28,6 +28,8 @@ vim.api.nvim_create_autocmd(
     }
 )
 
+vim.keymap.set('v', 'ff',
+    function() vim.lsp.buf.format({ range = { start = vim.fn.getpos("'<"), ['end'] = vim.fn.getpos("'>") } }) end, {})
 
 
 vim.cmd('hi link LspInlayHint Comment')
