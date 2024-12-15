@@ -29,7 +29,10 @@ vim.api.nvim_create_autocmd(
 )
 
 vim.keymap.set('v', 'ff',
-    function() vim.lsp.buf.format({ range = { start = vim.fn.getpos("'<"), ['end'] = vim.fn.getpos("'>") } }) end, {})
+    function()
+        vim.lsp.buf.format({ range = { start = vim.fn.getpos("'<"), ['end'] = vim.fn.getpos("'>") } })
+        vim.api.nvim_input('<Esc>') -- Exit visual mode
+    end, {})
 
 
 vim.cmd('hi link LspInlayHint Comment')

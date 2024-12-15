@@ -260,7 +260,14 @@ local plugins = {
     {
         'nvim-telescope/telescope.nvim',
         branch = '0.1.x',
-        dependencies = { 'nvim-lua/plenary.nvim' }
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        config = function()
+            require('telescope').setup {
+                defaults = {
+                    initial_mode = "normal"
+                }
+            }
+        end
     },
     {
         "MysticalDevil/inlay-hints.nvim",
