@@ -89,10 +89,22 @@ local plugins = {
     },
     -- file explorer
     {
-        'ms-jpq/chadtree',
-        branch = 'chad',
-        build = 'python3 -m chadtree deps',
-        cmd = 'CHADopen'
+        'stevearc/oil.nvim',
+        ---@module 'oil'
+        ---@type oil.SetupOpts
+        opts = {
+            columns = {
+                "icon",
+                -- "permissions",
+                -- "size",
+                -- "mtime",
+            },
+            view_options = {
+                show_hidden = true
+            },
+
+        },
+        dependencies = { "nvim-tree/nvim-web-devicons" },
     },
     -- status line
     {
@@ -261,13 +273,6 @@ local plugins = {
         'nvim-telescope/telescope.nvim',
         branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' },
-        config = function()
-            require('telescope').setup {
-                defaults = {
-                    initial_mode = "normal"
-                }
-            }
-        end
     },
     {
         "MysticalDevil/inlay-hints.nvim",

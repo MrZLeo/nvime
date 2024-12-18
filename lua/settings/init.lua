@@ -1,6 +1,5 @@
 -- list of plugin settings
 local plugins = {
-    "chadtree",
     "lualine",
     "nvim-treesitter",
     "nvim-ts-rainbow",
