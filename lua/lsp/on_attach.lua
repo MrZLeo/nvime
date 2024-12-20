@@ -1,84 +1,77 @@
--- Initialize control flags
-local skip_diagnostic_float = false
-local diagnostic_timer = nil
+-- State management
+local state = {
+    skip_diagnostic = false,
+    timer = nil
+}
 
--- Function to check if nvim-cmp's completion menu is visible
-local function is_cmp_visible()
-    local cmp = require("cmp")
-    return cmp.visible()
+-- Configuration
+local config = {
+    float_opts = {
+        focusable = false,
+        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+        border = 'rounded',
+        source = 'always',
+        prefix = ' ',
+        scope = 'cursor',
+    },
+    hover_delay = 1000
+}
+
+-- Core functions: Display diagnostics and toggle hover
+local function is_completion_visible()
+    -- return vim.fn.pumvisible() == 1
+    return require("blink.cmp").is_visible()
 end
 
--- Custom function to display diagnostic information
-local function show_diagnostics()
-    -- Only show diagnostics if nvim-cmp's completion menu is not visible
-    if not is_cmp_visible() then
-        local opts = {
-            focusable = false,
-            close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-            border = 'rounded',
-            source = 'always',
-            prefix = ' ',
-            scope = 'cursor', -- Only show errors under the cursor
-        }
-        vim.diagnostic.open_float(nil, opts)
+local function display_diagnostics()
+    if not is_completion_visible() then
+        vim.diagnostic.open_float(nil, config.float_opts)
     end
 end
 
--- Set LSP diagnostic information to pop up automatically
-vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+function ToggleHover()
+    state.skip_diagnostic = true
+    vim.lsp.buf.hover()
+
+    if state.timer then state.timer:stop() end
+
+    state.timer = vim.defer_fn(function()
+        state.skip_diagnostic = false
+    end, config.hover_delay)
+end
+
+-- LSP setup
+local M = {}
+
+local function setup_keymaps(bufnr)
+    local maps = {
+        { "n", "gD",        vim.lsp.buf.declaration },
+        { "n", "gd",        require('telescope.builtin').lsp_definitions },
+        { "n", "K",         ToggleHover },
+        { "n", "gi",        require('telescope.builtin').lsp_implementations },
+        { "n", "<Space>rn", vim.lsp.buf.rename },
+        { "n", "gr",        require('telescope.builtin').lsp_references },
+        { "n", "<Space>f",  vim.lsp.buf.code_action },
+        { "n", "<Space>l",  require('telescope.builtin').diagnostics }
+    }
+    for _, map in ipairs(maps) do
+        vim.keymap.set(map[1], map[2], map[3], { buffer = bufnr })
+    end
+end
+
+-- Setup diagnostic display
+vim.api.nvim_create_autocmd({ "CursorHold" }, {
     pattern = "*",
     callback = function()
-        if not skip_diagnostic_float then
-            show_diagnostics()
+        if not state.skip_diagnostic then
+            display_diagnostics()
         end
     end,
 })
 
--- Define a function to toggle the hover window display
-function ToggleHoverDoc()
-    -- Set the flag to skip displaying the diagnostic floating window
-    skip_diagnostic_float = true
-
-    -- Show function documentation
-    vim.lsp.buf.hover()
-
-    -- If there is an existing timer, stop it first
-    if diagnostic_timer then
-        diagnostic_timer:stop()
-    end
-
-    -- Set a timer to reset the flag after 1 second
-    diagnostic_timer = vim.defer_fn(function()
-        skip_diagnostic_float = false
-    end, 1000) -- Reset after 1 second (1000 milliseconds)
-end
-
-local M = {}
-
-local function lsp_keymaps(bufnr)
-    local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua require('telescope.builtin').lsp_definitions()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "K",
-        "<cmd>lua ToggleHoverDoc()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua require('telescope.builtin').lsp_implementations()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<Space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<Space>f", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-    vim.api.nvim_buf_set_keymap(bufnr, "n", "<Space>l", "<cmd>lua require('telescope.builtin').diagnostics()<CR>", opts)
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not status_ok then
-    return
-end
-
-M.capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-
+---@diagnostic disable-next-line: unused-local
 M.on_attach = function(client, bufnr)
-    lsp_keymaps(bufnr)
+    setup_keymaps(bufnr)
 end
 
 return M

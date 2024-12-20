@@ -130,7 +130,7 @@ local plugins = {
             }
             require("nvim-autopairs").setup(config)
         end,
-        lazy = true
+        event = "InsertEnter"
     },
     -- startup page
     {
@@ -170,30 +170,51 @@ local plugins = {
             )
         end
     },
-    -- LSP support
     {
-        -- The completion plugin
-        'hrsh7th/nvim-cmp',
-        dependencies = {
-            'hrsh7th/cmp-nvim-lsp',     -- LSP provider
-            'hrsh7th/cmp-buffer',       -- buffer completions
-            'hrsh7th/cmp-path',         -- path completions
-            'hrsh7th/cmp-nvim-lua',     -- Lua LSP
-            'L3MON4D3/LuaSnip',         -- Snippet engine
-            'saadparwaiz1/cmp_luasnip', -- Snippet cmp interface
-            'onsails/lspkind.nvim',     -- LSP icons
+        'saghen/blink.cmp',
+        -- optional: provides snippets for the snippet source
+        dependencies = { 'rafamadriz/friendly-snippets' },
+        -- version = 'v0.*', -- Use for stability;
+        build = 'cargo build --release',
+        opts = {
+            keymap = {
+                preset = 'enter',
+                ['<C-x>'] = { 'show', 'show_documentation', 'hide_documentation' },
+                ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
+                ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+            },
+
+            appearance = {
+                -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+                -- Useful for when your theme doesn't support blink.cmp
+                -- will be removed in a future release
+                use_nvim_cmp_as_default = true,
+            },
+
+            sources = {
+                providers = {
+                    copilot = {
+                        name = "copilot",
+                        module = "blink-cmp-copilot",
+                        score_offset = 100,
+                        async = true,
+                    },
+                },
+                cmdline = {},
+
+                default = { "lsp", "path", "snippets", "buffer", "copilot" },
+            },
+
+            signature = { enabled = true }
         },
-        config = function()
-            require("settings.cmp")
-        end,
-        -- load cmp on InsertEnter
-        event = "InsertEnter",
+        opts_extend = { "sources.default" },
     },
     {
         'neovim/nvim-lspconfig', -- enable LSP
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             'hrsh7th/nvim-cmp',
+            'saghen/blink.cmp',
         },
         opts = {
             servers = {
@@ -218,9 +239,7 @@ local plugins = {
             local lspconfig = require('lspconfig')
             local on_attach = require('lsp.on_attach').on_attach
             for server, config in pairs(opts.servers) do
-                -- passing config.capabilities to blink.cmp merges with the capabilities in your
-                -- `opts[server].capabilities, if you've defined it
-                -- config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+                config.capabilities = require('blink.cmp').get_lsp_capabilities()
                 config.on_attach = on_attach
                 lspconfig[server].setup(config)
             end
@@ -320,10 +339,8 @@ local plugins = {
         end,
     },
     {
-        "zbirenbaum/copilot-cmp",
-        config = function()
-            require("copilot_cmp").setup()
-        end
+        "giuxtaposition/blink-cmp-copilot",
+        dependencies = 'zbirenbaum/copilot.lua'
     },
     {
         "yetone/avante.nvim",
