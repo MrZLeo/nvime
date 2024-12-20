@@ -193,38 +193,44 @@ local plugins = {
         'neovim/nvim-lspconfig', -- enable LSP
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            "williamboman/mason.nvim",
-            "williamboman/mason-lspconfig.nvim"
+            'hrsh7th/nvim-cmp',
         },
-    },
-    -- lspconfig Adapter
-    {
-        'williamboman/mason.nvim',
-        config = function()
-            require("mason").setup({
-                ui = {
-                    icons = {
-                        package_installed = "✓",
-                        package_pending = "➜",
-                        package_uninstalled = "✗"
-                    }
-                }
-            })
-        end,
-        event = "VeryLazy"
+        opts = {
+            servers = {
+                lua_ls = require("lsp.lua"),
+                clangd = {
+                    cmd = {
+                        "clangd",
+                        "--background-index",
+                        "--clang-tidy",
+                        "--query-driver=/usr/bin/gcc",
+                        "--completion-style=detailed",
+                        -- "--malloc-trim",
+                        "--header-insertion=iwyu",
+                        "--pch-storage=memory",
+                        "--offset-encoding=utf-16"
+                    },
+                },
+                taplo = {}
+            }
+        },
+        config = function(_, opts)
+            local lspconfig = require('lspconfig')
+            local on_attach = require('lsp.on_attach').on_attach
+            for server, config in pairs(opts.servers) do
+                -- passing config.capabilities to blink.cmp merges with the capabilities in your
+                -- `opts[server].capabilities, if you've defined it
+                -- config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+                config.on_attach = on_attach
+                lspconfig[server].setup(config)
+            end
+        end
     },
     {
         'j-hui/fidget.nvim', -- UI for LSP loading
         opts = {
             -- options
         }
-    },
-    {
-        'williamboman/mason-lspconfig.nvim',
-        config = function()
-            require("lsp.mason-lspconfig")
-        end,
-        event = "VeryLazy",
     },
     {
         'mrcjkb/rustaceanvim',
@@ -241,7 +247,14 @@ local plugins = {
     },
     {
         'p00f/clangd_extensions.nvim', -- C/C++ LSP
-        ft = { "c", "c++" }
+        dependencies = {
+            "neovim/nvim-lspconfig",
+        },
+        ft = { "c", "c++" },
+        opt = require("lsp.clangd"),
+        config = function(_, opt)
+            require('clangd_extensions').setup(opt)
+        end
     },
     -- outline
     {

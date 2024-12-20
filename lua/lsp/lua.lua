@@ -1,4 +1,3 @@
--- require 'lspconfig'.sumneko_lua.setup {
 local opt = {
     settings = {
         Lua = {

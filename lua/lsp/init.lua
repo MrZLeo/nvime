@@ -1,5 +1,3 @@
--- TODO: improve code architecture, split on_attach & setup
-
 -- LSP manager
 require("lsp.settings")
 require("lsp.rust")

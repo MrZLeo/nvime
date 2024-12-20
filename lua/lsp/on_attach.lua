@@ -4,7 +4,7 @@ local diagnostic_timer = nil
 
 -- Function to check if nvim-cmp's completion menu is visible
 local function is_cmp_visible()
-    local cmp = require('cmp')
+    local cmp = require("cmp")
     return cmp.visible()
 end
 
