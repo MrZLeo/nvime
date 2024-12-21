@@ -227,7 +227,7 @@ local plugins = {
                         "--query-driver=/usr/bin/gcc",
                         "--completion-style=detailed",
                         -- "--malloc-trim",
-                        "--header-insertion=iwyu",
+                        "--header-insertion=never",
                         "--pch-storage=memory",
                         "--offset-encoding=utf-16"
                     },
