@@ -1,70 +1,110 @@
 # 🦈 NVIME: Modern NeoVim Configuration
 
-NVIME is a modern neovim configuration used **pure Lua**. It support Lsp feature, file exploer and many other feature.
-
-There are two branches support two types of configuration.
-- In **lsp** branch, we use pure Lua and builtin lsp support.
-- In **master** branch, we use *coc* architecture and some vimscript is needed to use coc.
+NVIME is a modern Neovim configuration using **pure Lua**. It leverages the built-in LSP features and improves startup times with [lazy.nvim](lua/plugins.lua). It also includes file exploration, syntax highlighting, inline hints, and more.
 
 ## Get Started
 
-> ⚠️  *coc* branch is deprecated and no longer maintained. So try *lsp*.
+1. Make sure your Neovim version ≥ 0.9.
+2. (Optional) For Arch Linux, run [arch-install.sh](arch-install.sh) to install dependencies quickly.
+3. Otherwise, install required packages manually:
+   ```bash
+   sudo dnf install \
+       ripgrep \
+       nodejs \
+       tree-sitter-cli \
+       gcc \
+       g++ \
+       wget \
+       unzip
+   ```
+4. Clone this repository into your Neovim config path:
+   ```bash
+   git clone https://github.com/MrZLeo/nvime ~/.config/nvim
+   ```
+5. Launch Neovim:
+   ```bash
+   nvim
+   ```
+   Installation starts automatically. Exit once done and reopen Neovim.
 
-### !!! 🤩Archlinux installation scripts
+## Key Bindings
 
-if you are using arch linux, use `arch-install.sh` to help you install. Check the hints carefully.
+| Key Combination | Mode | Description |
+|----------------|------|-------------|
+| `<C-h/j/k/l>` | Normal | Navigate between windows |
+| `<C-h/j/k/l>` | Terminal | Navigate between windows from terminal |
+| `<C-w>k` | Normal | Split window above |
+| `<C-w>h` | Normal | Split window left |
+| `<C-w>j` | Normal | Split window below |
+| `<C-w>l` | Normal | Split window right |
+| `<BackSpace>` | Normal | Clear search highlighting |
+| `q` | Normal/Visual | Close current window |
+| `Q` | Normal | Record macro (replaces default 'q') |
+| `<Space><Space>` | Normal | Save file |
+| `<Leader>ff` | Normal | Find files |
+| `<Leader>fg` | Normal | Live grep |
+| `<Leader>fb` | Normal | List buffers |
+| `<Leader>fh` | Normal | Help tags |
+| `gD` | Normal | Go to declaration |
+| `gd` | Normal | Go to definition (telescope) |
+| `K` | Normal | Show hover information |
+| `gi` | Normal | Go to implementation (telescope) |
+| `gr` | Normal | Find references (telescope) |
+| `<Space>rn` | Normal | Rename symbol |
+| `<Space>f` | Normal | Code action |
+| `<Space>l` | Normal | Show diagnostics (telescope) |
 
-if you are not, continue reading.
+## Language Server Protocol (LSP)
 
-### Dependencies
+NVIME uses `nvim-lspconfig` for LSP support, with configurations organized in the `lua/lsp` directory:
 
-These are dependencies that are needed both for *coc* and *lsp*.
+### LSP Configuration Structure
 
-In fedora, you need to install:
+- `lua/lsp/init.lua`: Main LSP initialization and auto-formatting setup
+- `lua/lsp/on_attach.lua`: Keybindings and settings applied when LSP attaches to buffers
+- `lua/lsp/settings.lua`: Global diagnostic configurations (signs, virtual text, etc.)
+- Language-specific configs:
+  - `lua/lsp/lua.lua`: Lua LSP configuration
+  - `lua/lsp/rust.lua`: Rust LSP configuration via rustaceanvim
+  - `lua/lsp/clangd.lua`: C/C++ LSP configuration with inlay hints
 
-```bash
-sudo dnf install \
-    ripgrep \
-    nodejs \
-    tree-sitter-cli \
-    gcc \
-    g++ \
-    wget \
-    unzip
-```
+### Setting Up LSP
 
-other OS is the same.
+1. Install the required language servers:
+   ```bash
+   # Example installations:
+   npm install -g lua-language-server    # Lua
+   rustup component add rust-analyzer    # Rust
+   sudo pacman -S clang                 # C/C++
+   ```
 
+2. LSP servers are configured in `lua/plugins.lua` under the `nvim-lspconfig` plugin. To add a new LSP:
+   ```lua
+   {
+       'neovim/nvim-lspconfig',
+       opts = {
+           servers = {
+               -- Add your LSP config here
+               new_language_server = {
+                   -- server-specific settings
+               }
+           }
+       }
+   }
+   ```
 
-### Clone project
+3. LSP features are automatically enabled when editing supported files. Common LSP commands:
+   - `gd`: Go to definition (telescope)
+   - `K`: Show hover information
+   - `gi`: Go to implementation
+   - See [Key Bindings](#key-bindings) for more
 
-> You must have neovim installed first
+### Diagnostics and Visual Feedback
 
-```
-git clone https://github.com/MrZLeo/nvime ~/.config/nvim
-```
+- Error/warning signs in the gutter
+- Hover diagnostics (auto-show on cursor hold)
+- Inlay hints for supported languages
+- Automatic formatting on save (except for C/C++, you can change it in `lua/lsp/init.lua`)
 
-And you can open neovim:
-
-```
-nvim
-```
-
-installation will start automatically, when finished, exit and reopen your nvim:
-
-```
-:q
-```
-
-You will see some notifications from plugins. Don't worry about that. You can just follow what the notification says.
-
-## Languages Support
-
-For now, this configurations works for myself. So I am sure that it's nice for my development, mainly in **Rust**, often in **C/C++** and **Lua** is needed for this configuration. The system will download the LSP support automatically when you get whole project installed in your PC.
-
-And you can check what you need
-
-```
-:Mason
-```
-
+LSP configurations can be customized by modifying the respective files in the `lua/lsp` directory.
+That's it! Enjoy your updated Neovim setup.
