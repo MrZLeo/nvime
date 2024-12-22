@@ -2,7 +2,6 @@
 local plugins = {
     "lualine",
     "nvim-treesitter",
-    "nvim-ts-rainbow",
     "whitespace",
 }
 

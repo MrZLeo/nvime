@@ -31,7 +31,9 @@ vim.keymap.set('n', '<space><space>', '<esc>:w | TSDisable rainbow | TSEnable ra
 
 -- Copy/Paste when using ssh on a remote server
 -- Only works on Neovim >= 0.10.0
+---@diagnostic disable-next-line: unused-local
 local function no_paste(reg)
+    ---@diagnostic disable-next-line: unused-local
     return function(lines)
         -- return register "" as the content of 'p' operation
         local content = vim.fn.getreg('"')

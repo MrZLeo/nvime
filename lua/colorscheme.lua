@@ -10,3 +10,11 @@ if not status_ok then
     vim.notify("colorscheme " .. colorscheme .. " not found!")
     return
 end
+
+-- Link RainbowDelimiter colors to theme's color palette
+vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { link = "Blue" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { link = "Red" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { link = "Green" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { link = "Purple" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { link = "Yellow" })
+vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { link = "Cyan" })

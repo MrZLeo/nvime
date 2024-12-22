@@ -46,6 +46,18 @@ local option = {
 
 -- list of plugins
 local plugins = {
+    -- Make lua_ls knows about neovim
+    {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
     -- surrounding
     {
         'kylechui/nvim-surround',
@@ -53,24 +65,38 @@ local plugins = {
         config = true,
         event = "BufReadPre",
     },
-    -- rainbow brackets
-    {
-        'mrjones2014/nvim-ts-rainbow',
-        config = function()
-            local config = {
-                rainbow = {
-                    enable = true,
-                    -- Highlight also non-parentheses delimiters, boolean or table: lang -> boolean
-                    extended_mode = true,
-                }
-            }
-            require 'nvim-treesitter.configs'.setup(config)
-        end
-    },
     -- color theme
     {
         'sainnhe/edge',
         lazy = false
+    },
+    -- rainbow brackets
+    {
+        'HiPhish/rainbow-delimiters.nvim',
+        config = function()
+            local rainbow_delimiters = require('rainbow-delimiters')
+            require('rainbow-delimiters.setup').setup({
+                strategy = {
+                    [''] = rainbow_delimiters.strategy['global'],
+                    vim = rainbow_delimiters.strategy['local'],
+                },
+                query = {
+                    [''] = 'rainbow-delimiters',
+                },
+                priority = {
+                    [''] = 110,
+                },
+                highlight = {
+                    "RainbowDelimiterRed",
+                    "RainbowDelimiterYellow",
+                    "RainbowDelimiterGreen",
+                    "RainbowDelimiterCyan",
+                    "RainbowDelimiterBlue",
+                    "RainbowDelimiterViolet",
+                    "RainbowDelimiterGreen",
+                },
+            })
+        end
     },
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
@@ -90,8 +116,7 @@ local plugins = {
     -- file explorer
     {
         'stevearc/oil.nvim',
-        ---@module 'oil'
-        ---@type oil.SetupOpts
+        dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
             columns = {
                 "icon",
@@ -102,9 +127,11 @@ local plugins = {
             view_options = {
                 show_hidden = true
             },
-
         },
-        dependencies = { "nvim-tree/nvim-web-devicons" },
+        config = function()
+            require('oil').setup()
+            vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+        end,
     },
     -- status line
     {
@@ -259,10 +286,10 @@ local plugins = {
     {
         'saecki/crates.nvim',
         tag = 'stable',
-        event = { "BufRead Cargo.toml" },
         config = function()
-            require('crates').setup()
+            require('crates').setup({})
         end,
+        event = { "BufRead Cargo.toml" },
     },
     {
         'p00f/clangd_extensions.nvim', -- C/C++ LSP
