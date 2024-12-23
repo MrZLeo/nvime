@@ -130,7 +130,7 @@ local plugins = {
         },
         config = function()
             require('oil').setup()
-            vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+            vim.keymap.set("n", "-", "<CMD>Oil<CR>")
         end,
     },
     -- status line
@@ -246,20 +246,10 @@ local plugins = {
         opts = {
             servers = {
                 lua_ls = require("lsp.lua"),
-                clangd = {
-                    cmd = {
-                        "clangd",
-                        "--background-index",
-                        "--clang-tidy",
-                        "--query-driver=/usr/bin/gcc",
-                        "--completion-style=detailed",
-                        -- "--malloc-trim",
-                        "--header-insertion=never",
-                        "--pch-storage=memory",
-                        "--offset-encoding=utf-16"
-                    },
-                },
-                taplo = {}
+                clangd = require("lsp.clangd").opt,
+                taplo = {},
+                texlab = {},
+                neocmake = {},
             }
         },
         config = function(_, opts)
@@ -297,7 +287,7 @@ local plugins = {
             "neovim/nvim-lspconfig",
         },
         ft = { "c", "c++" },
-        opt = require("lsp.clangd"),
+        opt = require("lsp.clangd").ext,
         config = function(_, opt)
             require('clangd_extensions').setup(opt)
         end

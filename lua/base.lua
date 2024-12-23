@@ -67,6 +67,9 @@ for k, v in pairs(default_option) do
     vim.opt[k] = v
 end
 
+-- latex support
+vim.g.tex_flavor = 'latex'
+
 -- neovim cannot detect gn format right now
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.gn", "*.gni" },
