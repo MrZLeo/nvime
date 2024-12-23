@@ -50,4 +50,4 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 })
 
-vim.cmd('hi link LspInlayHint Comment')
+vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
