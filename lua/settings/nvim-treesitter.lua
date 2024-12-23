@@ -16,11 +16,6 @@ local config = {
     indent = {
         enable = true
     },
-    -- rainbow
-    rainbow = {
-        enable = true,
-        -- disable = { "javascript" }
-    },
 }
 
 -- enable settings

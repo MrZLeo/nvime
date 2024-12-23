@@ -27,7 +27,7 @@ vim.keymap.set('n', '<BackSpace>', ':nohl<cr>')
 vim.keymap.set('n', 'Q', 'q')
 
 -- use double space to save file
-vim.keymap.set('n', '<space><space>', '<esc>:w | TSDisable rainbow | TSEnable rainbow<CR>', { silent = true })
+vim.keymap.set('n', '<space><space>', '<esc>:w<CR>', { silent = true })
 
 -- Copy/Paste when using ssh on a remote server
 -- Only works on Neovim >= 0.10.0
