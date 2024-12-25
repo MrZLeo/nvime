@@ -50,6 +50,10 @@ local default_option = {
 
     -- external configuration
     -- exrc = true
+
+    -- spell
+    spelllang = { "en_us", "cjk" },
+    spellfile = vim.fn.expand("~/.config/nvim/spell/en.utf-8.add")
 }
 
 -- Disable true color if not supported
