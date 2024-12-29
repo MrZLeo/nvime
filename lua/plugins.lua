@@ -246,6 +246,7 @@ local plugins = {
                 taplo = {},
                 texlab = {},
                 neocmake = {},
+                zls = {}
             }
         },
         config = function(_, opts)
