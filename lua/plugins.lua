@@ -205,6 +205,8 @@ local plugins = {
                 ['<C-x>'] = { 'show', 'show_documentation', 'hide_documentation' },
                 ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
                 ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+                ['C-w'] = { 'snippet_forward', 'fallback' },
+                ['C-e'] = { 'snippet_backward', 'fallback' },
             },
 
             appearance = {
@@ -411,6 +413,14 @@ local plugins = {
             },
         },
     }
+    },
+    -- im-select
+    {
+        "keaising/im-select.nvim",
+        config = function()
+            require("im_select").setup({})
+        end,
+    },
 
 }
 
