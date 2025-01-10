@@ -412,7 +412,6 @@ local plugins = {
                 ft = { "markdown", "Avante" },
             },
         },
-    }
     },
     -- im-select
     {
@@ -420,8 +419,7 @@ local plugins = {
         config = function()
             require("im_select").setup({})
         end,
-    },
-
+    }
 }
 
 lazy.setup(plugins, option)
