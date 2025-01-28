@@ -391,6 +391,16 @@ local plugins = {
         lazy = false,
         version = false, -- set this if you want to always pull the latest change
         opts = {
+            -- custom vendors
+            vendors = {
+                deepseek = {
+                    __inherited_from = "openai",
+                    api_key_name = "DEEPSEEK_API_KEY",
+                    endpoint = "https://api.deepseek.com",
+                    model = "deepseek-reasoner",
+                },
+            },
+            -- normal setting
             provider = "openai",
             openai = {
                 endpoint = "http://ipads.chat.gpt:3006/v1",
