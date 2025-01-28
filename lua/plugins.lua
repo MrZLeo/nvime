@@ -457,25 +457,6 @@ local plugins = {
             require("im_select").setup({})
         end,
     },
-    { -- This plugin
-        "Zeioth/makeit.nvim",
-        cmd = { "MakeitOpen", "MakeitToggleResults", "MakeitRedo" },
-        dependencies = { "stevearc/overseer.nvim" },
-        opts = {},
-    },
-    { -- The task runner we use
-        "stevearc/overseer.nvim",
-        tag = "stable",
-        cmd = { "MakeitOpen", "MakeitToggleResults", "MakeitRedo" },
-        opts = {
-            task_list = {
-                direction = "bottom",
-                min_height = 25,
-                max_height = 25,
-                default_detail = 1
-            },
-        },
-    },
 }
 
 lazy.setup(plugins, option)
