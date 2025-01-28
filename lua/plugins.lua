@@ -86,10 +86,7 @@ local plugins = {
                         config.colors_override)
                     local set_hl = vim.fn['edge#highlight']
 
-                    -- set_hl('Search', palette.none, palette.diff_blue)
-                    -- set_hl('IncSearch', palette.none, palette.diff_green)
                     set_hl('DiffText', palette.none, palette.diff_blue)
-                    -- vim.api.nvim_set_hl(0, 'DiffText', { bg = palette.diff_blue })
                 end
             })
 
