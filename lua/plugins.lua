@@ -68,7 +68,34 @@ local plugins = {
     -- color theme
     {
         'sainnhe/edge',
-        lazy = false
+        lazy = false,
+        priority = 1000,
+        config = function()
+            -- Optionally configure and load the colorscheme
+            -- directly inside the plugin declaration.
+            vim.g.edge_enable_italic = true
+            vim.g.edge_better_performance = 1
+            vim.g.edge_style = 'aura'
+            vim.g.edge_menu_selection_background = 'green'
+            vim.api.nvim_create_autocmd('ColorScheme', {
+                group = vim.api.nvim_create_augroup('custom_highlights_edge', {}),
+                pattern = 'edge',
+                callback = function()
+                    local config = vim.fn['edge#get_configuration']()
+                    local palette = vim.fn['edge#get_palette'](config.style, config.dim_foreground,
+                        config.colors_override)
+                    local set_hl = vim.fn['edge#highlight']
+
+                    -- set_hl('Search', palette.none, palette.diff_blue)
+                    -- set_hl('IncSearch', palette.none, palette.diff_green)
+                    set_hl('DiffText', palette.none, palette.diff_blue)
+                    -- vim.api.nvim_set_hl(0, 'DiffText', { bg = palette.diff_blue })
+                end
+            })
+
+            vim.cmd.colorscheme('edge')
+        end
+
     },
     -- rainbow brackets
     {
@@ -197,8 +224,8 @@ local plugins = {
         'saghen/blink.cmp',
         -- optional: provides snippets for the snippet source
         dependencies = { 'rafamadriz/friendly-snippets' },
-        -- version = 'v0.*', -- Use for stability;
-        build = 'cargo build --release',
+        version = 'v0.*', -- Use for stability;
+        -- build = 'cargo build --release',
         opts = {
             keymap = {
                 preset = 'enter',
@@ -419,7 +446,26 @@ local plugins = {
         config = function()
             require("im_select").setup({})
         end,
-    }
+    },
+    { -- This plugin
+        "Zeioth/makeit.nvim",
+        cmd = { "MakeitOpen", "MakeitToggleResults", "MakeitRedo" },
+        dependencies = { "stevearc/overseer.nvim" },
+        opts = {},
+    },
+    { -- The task runner we use
+        "stevearc/overseer.nvim",
+        tag = "stable",
+        cmd = { "MakeitOpen", "MakeitToggleResults", "MakeitRedo" },
+        opts = {
+            task_list = {
+                direction = "bottom",
+                min_height = 25,
+                max_height = 25,
+                default_detail = 1
+            },
+        },
+    },
 }
 
 lazy.setup(plugins, option)

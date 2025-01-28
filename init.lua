@@ -7,9 +7,6 @@ require("plugins")
 -- load keymap
 require("keymap")
 
--- load theme
-require("colorscheme")
-
 -- load plugin configuration
 require("lsp")
 require("settings")
