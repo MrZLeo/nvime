@@ -73,7 +73,7 @@ local plugins = {
         config = function()
             -- Optionally configure and load the colorscheme
             -- directly inside the plugin declaration.
-            vim.g.edge_enable_italic = true
+            vim.g.edge_enable_italic = false
             vim.g.edge_better_performance = 1
             vim.g.edge_style = 'aura'
             vim.g.edge_menu_selection_background = 'green'
@@ -394,8 +394,14 @@ local plugins = {
                     __inherited_from = "openai",
                     api_key_name = "DEEPSEEK_API_KEY",
                     endpoint = "https://api.deepseek.com",
-                    model = "deepseek-reasoner",
+                    model = "deepseek-chat",
                 },
+                siliconflow = {
+                    __inherited_from = "openai",
+                    api_key_name = "SILICONFLOW_API_KEY",
+                    endpoint = "https://api.siliconflow.com/v1",
+                    model = "deepseek-ai/DeepSeek-R1"
+                }
             },
             -- normal setting
             provider = "openai",
@@ -404,8 +410,6 @@ local plugins = {
                 model = "claude-3-5",
                 -- model = "gpt-4o-2024-08-06",
                 -- model = "o1-mini",
-                temperature = 0,
-                max_tokens = 4096,
             },
             behaviour = {
                 auto_suggestions = false, -- Experimental stage

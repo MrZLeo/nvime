@@ -17,14 +17,14 @@ vim.keymap.set('n', '<c-w>j', ':rightbelow split <cr>')
 vim.keymap.set('n', '<c-w>l', ':rightbelow vsplit <cr>')
 
 -- close windows
-vim.keymap.set('n', 'q', '<esc>:close<cr>', { silent = true })
-vim.keymap.set('v', 'q', '<esc>:close<cr>', { silent = true })
+-- vim.keymap.set('n', 'q', '<esc>:close<cr>', { silent = true })
+-- vim.keymap.set('v', 'q', '<esc>:close<cr>', { silent = true })
 
 -- no hightlight
 vim.keymap.set('n', '<BackSpace>', ':nohl<cr>')
 
 -- use Q as macro trigger rather than q
-vim.keymap.set('n', 'Q', 'q')
+-- vim.keymap.set('n', 'Q', 'q')
 
 -- use double space to save file
 vim.keymap.set('n', '<space><space>', '<esc>:w<CR>', { silent = true })
