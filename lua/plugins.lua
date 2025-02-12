@@ -124,6 +124,10 @@ local plugins = {
     },
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
+    {
+        'nvim-treesitter/nvim-treesitter-context',
+        dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    },
     -- count the hightlight
     {
         'kevinhwang91/nvim-hlslens',
@@ -401,19 +405,23 @@ local plugins = {
                     api_key_name = "SILICONFLOW_API_KEY",
                     endpoint = "https://api.siliconflow.com/v1",
                     model = "deepseek-ai/DeepSeek-R1"
-                }
+                },
+                qwen = {
+                    __inherited_from = "openai",
+                    api_key_name = "QWEN_API_KEY",
+                    endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    model = "qwen-max-latest",
+                },
             },
             -- normal setting
-            provider = "openai",
             openai = {
                 endpoint = "http://ipads.chat.gpt:3006/v1",
                 model = "claude-3-5",
-                -- model = "gpt-4o-2024-08-06",
-                -- model = "o1-mini",
             },
             behaviour = {
                 auto_suggestions = false, -- Experimental stage
             },
+            provider = "deepseek",
         },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",
@@ -458,6 +466,11 @@ local plugins = {
             require("im_select").setup({})
         end,
     },
+    -- comments
+    {
+        'numToStr/Comment.nvim',
+        opts = {}
+    }
 }
 
 lazy.setup(plugins, option)
