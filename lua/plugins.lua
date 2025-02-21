@@ -253,10 +253,10 @@ local plugins = {
                         async = true,
                     },
                 },
-                cmdline = {},
 
                 default = { "lsp", "path", "snippets", "buffer", "copilot" },
             },
+            cmdline = { enabled = false },
 
             signature = { enabled = true }
         },
@@ -399,19 +399,41 @@ local plugins = {
                     api_key_name = "DEEPSEEK_API_KEY",
                     endpoint = "https://api.deepseek.com",
                     model = "deepseek-chat",
+                    temperature = 0,
+                    timeout = 1800
                 },
                 siliconflow = {
                     __inherited_from = "openai",
                     api_key_name = "SILICONFLOW_API_KEY",
                     endpoint = "https://api.siliconflow.com/v1",
-                    model = "deepseek-ai/DeepSeek-R1"
+                    model = "deepseek-ai/DeepSeek-R1",
+                    temperature = 0.6,
+                    disable_tools = true,
+                    timeout = 1800
                 },
-                qwen = {
+                ["qwen-max-latest"] = {
                     __inherited_from = "openai",
                     api_key_name = "QWEN_API_KEY",
                     endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    temperature = 0,
+                    disable_tools = true,
                     model = "qwen-max-latest",
                 },
+                ["qwen-deepseek-r1"] = {
+                    __inherited_from = "openai",
+                    api_key_name = "QWEN_API_KEY",
+                    endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
+                    temperature = 0,
+                    disable_tools = true,
+                    model = "deepseek-r1",
+                },
+                doubao = {
+                    __inherited_from = "openai",
+                    api_key_name = "DOUBAO_API_KEY",
+                    endpoint = "https://ark.cn-beijing.volces.com/api/v3",
+                    model = "ep-20250213170236-5xttd",
+                    timeout = 1800
+                }
             },
             -- normal setting
             openai = {
@@ -421,7 +443,7 @@ local plugins = {
             behaviour = {
                 auto_suggestions = false, -- Experimental stage
             },
-            provider = "deepseek",
+            provider = "qwen-max-latest",
         },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",
