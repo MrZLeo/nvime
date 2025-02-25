@@ -416,7 +416,6 @@ local plugins = {
                     api_key_name = "QWEN_API_KEY",
                     endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
                     temperature = 0,
-                    disable_tools = true,
                     model = "qwen-max-latest",
                 },
                 ["qwen-deepseek-r1"] = {
@@ -424,7 +423,6 @@ local plugins = {
                     api_key_name = "QWEN_API_KEY",
                     endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
                     temperature = 0,
-                    disable_tools = true,
                     model = "deepseek-r1",
                 },
                 doubao = {
