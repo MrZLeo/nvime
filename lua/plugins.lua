@@ -438,10 +438,16 @@ local plugins = {
                 endpoint = "http://ipads.chat.gpt:3006/v1",
                 model = "claude-3-5",
             },
+            copilot = {
+                model = "claude-3.7-sonnet-thought",
+                temperature = 1,
+                max_tokens = 20000
+            },
             behaviour = {
                 auto_suggestions = false, -- Experimental stage
+                -- enable_cursor_planning_mode = true
             },
-            provider = "qwen-max-latest",
+            provider = "copilot",
         },
         -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
         build = "make",
