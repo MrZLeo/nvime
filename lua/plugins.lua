@@ -128,12 +128,6 @@ local plugins = {
         'nvim-treesitter/nvim-treesitter-context',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
     },
-    -- count the hightlight
-    {
-        'kevinhwang91/nvim-hlslens',
-        config = true,
-        event = "InsertEnter",
-    },
     -- indent line
     { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
     -- color
@@ -224,7 +218,7 @@ local plugins = {
     {
         'saghen/blink.cmp',
         -- optional: provides snippets for the snippet source
-        dependencies = { 'rafamadriz/friendly-snippets' },
+        dependencies = { 'rafamadriz/friendly-snippets', 'Kaiser-Yang/blink-cmp-avante', },
         version = 'v0.*', -- Use for stability;
         -- build = 'cargo build --release',
         opts = {
@@ -252,9 +246,16 @@ local plugins = {
                         score_offset = 100,
                         async = true,
                     },
+                    avante = {
+                        module = 'blink-cmp-avante',
+                        name = 'Avante',
+                        opts = {
+                            -- options for blink-cmp-avante
+                        }
+                    }
                 },
 
-                default = { "lsp", "path", "snippets", "buffer", "copilot" },
+                default = { "avante", "lsp", "path", "snippets", "buffer", "copilot", },
             },
             cmdline = { enabled = false },
 
@@ -266,7 +267,6 @@ local plugins = {
         'neovim/nvim-lspconfig', -- enable LSP
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
-            'hrsh7th/nvim-cmp',
             'saghen/blink.cmp',
         },
         opts = {
