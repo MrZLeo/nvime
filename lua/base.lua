@@ -41,7 +41,7 @@ local default_option = {
     colorcolumn = "100",
     pumheight = 20,
     pumblend = 20,
-    guifont = { "Monaspace Argon", ":h12" }, -- only use for GUI, needs to install font
+    guifont = { "ComicCode Nerd Font", ":h14" }, -- only use for GUI, needs to install font
 
     -- use smart fold
     foldmethod = "expr",
@@ -82,4 +82,13 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.h" },
     command = "set filetype=c",
+})
+
+-- CSV
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.csv" },
+    callback = function()
+        vim.cmd [[set colorcolumn=]]
+        vim.cmd [[CsvViewEnable]]
+    end
 })

@@ -1,17 +1,10 @@
 -- define signs
-local signs = {
-    { name = "DiagnosticSignError", text = "■" },
-    { name = "DiagnosticSignWarn", text = "▲" },
-    { name = "DiagnosticSignHint", text = "✦" },
-    { name = "DiagnosticSignInfo", text = "●" },
+local signs_text = {
+    [vim.diagnostic.severity.ERROR] = "■",
+    [vim.diagnostic.severity.WARN] = "▲",
+    [vim.diagnostic.severity.HINT] = "✦",
+    [vim.diagnostic.severity.INFO] = "●",
 }
-
-for _, sign in ipairs(signs) do
-    vim.fn.sign_define(
-        sign.name,
-        { texthl = sign.name, text = sign.text, numhl = "" }
-    )
-end
 
 -- define diagnostic
 local config = {
@@ -19,7 +12,7 @@ local config = {
     virtual_text = false,
     -- show signs
     signs = {
-        active = signs,
+        text = signs_text,
     },
     update_in_insert = true,
     underline = true,

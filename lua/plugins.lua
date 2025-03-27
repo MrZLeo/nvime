@@ -75,7 +75,6 @@ local plugins = {
             -- directly inside the plugin declaration.
             vim.g.edge_enable_italic = false
             vim.g.edge_better_performance = 1
-            vim.g.edge_style = 'aura'
             vim.g.edge_menu_selection_background = 'green'
             vim.api.nvim_create_autocmd('ColorScheme', {
                 group = vim.api.nvim_create_augroup('custom_highlights_edge', {}),
@@ -276,7 +275,8 @@ local plugins = {
                 taplo = {},
                 texlab = {},
                 neocmake = {},
-                zls = {}
+                zls = {},
+                pyright = {}
             }
         },
         config = function(_, opts)
@@ -496,6 +496,30 @@ local plugins = {
     {
         'numToStr/Comment.nvim',
         opts = {}
+    },
+    -- CSV
+    {
+        "hat0uma/csvview.nvim",
+        ---@module "csvview"
+        ---@type CsvView.Options
+        opts = {
+            parser = { comments = { "#", "//" } },
+            keymaps = {
+                -- Text objects for selecting fields
+                textobject_field_inner = { "if", mode = { "o", "x" } },
+                textobject_field_outer = { "af", mode = { "o", "x" } },
+                -- Excel-like navigation:
+                -- Use <Tab> and <S-Tab> to move horizontally between fields.
+                -- Use <Enter> and <S-Enter> to move vertically between rows and place the cursor at the end of the field.
+                -- Note: In terminals, you may need to enable CSI-u mode to use <S-Tab> and <S-Enter>.
+                jump_next_field_end = { "<Tab>", mode = { "n", "v" } },
+                jump_prev_field_end = { "<S-Tab>", mode = { "n", "v" } },
+                jump_next_row = { "<Enter>", mode = { "n", "v" } },
+                jump_prev_row = { "<S-Enter>", mode = { "n", "v" } },
+            },
+        },
+        cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+        ft = { "csv" },
     }
 }
 
