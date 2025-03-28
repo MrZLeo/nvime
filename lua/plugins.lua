@@ -95,21 +95,23 @@ local plugins = {
     },
     -- rainbow brackets
     {
-        'HiPhish/rainbow-delimiters.nvim',
-        config = function()
-            local rainbow_delimiters = require('rainbow-delimiters')
-            require('rainbow-delimiters.setup').setup({
-                strategy = {
-                    [''] = rainbow_delimiters.strategy['global'],
-                    vim = rainbow_delimiters.strategy['local'],
-                },
-                query = {
-                    [''] = 'rainbow-delimiters',
-                },
-                priority = {
-                    [''] = 110,
-                },
-                highlight = {
+        'saghen/blink.pairs',
+        version = '*', -- (recommended) only required with prebuilt binaries
+
+        -- download prebuilt binaries from github releases
+        dependencies = 'saghen/blink.download',
+
+        --- @module 'blink.pairs'
+        --- @type blink.pairs.Config
+        opts = {
+            mappings = {
+                enabled = true,
+                -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
+                pairs = {},
+            },
+            highlights = {
+                enabled = true,
+                groups = {
                     "RainbowDelimiterRed",
                     "RainbowDelimiterYellow",
                     "RainbowDelimiterGreen",
@@ -118,8 +120,9 @@ local plugins = {
                     "RainbowDelimiterViolet",
                     "RainbowDelimiterGreen",
                 },
-            })
-        end
+            },
+            debug = false,
+        }
     },
     -- treesitter
     { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
@@ -163,18 +166,6 @@ local plugins = {
     {
         'ntpeters/vim-better-whitespace',
         event = "BufWritePre"
-    },
-    -- pair brackets
-    {
-        'windwp/nvim-autopairs',
-        config = function()
-            local config = {
-                map_cr = true,
-                map_complete = false
-            }
-            require("nvim-autopairs").setup(config)
-        end,
-        event = "InsertEnter"
     },
     -- startup page
     {
