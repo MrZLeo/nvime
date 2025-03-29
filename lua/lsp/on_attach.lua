@@ -19,7 +19,6 @@ local config = {
 
 -- Core functions: Display diagnostics and toggle hover
 local function is_completion_visible()
-    -- return vim.fn.pumvisible() == 1
     return require("blink.cmp").is_visible()
 end
 

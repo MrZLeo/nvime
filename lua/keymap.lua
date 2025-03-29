@@ -29,30 +29,9 @@ vim.keymap.set('n', '<BackSpace>', ':nohl<cr>')
 -- use double space to save file
 vim.keymap.set('n', '<space><space>', '<esc>:w<CR>', { silent = true })
 
--- Copy/Paste when using ssh on a remote server
--- Only works on Neovim >= 0.10.0
----@diagnostic disable-next-line: unused-local
-local function no_paste(reg)
-    ---@diagnostic disable-next-line: unused-local
-    return function(lines)
-        -- return register "" as the content of 'p' operation
-        local content = vim.fn.getreg('"')
-        return vim.split(content, '\n')
-    end
-end
-
+-- use osc52 to copy to clipboard in ssh env
 if vim.env.SSH_CONNECTION then
-    vim.g.clipboard = {
-        name = 'OSC 52',
-        copy = {
-            ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-            ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
-        },
-        paste = {
-            ["+"] = no_paste("+"), -- Pasting disabled
-            ["*"] = no_paste("*"), -- Pasting disabled
-        }
-    }
+    vim.g.clipboard = "osc52"
 end
 
 -- telescope
