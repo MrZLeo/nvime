@@ -96,7 +96,6 @@ local plugins = {
     -- rainbow brackets
     {
         'saghen/blink.pairs',
-        version = '*', -- (recommended) only required with prebuilt binaries
 
         build = 'cargo build --release',
         branch = 'main',
