@@ -1,5 +1,4 @@
 -- basic configuration
-
 local default_option = {
     compatible = false,     -- nocompatible with vi
     fileencoding = "utf-8", -- coding format utf-8

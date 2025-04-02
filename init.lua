@@ -8,7 +8,7 @@ require("plugins")
 require("keymap")
 
 -- load plugin configuration
-require("lsp")
+require("lspconfig")
 require("settings")
 
 -- load utils

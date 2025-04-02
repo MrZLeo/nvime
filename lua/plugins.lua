@@ -253,33 +253,6 @@ local plugins = {
         opts_extend = { "sources.default" },
     },
     {
-        'neovim/nvim-lspconfig', -- enable LSP
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
-            'saghen/blink.cmp',
-        },
-        opts = {
-            servers = {
-                lua_ls = require("lsp.lua"),
-                clangd = require("lsp.clangd").opt,
-                taplo = {},
-                texlab = {},
-                neocmake = {},
-                zls = {},
-                pyright = {}
-            }
-        },
-        config = function(_, opts)
-            local lspconfig = require('lspconfig')
-            local on_attach = require('lsp.on_attach').on_attach
-            for server, config in pairs(opts.servers) do
-                config.capabilities = require('blink.cmp').get_lsp_capabilities()
-                config.on_attach = on_attach
-                lspconfig[server].setup(config)
-            end
-        end
-    },
-    {
         'j-hui/fidget.nvim', -- UI for LSP loading
         opts = {
             -- options
@@ -297,17 +270,6 @@ local plugins = {
             require('crates').setup({})
         end,
         event = { "BufRead Cargo.toml" },
-    },
-    {
-        'p00f/clangd_extensions.nvim', -- C/C++ LSP
-        dependencies = {
-            "neovim/nvim-lspconfig",
-        },
-        ft = { "c", "c++" },
-        opt = require("lsp.clangd").ext,
-        config = function(_, opt)
-            require('clangd_extensions').setup(opt)
-        end
     },
     -- outline
     {
@@ -339,14 +301,6 @@ local plugins = {
         'nvim-telescope/telescope.nvim',
         branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' },
-    },
-    {
-        "MysticalDevil/inlay-hints.nvim",
-        event = "LspAttach",
-        dependencies = { "neovim/nvim-lspconfig" },
-        config = function()
-            require("inlay-hints").setup()
-        end
     },
     {
         'lewis6991/gitsigns.nvim',

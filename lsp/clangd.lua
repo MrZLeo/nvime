@@ -1,6 +1,5 @@
-local M = {}
-
-local opt = {
+---@type vim.lsp.Config
+return {
     cmd = {
         "clangd",
         "--background-index",
@@ -12,6 +11,9 @@ local opt = {
         "--pch-storage=memory",
         "--offset-encoding=utf-16"
     },
+    root_markers = { '.clangd', 'compile_commands.json' },
+    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
+
     settings = {
         clangd = {
             InlayHints = {
@@ -24,12 +26,3 @@ local opt = {
         },
     }
 }
-
-local ext = {
-    autoSetHints = false,
-}
-
-M.opt = opt
-M.ext = ext
-
-return M
