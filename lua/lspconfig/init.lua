@@ -31,20 +31,6 @@ local function lsp_setup_format(args)
             end
         })
     end
-
-    vim.keymap.set('v', 'ff',
-        function()
-            vim.lsp.buf.format({
-                range = {
-                    vim.fn.getpos("'<"),
-                    vim.fn.getpos("'>")
-                }
-            })
-            -- Exit visual mode
-            vim.api.nvim_input('<Esc>')
-        end,
-        { silent = true }
-    )
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {
