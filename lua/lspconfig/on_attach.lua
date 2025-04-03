@@ -28,7 +28,7 @@ local function display_diagnostics()
     end
 end
 
-local function toggle_hover()
+function ToggleHover()
     state.skip_diagnostic = true
     vim.lsp.buf.hover()
 
@@ -46,7 +46,7 @@ local function setup_keymaps(bufnr)
     local maps = {
         { "n", "gD",        vim.lsp.buf.declaration },
         { "n", "gd",        require('telescope.builtin').lsp_definitions },
-        { "n", "K",         toggle_hover() },
+        { "n", "K",         ToggleHover },
         { "n", "gi",        require('telescope.builtin').lsp_implementations },
         { "n", "<Space>rn", vim.lsp.buf.rename },
         { "n", "gr",        require('telescope.builtin').lsp_references },
