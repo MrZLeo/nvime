@@ -51,9 +51,10 @@ vim.lsp.config('*', {
 vim.lsp.enable({
     "clangd",
     "luals",
-    "pyright",
+    "ruff",
+    -- "pyright",
+    -- "basedpyright",
     "taplo",
     "texlab",
     "neocmake",
-    "zls"
 })
