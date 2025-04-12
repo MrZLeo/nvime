@@ -124,17 +124,17 @@ local plugins = {
         }
     },
     -- treesitter
-    { 'nvim-treesitter/nvim-treesitter',     build = ':TSUpdate' },
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
     {
         'nvim-treesitter/nvim-treesitter-context',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
     },
-    -- indent line
-    { 'lukas-reineke/indent-blankline.nvim', event = "BufReadPre" },
     -- color
     {
-        'norcalli/nvim-colorizer.lua',
-        config = true
+        "catgoose/nvim-colorizer.lua",
+        event = "BufReadPre",
+        opts = { -- set to setup table
+        },
     },
     -- file explorer
     {
