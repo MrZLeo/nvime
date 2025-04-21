@@ -1,5 +1,4 @@
----@type vim.lsp.Config
-return {
+vim.lsp.config("clangd", {
     cmd = {
         "clangd",
         "--background-index",
@@ -11,9 +10,6 @@ return {
         "--pch-storage=memory",
         "--offset-encoding=utf-16"
     },
-    root_markers = { '.clangd', 'compile_commands.json' },
-    filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
-
     settings = {
         clangd = {
             InlayHints = {
@@ -25,4 +21,4 @@ return {
             fallbackFlags = { "-std=c++20" },
         },
     }
-}
+})

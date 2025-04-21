@@ -48,13 +48,19 @@ vim.lsp.config('*', {
     on_attach = require('lspconfig.on_attach').on_attach,
 })
 
-vim.lsp.enable({
+local lsp_server = {
     "clangd",
     "luals",
     "ruff",
-    -- "pyright",
-    -- "basedpyright",
+    "pylyzer",
     "taplo",
     "texlab",
     "neocmake",
-})
+}
+
+vim.lsp.enable(lsp_server)
+
+-- Loop through each server and try to load its specific configuration
+for _, server in ipairs(lsp_server) do
+    pcall(require, "lspconfig.lsp." .. server)
+end
