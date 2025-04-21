@@ -66,6 +66,8 @@ for k, v in pairs(default_option) do
     vim.opt[k] = v
 end
 
+vim.g.clipboard = 'osc52'
+
 -- latex support
 vim.g.tex_flavor = 'latex'
 
