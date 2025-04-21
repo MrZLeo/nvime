@@ -1,4 +1,4 @@
-vim.lsp.config("luals",  {
+vim.lsp.config("lua_ls",  {
     settings = {
         Lua = {
             hint = { enable = true },

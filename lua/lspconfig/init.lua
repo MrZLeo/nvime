@@ -50,7 +50,7 @@ vim.lsp.config('*', {
 
 local lsp_server = {
     "clangd",
-    "luals",
+    "lua_ls",
     "ruff",
     "pylyzer",
     "taplo",
