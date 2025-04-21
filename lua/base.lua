@@ -40,7 +40,7 @@ local default_option = {
     colorcolumn = "100",
     pumheight = 20,
     pumblend = 20,
-    guifont = { "ComicCode Nerd Font", ":h14" }, -- only use for GUI, needs to install font
+    guifont = { "Comic Code", ":h15" }, -- only use for GUI, needs to install font
 
     -- use smart fold
     foldmethod = "expr",
