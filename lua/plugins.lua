@@ -217,7 +217,11 @@ local plugins = {
             },
             cmdline = { enabled = false },
 
-            signature = { enabled = true }
+            signature = { enabled = true },
+
+            completion = {
+                documentation = { auto_show = true },
+            },
         },
         opts_extend = { "sources.default" },
     },
