@@ -28,6 +28,16 @@ local function display_diagnostics()
     end
 end
 
+-- Setup diagnostic display
+vim.api.nvim_create_autocmd({ "CursorHold" }, {
+    pattern = "*",
+    callback = function()
+        if not state.skip_diagnostic then
+            display_diagnostics()
+        end
+    end,
+})
+
 function ToggleHover()
     state.skip_diagnostic = true
     vim.lsp.buf.hover()
@@ -57,16 +67,6 @@ local function setup_keymaps(bufnr)
         vim.keymap.set(map[1], map[2], map[3], { buffer = bufnr })
     end
 end
-
--- Setup diagnostic display
-vim.api.nvim_create_autocmd({ "CursorHold" }, {
-    pattern = "*",
-    callback = function()
-        if not state.skip_diagnostic then
-            display_diagnostics()
-        end
-    end,
-})
 
 ---@diagnostic disable-next-line: unused-local
 M.on_attach = function(client, bufnr)

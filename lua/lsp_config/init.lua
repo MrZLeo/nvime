@@ -1,6 +1,6 @@
 -- LSP manager
-require("lspconfig.diagnostic")
-require("lspconfig.rust")
+require("lsp_config.diagnostic")
+require("lsp_config.rust")
 
 -- DON'T auto format
 local skip_file_type = { "c", "cpp" }
@@ -14,17 +14,15 @@ local function is_skip_format(filetype)
     return false
 end
 
-local function lsp_setup_format(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if not client then return end
+local function lsp_setup_format(client, buf)
     if not client:supports_method('textDocument/formatting') then return end
 
     if not is_skip_format(vim.bo.filetype) then
         vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = args.buf,
+            buffer = buf,
             callback = function()
                 vim.lsp.buf.format({
-                    bufnr = args.buf,
+                    bufnr = buf,
                     id = client.id,
                     timeout_ms = 2000,
                 })
@@ -33,20 +31,27 @@ local function lsp_setup_format(args)
     end
 end
 
+---@diagnostic disable-next-line: unused-local
+local function lsp_setup_onattach(client, bufnr)
+    require('lsp_config.on_attach').on_attach(bufnr)
+end
+
+local function lsp_setup(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then return end
+    lsp_setup_format(client, args.buf)
+    lsp_setup_onattach(client, args.buf)
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
-        lsp_setup_format(args)
+        lsp_setup(args)
     end
 })
 
 -- Enable inlay hints
 vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
-
-vim.lsp.config('*', {
-    root_markers = { '.git' },
-    on_attach = require('lspconfig.on_attach').on_attach,
-})
 
 local lsp_server = {
     "clangd",
@@ -62,5 +67,5 @@ vim.lsp.enable(lsp_server)
 
 -- Loop through each server and try to load its specific configuration
 for _, server in ipairs(lsp_server) do
-    pcall(require, "lspconfig.lsp." .. server)
+    pcall(require, "lsp_config.lsp." .. server)
 end

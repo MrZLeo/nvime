@@ -403,7 +403,7 @@ local plugins = {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            require("lspconfig")
+            require("lsp_config")
         end
     }
 }

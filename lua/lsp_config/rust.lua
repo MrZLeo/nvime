@@ -1,7 +1,7 @@
 vim.g.rustaceanvim = {
     -- LSP configuration
     server = {
-        on_attach = require('lspconfig.on_attach').on_attach,
+        on_attach = require('lsp_config.on_attach').on_attach,
         default_settings = {
             -- rust-analyzer language server configuration
             ['rust-analyzer'] = {
