@@ -52,7 +52,7 @@ local lsp_server = {
     "clangd",
     "lua_ls",
     "ruff",
-    "pylyzer",
+    "pyright",
     "taplo",
     "texlab",
     "neocmake",
