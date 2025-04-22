@@ -70,6 +70,10 @@ vim.g.clipboard = 'osc52'
 
 -- latex support
 vim.g.tex_flavor = 'latex'
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    pattern = { "*.tex" },
+    command = "Spell",
+})
 
 -- neovim cannot detect gn format right now
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
