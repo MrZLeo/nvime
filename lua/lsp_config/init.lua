@@ -33,7 +33,7 @@ end
 
 ---@diagnostic disable-next-line: unused-local
 local function lsp_setup_onattach(client, bufnr)
-    require('lsp_config.on_attach').on_attach(bufnr)
+    require('lsp_config.on_attach').on_attach(client, bufnr)
 end
 
 local function lsp_setup(args)
