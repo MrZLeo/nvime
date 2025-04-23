@@ -358,7 +358,8 @@ local plugins = {
             copilot = {
                 model = "claude-3.7-sonnet-thought",
                 temperature = 1,
-                max_tokens = 20000
+                max_tokens = 20000,
+                disable_tools = true,
             },
             behaviour = {
                 auto_suggestions = false, -- Experimental stage
@@ -411,5 +412,5 @@ local plugins = {
 require("lazy").setup({
     spec = plugins,
     -- automatically check for plugin updates
-    checker = { enabled = true }
+    -- checker = { enabled = true }
 })
