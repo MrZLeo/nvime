@@ -66,7 +66,24 @@ for k, v in pairs(default_option) do
     vim.opt[k] = v
 end
 
-vim.g.clipboard = 'osc52'
+local function paste()
+    return {
+        vim.fn.split(vim.fn.getreg(""), "\n"),
+        vim.fn.getregtype(""),
+    }
+end
+
+vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+        ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+        ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+        ["+"] = paste,
+        ["*"] = paste,
+    },
+}
 
 -- latex support
 vim.g.tex_flavor = 'latex'
