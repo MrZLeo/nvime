@@ -3,22 +3,14 @@ vim.lsp.config("clangd", {
         "clangd",
         "--background-index",
         "--clang-tidy",
-        "--query-driver=/usr/bin/gcc",
+        -- "--query-driver=/usr/bin/g++",
         "--completion-style=detailed",
         -- "--malloc-trim",
         "--header-insertion=never",
         "--pch-storage=memory",
-        "--offset-encoding=utf-16"
+        -- "--offset-encoding=utf-16"
     },
-    settings = {
-        clangd = {
-            InlayHints = {
-                Designators = true,
-                Enabled = true,
-                ParameterNames = true,
-                DeducedTypes = true,
-            },
-            fallbackFlags = { "-std=c++20" },
-        },
-    }
+    init_options = {
+        fallbackFlags = { '--std=gnu++23' }
+    },
 })
