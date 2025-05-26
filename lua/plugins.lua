@@ -356,10 +356,8 @@ local plugins = {
                 model = "claude-3-5",
             },
             copilot = {
-                model = "claude-3.7-sonnet-thought",
+                model = "claude-sonnet-4",
                 temperature = 1,
-                max_tokens = 20000,
-                disable_tools = true,
             },
             behaviour = {
                 auto_suggestions = false, -- Experimental stage
