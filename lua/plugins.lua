@@ -310,55 +310,15 @@ local plugins = {
         version = false, -- set this if you want to always pull the latest change
         opts = {
             -- custom vendors
-            vendors = {
-                deepseek = {
-                    __inherited_from = "openai",
-                    api_key_name = "DEEPSEEK_API_KEY",
-                    endpoint = "https://api.deepseek.com",
-                    model = "deepseek-chat",
-                    temperature = 0,
-                    timeout = 1800
+            providers = {
+                copilot = {
+                    model = "claude-sonnet-4",
+                    extra_request_body = {
+                        temperature = 0.3,
+                    }
                 },
-                siliconflow = {
-                    __inherited_from = "openai",
-                    api_key_name = "SILICONFLOW_API_KEY",
-                    endpoint = "https://api.siliconflow.com/v1",
-                    model = "deepseek-ai/DeepSeek-R1",
-                    temperature = 0.6,
-                    disable_tools = true,
-                    timeout = 1800
-                },
-                ["qwen-max-latest"] = {
-                    __inherited_from = "openai",
-                    api_key_name = "QWEN_API_KEY",
-                    endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
-                    temperature = 0,
-                    model = "qwen-max-latest",
-                },
-                ["qwen-deepseek-r1"] = {
-                    __inherited_from = "openai",
-                    api_key_name = "QWEN_API_KEY",
-                    endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
-                    temperature = 0,
-                    model = "deepseek-r1",
-                },
-                doubao = {
-                    __inherited_from = "openai",
-                    api_key_name = "DOUBAO_API_KEY",
-                    endpoint = "https://ark.cn-beijing.volces.com/api/v3",
-                    model = "ep-20250213170236-5xttd",
-                    timeout = 1800
-                }
             },
             -- normal setting
-            openai = {
-                endpoint = "http://ipads.chat.gpt:3006/v1",
-                model = "claude-3-5",
-            },
-            copilot = {
-                model = "claude-sonnet-4",
-                temperature = 1,
-            },
             behaviour = {
                 auto_suggestions = false, -- Experimental stage
                 -- enable_cursor_planning_mode = true
