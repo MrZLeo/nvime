@@ -11,8 +11,8 @@ echo "This script will help you install dependencies and install plugins automat
 
 # dependencies
 if [ "$EUID" -ne 0 ] # if not root, use sudo
-    then sudo pacman -S --needed python3 python-neovim nodejs ripgrep tree-sitter gcc wget unzip
-    else pacman -S --needed python3 python-neovim nodejs ripgrep tree-sitter gcc wget unzip
+    then sudo pacman -S --needed python3 python-neovim nodejs ripgrep tree-sitter gcc wget unzip tree-sitter-cli
+    else pacman -S --needed python3 python-neovim nodejs ripgrep tree-sitter gcc wget unzip tree-sitter-cli
 fi
 
 nvim # open and auto install plugins
