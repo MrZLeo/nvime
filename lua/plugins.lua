@@ -73,7 +73,8 @@ local plugins = {
     },
     -- rainbow brackets
     {
-        'saghen/blink.pairs',
+        -- 'saghen/blink.pairs',
+        'MrZLeo/blink.pairs',
 
         build = 'cargo build --release',
         branch = 'main',
@@ -176,7 +177,7 @@ local plugins = {
     {
         'saghen/blink.cmp',
         -- optional: provides snippets for the snippet source
-        dependencies = { 'rafamadriz/friendly-snippets', 'Kaiser-Yang/blink-cmp-avante', },
+        dependencies = { 'rafamadriz/friendly-snippets' },
         version = 'v0.*', -- Use for stability;
         -- build = 'cargo build --release',
         opts = {
@@ -204,16 +205,9 @@ local plugins = {
                         score_offset = 100,
                         async = true,
                     },
-                    avante = {
-                        module = 'blink-cmp-avante',
-                        name = 'Avante',
-                        opts = {
-                            -- options for blink-cmp-avante
-                        }
-                    }
                 },
 
-                default = { "avante", "lsp", "path", "snippets", "buffer", "copilot", },
+                default = { "lsp", "path", "snippets", "buffer", "copilot", },
             },
             cmdline = { enabled = false },
 
@@ -287,11 +281,6 @@ local plugins = {
             require("copilot").setup({
                 suggestion = {
                     enabled = false,
-                    -- auto_trigger = true,
-                    -- keymap = {
-                    --     accept = "<Tab>",
-                    --     dismiss = "<C-]"
-                    -- },
                 },
                 panel = {
                     enabled = false
@@ -304,44 +293,11 @@ local plugins = {
         dependencies = 'zbirenbaum/copilot.lua'
     },
     {
-        "yetone/avante.nvim",
-        event = "VeryLazy",
-        lazy = false,
-        version = false, -- set this if you want to always pull the latest change
-        opts = {
-            -- custom vendors
-            providers = {
-                copilot = {
-                    model = "claude-sonnet-4",
-                    extra_request_body = {
-                        temperature = 0.3,
-                    }
-                },
-            },
-            -- normal setting
-            behaviour = {
-                auto_suggestions = false, -- Experimental stage
-                -- enable_cursor_planning_mode = true
-            },
-            provider = "copilot",
-        },
-        -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-        build = "make",
+        "olimorris/codecompanion.nvim",
+        opts = {},
         dependencies = {
-            "stevearc/dressing.nvim",
             "nvim-lua/plenary.nvim",
-            "MunifTanjim/nui.nvim",
-            --- The below dependencies are optional,
-            "nvim-tree/nvim-web-devicons",
-            "zbirenbaum/copilot.lua", -- for providers='copilot'
-            {
-                -- Make sure to set this up properly if you have lazy=true
-                'MeanderingProgrammer/render-markdown.nvim',
-                opts = {
-                    file_types = { "markdown", "Avante" },
-                },
-                ft = { "markdown", "Avante" },
-            },
+            "nvim-treesitter/nvim-treesitter",
         },
     },
     -- comments
@@ -371,4 +327,15 @@ require("lazy").setup({
     spec = plugins,
     -- automatically check for plugin updates
     -- checker = { enabled = true }
+})
+
+require("codecompanion").setup({
+    strategies = {
+        chat = {
+            adapter = {
+                name = "copilot",
+                model = "claude-sonnet-4",
+            },
+        },
+    },
 })
