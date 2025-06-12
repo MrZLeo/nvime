@@ -294,11 +294,31 @@ local plugins = {
     },
     {
         "olimorris/codecompanion.nvim",
-        opts = {},
+        opts = {
+            send_code = false,
+            strategies = {
+                chat = {
+                    adapter = {
+                        name = "copilot",
+                        model = "claude-sonnet-4",
+                    },
+                },
+                inline = {
+                    adapter = {
+                        name = "copilot",
+                        model = "claude-sonnet-4",
+                    },
+                },
+            },
+        },
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-treesitter/nvim-treesitter",
+            "j-hui/fidget.nvim"
         },
+        init = function()
+            require("settings.codecompanion"):init()
+        end,
     },
     -- comments
     {
@@ -327,15 +347,4 @@ require("lazy").setup({
     spec = plugins,
     -- automatically check for plugin updates
     -- checker = { enabled = true }
-})
-
-require("codecompanion").setup({
-    strategies = {
-        chat = {
-            adapter = {
-                name = "copilot",
-                model = "claude-sonnet-4",
-            },
-        },
-    },
 })
