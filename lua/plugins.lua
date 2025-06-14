@@ -73,8 +73,8 @@ local plugins = {
     },
     -- rainbow brackets
     {
-        -- 'saghen/blink.pairs',
-        'MrZLeo/blink.pairs',
+        'saghen/blink.pairs',
+        -- 'MrZLeo/blink.pairs',
 
         build = 'cargo build --release',
         branch = 'main',
@@ -300,7 +300,7 @@ local plugins = {
                 chat = {
                     adapter = {
                         name = "copilot",
-                        model = "claude-sonnet-4",
+                        model = "gemini-2.5-pro",
                     },
                 },
                 inline = {
