@@ -71,7 +71,7 @@ local plugins = {
         end
 
     },
-    -- rainbow brackets
+    -- rainbow brackets + auto pairs
     {
         'saghen/blink.pairs',
         -- 'MrZLeo/blink.pairs',
@@ -84,7 +84,7 @@ local plugins = {
         opts = {
             mappings = {
                 enabled = true,
-                -- see the defaults: https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L10
+                disabled_filetypes = {},
                 pairs = {},
             },
             highlights = {
