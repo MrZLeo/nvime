@@ -4,10 +4,11 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
 
 ## Get Started
 
-1. Make sure your Neovim version ≥ 0.9.
+1. Make sure your Neovim version ≥ 0.10.
 2. (Optional) For Arch Linux, run [arch-install.sh](arch-install.sh) to install dependencies quickly.
 3. Otherwise, install required packages manually:
    ```bash
+   # Fedora as example
    sudo dnf install \
        ripgrep \
        nodejs \
@@ -38,8 +39,6 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
 | `<C-w>j` | Normal | Split window below |
 | `<C-w>l` | Normal | Split window right |
 | `<BackSpace>` | Normal | Clear search highlighting |
-| `q` | Normal/Visual | Close current window |
-| `Q` | Normal | Record macro (replaces default 'q') |
 | `<Space><Space>` | Normal | Save file |
 | `<Leader>ff` | Normal | Find files |
 | `<Leader>fg` | Normal | Live grep |
@@ -56,42 +55,42 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
 
 ## Language Server Protocol (LSP)
 
-NVIME uses `nvim-lspconfig` for LSP support, with configurations organized in the `lua/lsp` directory:
+NVIME uses `nvim-lspconfig` for LSP support, with configurations organized in the `lua/lsp_config` directory:
 
 ### LSP Configuration Structure
 
-- `lua/lsp/init.lua`: Main LSP initialization and auto-formatting setup
-- `lua/lsp/on_attach.lua`: Keybindings and settings applied when LSP attaches to buffers
-- `lua/lsp/settings.lua`: Global diagnostic configurations (signs, virtual text, etc.)
+- `lua/lsp_config/init.lua`: Main LSP initialization and auto-formatting setup
+- `lua/lsp_config/on_attach.lua`: Keybindings and settings applied when LSP attaches to buffers
+- `lua/lsp_config/diagnostic.lua`: Global diagnostic configurations (signs, virtual text, etc.)
 - Language-specific configs:
-  - `lua/lsp/lua.lua`: Lua LSP configuration
-  - `lua/lsp/rust.lua`: Rust LSP configuration via rustaceanvim
-  - `lua/lsp/clangd.lua`: C/C++ LSP configuration with inlay hints
+  - `lua/lsp_config/rust.lua`: Rust LSP configuration via rustaceanvim
+  - `lua/lsp_config/lsp/lua_ls.lua`: Lua LSP configuration
+  - `lua/lsp_config/lsp/clangd.lua`: clangd LSP configuration
 
 ### Setting Up LSP
 
 1. Install the required language servers:
    ```bash
    # Example installations:
-   npm install -g lua-language-server    # Lua
-   rustup component add rust-analyzer    # Rust
+   npm install -g lua-language-server   # Lua
+   rustup component add rust-analyzer   # Rust
    sudo pacman -S clang                 # C/C++
    ```
 
-2. LSP servers are configured in `lua/plugins.lua` under the `nvim-lspconfig` plugin. To add a new LSP:
-   ```lua
-   {
-       'neovim/nvim-lspconfig',
-       opts = {
-           servers = {
-               -- Add your LSP config here
-               new_language_server = {
-                   -- server-specific settings
-               }
-           }
-       }
-   }
-   ```
+2.  Add the server name to the `servers` list in `lua/lsp_config/init.lua`:
+    ```lua
+    -- lua/lsp_config/init.lua
+    local lsp_server = {
+        "clangd",
+        "lua_ls",
+        "ruff",
+        "pyright",
+        -- "ty",
+        "taplo",
+        "texlab",
+        "neocmake",
+    }
+    ```
 
 3. LSP features are automatically enabled when editing supported files. Common LSP commands:
    - `gd`: Go to definition (telescope)
@@ -106,5 +105,6 @@ NVIME uses `nvim-lspconfig` for LSP support, with configurations organized in th
 - Inlay hints for supported languages
 - Automatic formatting on save (except for C/C++, you can change it in `lua/lsp/init.lua`)
 
-LSP configurations can be customized by modifying the respective files in the `lua/lsp` directory.
+LSP configurations can be customized by modifying the respective files in the `lua/lsp_config` directory.
+
 That's it! Enjoy your updated Neovim setup.
