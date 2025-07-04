@@ -62,6 +62,36 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
 | `<Space>f` | Normal | Code action |
 | `<Space>l` | Normal | Show diagnostics (telescope) |
 
+## Plugins
+
+Plugins are managed by `lazy.nvim` in `lua/plugins.lua`. To add a new plugin, you need to add a new entry to the `plugins` table.
+
+### Adding a New Plugin
+
+1.  Open `lua/plugins.lua`.
+2.  Add the plugin specification to the `plugins` table. For example, to add a new plugin from GitHub:
+
+    ```lua
+    -- lua/plugins.lua
+    local plugins = {
+        -- ... other plugins
+        {
+            'user/repo',
+            -- Optional: specify version for stability
+            version = "*",
+            -- Optional: run setup code
+            config = function()
+                require('plugin-name').setup({})
+            end,
+            -- Optional: specify events to load the plugin
+            event = "VeryLazy",
+        },
+        -- ... other plugins
+    }
+    ```
+
+3.  Save the file. The plugin will be installed automatically the next time you start Neovim. You can also run `:Lazy sync` to install it manually.
+
 ## Language Server Protocol (LSP)
 
 NVIME uses `nvim-lspconfig` for LSP support, with configurations organized in the `lua/lsp_config` directory:
