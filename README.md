@@ -2,6 +2,15 @@
 
 NVIME is a modern Neovim configuration using **pure Lua**. It leverages the built-in LSP features and improves startup times with [lazy.nvim](lua/plugins.lua). It also includes file exploration, syntax highlighting, inline hints, and more.
 
+## Snapshots
+
+<img width="2032" alt="image" src="https://github.com/user-attachments/assets/4643a64a-f5ef-4ff7-baf6-fcab272275a7" />
+
+<img width="2032" alt="image" src="https://github.com/user-attachments/assets/855301d8-63b4-415f-b57b-ef539f658b19" />
+
+<img width="2032" alt="image" src="https://github.com/user-attachments/assets/c6f06f29-9764-46a2-b746-272f5da61f38" />
+
+
 ## Get Started
 
 1. Make sure your Neovim version ≥ 0.10.
