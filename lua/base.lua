@@ -37,7 +37,6 @@ local default_option = {
     termguicolors = true,
     incsearch = true, -- increase search feedback
     cursorline = true,
-    colorcolumn = "100",
     pumheight = 20,
     pumblend = 20,
     guifont = { "Comic Code", ":h15" }, -- only use for GUI, needs to install font
@@ -54,12 +53,6 @@ local default_option = {
     spelllang = { "en_us", "cjk" },
     spellfile = vim.fn.expand("~/.config/nvim/spell/en.utf-8.add")
 }
-
--- Disable true color if not supported
--- FIXME: some plugins seem to require truecolor to work
-if vim.env.TERM_PROGRAM == 'Apple_Terminal' then
-    default_option.termguicolors = false
-end
 
 -- enable all setting
 for k, v in pairs(default_option) do
