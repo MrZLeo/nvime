@@ -91,9 +91,13 @@ require("lazy").setup({
                 -- effect
                 -- cmdline = true,
                 groups = {
-                    'BlinkPairsOrange',
-                    'BlinkPairsPurple',
-                    'BlinkPairsBlue'
+                    "RainbowDelimiterRed",
+                    "RainbowDelimiterYellow",
+                    "RainbowDelimiterGreen",
+                    "RainbowDelimiterCyan",
+                    "RainbowDelimiterBlue",
+                    "RainbowDelimiterViolet",
+                    "RainbowDelimiterGreen",
                 },
                 -- unmatched_group = 'BlinkPairsUnmatched',
 
@@ -113,6 +117,38 @@ require("lazy").setup({
         'j-hui/fidget.nvim', -- UI for LSP loading
         opts = {}
     },
+    -- color theme
+    {
+        'sainnhe/edge',
+        lazy = false,
+        priority = 1000,
+        config = function()
+            -- Optionally configure and load the colorscheme
+            -- directly inside the plugin declaration.
+            vim.g.edge_enable_italic = false
+            vim.g.edge_better_performance = 1
+            vim.g.edge_menu_selection_background = 'green'
+            -- vim.api.nvim_create_autocmd('ColorScheme', {
+            --     group = vim.api.nvim_create_augroup('custom_highlights_edge', {}),
+            --     pattern = 'edge',
+            --     callback = function()
+            --         local config = vim.fn['edge#get_configuration']()
+            --         local palette = vim.fn['edge#get_palette'](config.style, config.dim_foreground,
+            --             config.colors_override)
+            --         local set_hl = vim.fn['edge#highlight']
+            --
+            --         set_hl('DiffText', palette.none, palette.diff_blue)
+            --     end
+            -- })
+
+            vim.cmd.colorscheme('edge')
+        end
+
+    },
+    -- treesitter
+    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+
+
 }, { ui = { border = "rounded" } })
 
 -- 3. Basic Settings ---------------------------------------------------------
@@ -403,8 +439,5 @@ vim.lsp.config("clangd", {
     },
 })
 
-
--- 7. Optional: basic colorscheme -------------------------------------------
-vim.cmd.colorscheme("default")
 
 -- Done. Open a file and start coding! ---------------------------------------
