@@ -183,16 +183,7 @@ local plugins = {
             },
 
             sources = {
-                providers = {
-                    copilot = {
-                        name = "copilot",
-                        module = "blink-cmp-copilot",
-                        score_offset = 100,
-                        async = true,
-                    },
-                },
-
-                default = { "lsp", "path", "snippets", "buffer", "copilot", },
+                default = { "lsp", "path", "snippets", "buffer", },
             },
             cmdline = { enabled = false },
 
@@ -272,10 +263,6 @@ local plugins = {
         end,
     },
     {
-        "giuxtaposition/blink-cmp-copilot",
-        dependencies = 'zbirenbaum/copilot.lua'
-    },
-    {
         "olimorris/codecompanion.nvim",
         opts = {
             send_code = false,
@@ -323,6 +310,11 @@ local plugins = {
         config = function()
             require("lsp_config")
         end
+    },
+    {
+        "nmac427/guess-indent.nvim",
+        event = "BufReadPost",
+        opts = {},
     }
 }
 
