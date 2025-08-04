@@ -49,24 +49,9 @@ local plugins = {
         lazy = false,
         priority = 1000,
         config = function()
-            -- Optionally configure and load the colorscheme
-            -- directly inside the plugin declaration.
             vim.g.edge_enable_italic = false
             vim.g.edge_better_performance = 1
             vim.g.edge_menu_selection_background = 'green'
-            vim.api.nvim_create_autocmd('ColorScheme', {
-                group = vim.api.nvim_create_augroup('custom_highlights_edge', {}),
-                pattern = 'edge',
-                callback = function()
-                    local config = vim.fn['edge#get_configuration']()
-                    local palette = vim.fn['edge#get_palette'](config.style, config.dim_foreground,
-                        config.colors_override)
-                    local set_hl = vim.fn['edge#highlight']
-
-                    set_hl('DiffText', palette.none, palette.diff_blue)
-                end
-            })
-
             vim.cmd.colorscheme('edge')
         end
 
@@ -221,9 +206,7 @@ local plugins = {
     },
     {
         'j-hui/fidget.nvim', -- UI for LSP loading
-        opts = {
-            -- options
-        }
+        opts = {}
     },
     {
         'mrcjkb/rustaceanvim',
