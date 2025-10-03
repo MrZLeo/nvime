@@ -1,6 +1,6 @@
 -- Keymap: lua version
 
--- 窗口快捷键
+-- windows
 vim.keymap.set('n', '<c-h>', '<C-w>h')
 vim.keymap.set('n', '<c-j>', '<C-w>j')
 vim.keymap.set('n', '<c-k>', '<C-w>k')

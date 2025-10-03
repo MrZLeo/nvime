@@ -127,8 +127,16 @@ local plugins = {
     },
     -- remove space in the end of line
     {
-        'ntpeters/vim-better-whitespace',
-        event = "BufWritePre"
+        'echasnovski/mini.trailspace',
+        version = false,
+        config = function()
+            require('mini.trailspace').setup()
+            vim.api.nvim_create_autocmd('BufWritePre', {
+                callback = function()
+                    require('mini.trailspace').trim()
+                end
+            })
+        end
     },
     -- startup page
     {

@@ -8,7 +8,7 @@ vim.lsp.config("clangd", {
         -- "--malloc-trim",
         "--header-insertion=never",
         "--pch-storage=memory",
-        -- "--offset-encoding=utf-16"
+        "--offset-encoding=utf-16"
     },
     init_options = {
         fallbackFlags = { '--std=gnu++23' }
