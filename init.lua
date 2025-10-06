@@ -8,8 +8,9 @@ require("plugins")
 require("keymap")
 
 -- load plugin configuration
--- require("lspconfig")
-require("settings")
+require("settings.lualine")
+require("settings.nvim-treesitter")
+require("settings.lsp")
 
 -- load utils
 require("utils")

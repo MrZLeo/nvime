@@ -316,7 +316,7 @@ local plugins = {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            require("lsp_config")
+            require("settings.lsp")
         end
     },
     {
