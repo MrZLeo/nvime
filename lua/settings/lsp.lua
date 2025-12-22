@@ -111,7 +111,7 @@ end
 
 local skip_format = {
     c = true,
-    cpp = true
+    -- cpp = true
 }
 
 local function setup_format(client, bufnr)

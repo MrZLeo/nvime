@@ -272,19 +272,20 @@ local plugins = {
     },
     {
         "olimorris/codecompanion.nvim",
+        version = "^18.0.0",
         opts = {
             send_code = false,
             strategies = {
                 chat = {
                     adapter = {
                         name = "copilot",
-                        model = "claude-sonnet-4",
+                        model = "claude-sonnet-4.5",
                     },
                 },
                 inline = {
                     adapter = {
                         name = "copilot",
-                        model = "claude-sonnet-4",
+                        model = "claude-sonnet-4.5",
                     },
                 },
             },
