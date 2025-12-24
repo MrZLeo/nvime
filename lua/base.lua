@@ -78,6 +78,11 @@ vim.g.clipboard = {
     },
 }
 
+-- 可选：在视觉模式下复制到系统剪贴板，用 <leader>y
+local opts = { noremap = true, silent = true }
+vim.keymap.set("v", "<leader>y", '"+y', opts)
+vim.keymap.set("n", "<leader>p", '"+p', opts)
+
 -- latex support
 vim.g.tex_flavor = 'latex'
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
