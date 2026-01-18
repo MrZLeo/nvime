@@ -44,7 +44,9 @@ local default_option = {
     -- use smart fold
     foldmethod = "expr",
     foldlevel = 20,
-    foldexpr = "nvim_treesitter#foldexpr()",
+    foldexpr = "v:lua.vim.treesitter.foldexpr()",
+
+    indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()",
 
     -- external configuration
     -- exrc = true

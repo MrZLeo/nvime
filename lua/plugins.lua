@@ -88,7 +88,7 @@ local plugins = {
         }
     },
     -- treesitter
-    { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    { 'nvim-treesitter/nvim-treesitter', lazy = false, build = ':TSUpdate' },
     {
         'nvim-treesitter/nvim-treesitter-context',
         dependencies = { 'nvim-treesitter/nvim-treesitter' },
@@ -279,13 +279,13 @@ local plugins = {
                 chat = {
                     adapter = {
                         name = "copilot",
-                        model = "claude-sonnet-4.5",
+                        model = "claude-opus-4.5",
                     },
                 },
                 inline = {
                     adapter = {
                         name = "copilot",
-                        model = "claude-sonnet-4.5",
+                        model = "claude-opus-4.5",
                     },
                 },
             },
