@@ -1,3 +1,5 @@
+vim.pack.add({ "https://github.com/nvim-lualine/lualine.nvim" })
+
 -- Eviline config for lualine
 -- Author: shadmansaleh
 -- Credit: glepnir
@@ -102,13 +104,13 @@ ins_left {
             n = colors.red,
             i = colors.green,
             v = colors.yellow,
-            [''] = colors.blue,
+            [' '] = colors.blue,
             V = colors.blue,
             c = colors.magenta,
             no = colors.red,
             s = colors.orange,
             S = colors.orange,
-            [''] = colors.orange,
+            [' '] = colors.orange,
             ic = colors.yellow,
             R = colors.violet,
             Rv = colors.violet,
