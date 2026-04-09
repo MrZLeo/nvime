@@ -1,6 +1,6 @@
 # 🦈 NVIME: Modern NeoVim Configuration
 
-NVIME is a modern Neovim configuration using **pure Lua**. It leverages the built-in LSP features and improves startup times with [lazy.nvim](lua/plugins.lua). It also includes file exploration, syntax highlighting, inline hints, and more.
+NVIME is a pure Lua Neovim configuration built around Neovim `0.12+`, the native `vim.pack` package manager, built-in LSP, and a compact plugin set.
 
 ## Snapshots
 
@@ -10,14 +10,13 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
 
 <img width="2032" alt="image" src="https://github.com/user-attachments/assets/c6f06f29-9764-46a2-b746-272f5da61f38" />
 
-
 ## Get Started
 
-1. Make sure your Neovim version ≥ 0.10.
-2. (Optional) For Arch Linux, run [arch-install.sh](arch-install.sh) to install dependencies quickly.
-3. Otherwise, install required packages manually:
+1. Install Neovim `0.12` or newer.
+2. (Optional) On Arch Linux, run [arch-install.sh](arch-install.sh) to install common dependencies.
+3. Otherwise, install the required tools manually:
    ```bash
-   # Fedora as example
+   # Fedora example
    sudo dnf install \
        ripgrep \
        nodejs \
@@ -27,15 +26,35 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
        wget \
        unzip
    ```
-4. Clone this repository into your Neovim config path:
+4. Clone this repository into your config path:
    ```bash
    git clone https://github.com/MrZLeo/nvime ~/.config/nvim
    ```
-5. Launch Neovim:
+5. Start Neovim:
    ```bash
    nvim
    ```
-   Installation starts automatically. Exit once done and reopen Neovim.
+   Missing plugins are installed automatically on first launch.
+
+## Plugin Management
+
+Plugin specs live in `plugin/*.lua` and are installed by `vim.pack`. Pinned revisions are stored in [nvim-pack-lock.json](nvim-pack-lock.json).
+
+Example plugin spec:
+
+```lua
+vim.pack.add({
+    {
+        src = "https://github.com/user/repo",
+        version = vim.version.range("*"),
+    },
+})
+```
+
+Useful maintenance commands:
+
+- `:lua vim.pack.update()` updates plugins with a confirmation buffer.
+- `:TSSyncParsers` installs or updates the Tree-sitter parsers listed in [plugin/02-treesitter.lua](plugin/02-treesitter.lua).
 
 ## Key Bindings
 
@@ -49,10 +68,12 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
 | `<C-w>l` | Normal | Split window right |
 | `<BackSpace>` | Normal | Clear search highlighting |
 | `<Space><Space>` | Normal | Save file |
+| `-` | Normal | Open Oil file explorer |
 | `<Leader>ff` | Normal | Find files |
 | `<Leader>fg` | Normal | Live grep |
 | `<Leader>fb` | Normal | List buffers |
 | `<Leader>fh` | Normal | Help tags |
+| `<Leader>o` | Normal | Toggle outline sidebar |
 | `gD` | Normal | Go to declaration |
 | `gd` | Normal | Go to definition (telescope) |
 | `K` | Normal | Show hover information |
@@ -62,88 +83,44 @@ NVIME is a modern Neovim configuration using **pure Lua**. It leverages the buil
 | `<Space>f` | Normal | Code action |
 | `<Space>l` | Normal | Show diagnostics (telescope) |
 
-## Plugins
+## Commands
 
-Plugins are managed by `lazy.nvim` in `lua/plugins.lua`. To add a new plugin, you need to add a new entry to the `plugins` table.
+- `:CodeCompanion` runs the inline assistant on the current buffer or selection.
+- `:CodeCompanionChat Toggle` opens or hides the chat buffer.
+- `:Outline` toggles the symbol outline window.
+- `:Clear` deletes all hidden loaded buffers.
+- `:Spell` toggles spell checking.
+- `:TSSyncParsers` syncs the configured Tree-sitter parser set.
 
-### Adding a New Plugin
+## LSP
 
-1.  Open `lua/plugins.lua`.
-2.  Add the plugin specification to the `plugins` table. For example, to add a new plugin from GitHub:
+LSP configuration is centralized in [plugin/zz-lsp.lua](plugin/zz-lsp.lua).
 
-    ```lua
-    -- lua/plugins.lua
-    local plugins = {
-        -- ... other plugins
-        {
-            'user/repo',
-            -- Optional: specify version for stability
-            version = "*",
-            -- Optional: run setup code
-            config = function()
-                require('plugin-name').setup({})
-            end,
-            -- Optional: specify events to load the plugin
-            event = "VeryLazy",
-        },
-        -- ... other plugins
-    }
-    ```
+Current enabled servers:
 
-3.  Save the file. The plugin will be installed automatically the next time you start Neovim. You can also run `:Lazy sync` to install it manually.
+```lua
+local lsp_servers = {
+    "clangd",
+    "lua_ls",
+    "ruff",
+    "ty",
+    "taplo",
+    "texlab",
+    "neocmake",
+}
+```
 
-## Language Server Protocol (LSP)
+To add or remove a server, update that list and adjust any server-specific settings in the same file.
 
-NVIME uses `nvim-lspconfig` for LSP support, with configurations organized in the `lua/lsp_config` directory:
+Current defaults include:
 
-### LSP Configuration Structure
+- Telescope-backed definition, implementation, reference, and diagnostics pickers
+- Hover and floating diagnostics
+- Inlay hints
+- Format-on-save, except for filetypes explicitly skipped in [plugin/zz-lsp.lua](plugin/zz-lsp.lua)
 
-- `lua/lsp_config/init.lua`: Main LSP initialization and auto-formatting setup
-- `lua/lsp_config/on_attach.lua`: Keybindings and settings applied when LSP attaches to buffers
-- `lua/lsp_config/diagnostic.lua`: Global diagnostic configurations (signs, virtual text, etc.)
-- Language-specific configs:
-  - `lua/lsp_config/rust.lua`: Rust LSP configuration via rustaceanvim
-  - `lua/lsp_config/lsp/lua_ls.lua`: Lua LSP configuration
-  - `lua/lsp_config/lsp/clangd.lua`: clangd LSP configuration
+## Notes
 
-### Setting Up LSP
-
-1. Install the required language servers:
-   ```bash
-   # Example installations:
-   npm install -g lua-language-server   # Lua
-   rustup component add rust-analyzer   # Rust
-   sudo pacman -S clang                 # C/C++
-   ```
-
-2.  Add the server name to the `servers` list in `lua/lsp_config/init.lua`:
-    ```lua
-    -- lua/lsp_config/init.lua
-    local lsp_server = {
-        "clangd",
-        "lua_ls",
-        "ruff",
-        "pyright",
-        -- "ty",
-        "taplo",
-        "texlab",
-        "neocmake",
-    }
-    ```
-
-3. LSP features are automatically enabled when editing supported files. Common LSP commands:
-   - `gd`: Go to definition (telescope)
-   - `K`: Show hover information
-   - `gi`: Go to implementation
-   - See [Key Bindings](#key-bindings) for more
-
-### Diagnostics and Visual Feedback
-
-- Error/warning signs in the gutter
-- Hover diagnostics (auto-show on cursor hold)
-- Inlay hints for supported languages
-- Automatic formatting on save (except for C/C++, you can change it in `lua/lsp/init.lua`)
-
-LSP configurations can be customized by modifying the respective files in the `lua/lsp_config` directory.
-
-That's it! Enjoy your updated Neovim setup.
+- CSV and TSV files auto-enable `csvview.nvim`.
+- Tree-sitter highlighting starts on `FileType` when a parser is available.
+- Generated theme artifacts under `after/` and local `nvim.log` are ignored by Git.

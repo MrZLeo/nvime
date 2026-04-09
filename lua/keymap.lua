@@ -36,3 +36,6 @@ end
 
 -- Oil
 vim.keymap.set("n", "-", "<CMD>Oil<CR>")
+
+-- Outline
+vim.keymap.set("n", "<Space>o", "<CMD>Outline<CR>", { desc = "Toggle outline" })

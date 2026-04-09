@@ -10,7 +10,7 @@
       "version": ">=0.0.0"
     },
     "blink.lib": {
-      "rev": "b68335357e9fcc2b20445acfcee48034376d64b5",
+      "rev": "a459c8fbf51359902971874b5ebe05f6602db8b4",
       "src": "https://github.com/saghen/blink.lib"
     },
     "blink.pairs": {
@@ -19,7 +19,7 @@
       "version": ">=0.0.0"
     },
     "codecompanion.nvim": {
-      "rev": "893f56bdd41c5f58a49a1b0ab28e2ac6ad4667cc",
+      "rev": "83f5c9c99d9c0687cc94197976d81ce619727986",
       "src": "https://github.com/olimorris/codecompanion.nvim",
       "version": ">=0.0.0"
     },
@@ -40,7 +40,7 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "gitsigns.nvim": {
-      "rev": "0d797daee85366bc242580e352a4f62d67557b84",
+      "rev": "8d82c240f190fc33723d48c308ccc1ed8baad69d",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "guess-indent.nvim": {
@@ -48,7 +48,7 @@
       "src": "https://github.com/nmac427/guess-indent.nvim"
     },
     "lualine.nvim": {
-      "rev": "8811f3f3f4dc09d740c67e9ce399e7a541e2e5b2",
+      "rev": "f5d2a8570f8b736ddb9bb4be504355bcd6e15ec8",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.trailspace": {
@@ -60,7 +60,7 @@
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
     },
     "nvim-lspconfig": {
-      "rev": "bedca8b426b2fee0ccac596d167d71bbe971253f",
+      "rev": "c588db330592fa477a70d2fee6ba20a57194bdc3",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-surround": {
@@ -77,7 +77,7 @@
       "src": "https://github.com/nvim-treesitter/nvim-treesitter-context"
     },
     "nvim-web-devicons": {
-      "rev": "95b7a002d5dba1a42eb58f5fac5c565a485eefd0",
+      "rev": "6e76c5e47e957fbf080b1fdac165c66dbd2e7cfb",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "oil.nvim": {
@@ -93,7 +93,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "telescope.nvim": {
-      "rev": "7ef4d6dccb78ee71e552bbd866176762ad328afa",
+      "rev": "48d2656e54d3e3953ae647153ccdaffa50d4d76b",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     }
   }
