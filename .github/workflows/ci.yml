@@ -1,0 +1,61 @@
+name: ci
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  smoke:
+    name: Smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Neovim stable
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          os="$(uname -s)"
+          arch="$(uname -m)"
+
+          case "$os" in
+            Linux)
+              case "$arch" in
+                x86_64) archive="nvim-linux-x86_64.tar.gz" ;;
+                aarch64|arm64) archive="nvim-linux-arm64.tar.gz" ;;
+                *) echo "Unsupported Linux architecture: $arch" >&2; exit 1 ;;
+              esac
+              ;;
+            Darwin)
+              case "$arch" in
+                x86_64) archive="nvim-macos-x86_64.tar.gz" ;;
+                arm64) archive="nvim-macos-arm64.tar.gz" ;;
+                *) echo "Unsupported macOS architecture: $arch" >&2; exit 1 ;;
+              esac
+              ;;
+            *)
+              echo "Unsupported operating system: $os" >&2
+              exit 1
+              ;;
+          esac
+
+          curl -fsSL -o "$RUNNER_TEMP/$archive" \
+            "https://github.com/neovim/neovim/releases/latest/download/$archive"
+          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP"
+
+          install_dir="${archive%.tar.gz}"
+          echo "$RUNNER_TEMP/$install_dir/bin" >> "$GITHUB_PATH"
+
+      - name: Run smoke test
+        shell: bash
+        run: bash scripts/ci-smoke.sh

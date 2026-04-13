@@ -13,3 +13,7 @@ nerdtree.json
 test.vim
 packer_compiled.lua
 lazy-lock.json
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
+!.github/workflows/*.yaml
