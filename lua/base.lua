@@ -61,25 +61,6 @@ for k, v in pairs(default_option) do
     vim.opt[k] = v
 end
 
-local function paste()
-    return {
-        vim.fn.split(vim.fn.getreg(""), "\n"),
-        vim.fn.getregtype(""),
-    }
-end
-
-vim.g.clipboard = {
-    name = "OSC 52",
-    copy = {
-        ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
-        ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
-    },
-    paste = {
-        ["+"] = paste,
-        ["*"] = paste,
-    },
-}
-
 -- 可选：在视觉模式下复制到系统剪贴板，用 <leader>y
 local opts = { noremap = true, silent = true }
 vim.keymap.set("v", "<leader>y", '"+y', opts)
@@ -100,8 +81,4 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.ets" },
     command = "set filetype=typescript",
-})
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-    pattern = { "*.h" },
-    command = "set filetype=c",
 })
