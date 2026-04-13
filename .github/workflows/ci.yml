@@ -22,40 +22,63 @@ jobs:
 
       - name: Install Neovim stable
         shell: bash
-        run: |
-          set -euo pipefail
-
-          os="$(uname -s)"
-          arch="$(uname -m)"
-
-          case "$os" in
-            Linux)
-              case "$arch" in
-                x86_64) archive="nvim-linux-x86_64.tar.gz" ;;
-                aarch64|arm64) archive="nvim-linux-arm64.tar.gz" ;;
-                *) echo "Unsupported Linux architecture: $arch" >&2; exit 1 ;;
-              esac
-              ;;
-            Darwin)
-              case "$arch" in
-                x86_64) archive="nvim-macos-x86_64.tar.gz" ;;
-                arm64) archive="nvim-macos-arm64.tar.gz" ;;
-                *) echo "Unsupported macOS architecture: $arch" >&2; exit 1 ;;
-              esac
-              ;;
-            *)
-              echo "Unsupported operating system: $os" >&2
-              exit 1
-              ;;
-          esac
-
-          curl -fsSL -o "$RUNNER_TEMP/$archive" \
-            "https://github.com/neovim/neovim/releases/latest/download/$archive"
-          tar -xzf "$RUNNER_TEMP/$archive" -C "$RUNNER_TEMP"
-
-          install_dir="${archive%.tar.gz}"
-          echo "$RUNNER_TEMP/$install_dir/bin" >> "$GITHUB_PATH"
+        run: bash scripts/ci-install-nvim.sh
 
       - name: Run smoke test
         shell: bash
         run: bash scripts/ci-smoke.sh
+
+  package:
+    name: Package (${{ matrix.os }})
+    needs: smoke
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install Neovim stable
+        shell: bash
+        run: bash scripts/ci-install-nvim.sh
+
+      - name: Build bundled package
+        id: package
+        shell: bash
+        run: bash scripts/ci-package.sh
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.package.outputs.artifact_name }}
+          path: ${{ steps.package.outputs.package_path }}
+
+  release:
+    name: Release
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download packaged artifacts
+        uses: actions/download-artifact@v8
+        with:
+          path: release-assets
+          pattern: nvime-*
+          merge-multiple: true
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            release-assets/*
