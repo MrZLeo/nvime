@@ -3,11 +3,37 @@ name: ci
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "v*.*.*.*"
+  schedule:
+    - cron: "0 0 1 * *"
 
 jobs:
+  prepare:
+    name: Prepare release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      should_release: ${{ steps.prepare.outputs.should_release }}
+      version: ${{ steps.prepare.outputs.version }}
+      release_ref: ${{ steps.prepare.outputs.release_ref }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: master
+
+      - name: Resolve release version
+        id: prepare
+        shell: bash
+        run: bash scripts/ci-prepare-release.sh
+
   smoke:
+    if: needs.prepare.outputs.should_release == 'true'
     name: Smoke (${{ matrix.os }})
+    needs: prepare
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -19,6 +45,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.prepare.outputs.release_ref }}
 
       - name: Install Neovim stable
         shell: bash
@@ -29,8 +58,11 @@ jobs:
         run: bash scripts/ci-smoke.sh
 
   package:
+    if: needs.prepare.outputs.should_release == 'true'
     name: Package (${{ matrix.os }})
-    needs: smoke
+    needs:
+      - prepare
+      - smoke
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -42,6 +74,9 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.prepare.outputs.release_ref }}
 
       - name: Install Neovim stable
         shell: bash
@@ -50,6 +85,8 @@ jobs:
       - name: Build bundled package
         id: package
         shell: bash
+        env:
+          NVIME_RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
         run: bash scripts/ci-package.sh
 
       - name: Upload package artifact
@@ -59,8 +96,11 @@ jobs:
           path: ${{ steps.package.outputs.package_path }}
 
   release:
+    if: needs.prepare.outputs.should_release == 'true'
     name: Release
-    needs: package
+    needs:
+      - prepare
+      - package
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -76,8 +116,8 @@ jobs:
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          name: ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          name: ${{ needs.prepare.outputs.version }}
+          tag_name: ${{ needs.prepare.outputs.version }}
           generate_release_notes: true
           fail_on_unmatched_files: true
           files: |

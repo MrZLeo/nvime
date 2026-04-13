@@ -10,7 +10,7 @@ NVIME is a pure Lua Neovim configuration built around Neovim `0.12+`, the native
 
 <img width="2032" alt="image" src="https://github.com/user-attachments/assets/c6f06f29-9764-46a2-b746-272f5da61f38" />
 
-## Get Started
+## Install from Source
 
 1. Install Neovim `0.12` or newer.
 2. (Optional) On Arch Linux, run [arch-install.sh](arch-install.sh) to install common dependencies.
@@ -36,6 +36,45 @@ NVIME is a pure Lua Neovim configuration built around Neovim `0.12+`, the native
    ```
    Missing plugins are installed automatically on first launch.
 
+## Install from Release Bundle
+
+Tagged releases publish prebuilt bundles for both Linux and macOS:
+
+- Linux: `.tar.gz`
+- macOS: `.dmg`
+
+Each bundle contains:
+
+- `install.sh`: installs the packaged config and downloaded plugins
+- `payload/config/nvim`: the NVIME config
+- `payload/data/nvim/site/pack/core/opt`: the bootstrapped `vim.pack` plugin directory
+
+Installation defaults:
+
+- Config: `${XDG_CONFIG_HOME:-$HOME/.config}/nvim`
+- Data: `${XDG_DATA_HOME:-$HOME/.local/share}/nvim`
+
+To install a release bundle:
+
+1. Download the matching release artifact for your platform.
+2. Extract or open it.
+3. Run the installer:
+   ```bash
+   ./install.sh
+   ```
+4. Start Neovim:
+   ```bash
+   nvim
+   ```
+
+The installer creates timestamped backups before replacing an existing install.
+
+Useful installer options:
+
+- `./install.sh --config-dir /path/to/nvim`
+- `./install.sh --data-dir /path/to/share/nvim`
+- `./install.sh --no-backup`
+
 ## Plugin Management
 
 Plugin specs live in `plugin/*.lua` and are installed by `vim.pack`. Pinned revisions are stored in [nvim-pack-lock.json](nvim-pack-lock.json).
@@ -55,6 +94,46 @@ Useful maintenance commands:
 
 - `:lua vim.pack.update()` updates plugins with a confirmation buffer.
 - `:TSSyncParsers` installs or updates the Tree-sitter parsers listed in [plugin/02-treesitter.lua](plugin/02-treesitter.lua).
+
+## Release CI
+
+GitHub Actions builds and publishes release artifacts for tags matching `v*.*.*.*`.
+
+Release tags follow this format:
+
+- `v<neovim-major>.<neovim-minor>.<neovim-patch>.<nvime-revision>`
+- Example: `v0.12.1.0`
+
+The first three fields track the upstream Neovim version. The final field is the
+NVIME release revision for that upstream version and starts at `0`.
+
+The release pipeline does three things:
+
+1. Runs a headless smoke test on `ubuntu-latest` and `macos-latest`.
+2. Builds platform-native bundles after the smoke test passes.
+3. Publishes the generated packages to the GitHub Release for that tag.
+
+The workflow can be triggered in two ways:
+
+1. Manually push a tag such as `v0.12.1.0`.
+2. Let the monthly scheduled run check `master`; on the first day of each month
+   at `00:00 UTC`, if there are commits since the previous release tag, it
+   creates the next tag automatically and publishes a release from that commit.
+
+Example release flow:
+
+```bash
+git tag v0.12.1.0
+git push origin v0.12.1.0
+```
+
+Local helper scripts used by CI:
+
+- [scripts/ci-prepare-release.sh](scripts/ci-prepare-release.sh): resolves the release version and creates scheduled tags
+- [scripts/ci-smoke.sh](scripts/ci-smoke.sh): headless startup validation
+- [scripts/ci-install-nvim.sh](scripts/ci-install-nvim.sh): installs Neovim in CI
+- [scripts/ci-package.sh](scripts/ci-package.sh): bootstraps plugins and builds release bundles
+- [scripts/install-bundle.sh](scripts/install-bundle.sh): installs a packaged release locally
 
 ## Key Bindings
 

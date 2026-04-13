@@ -11,7 +11,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-version="${GITHUB_REF_NAME:-}"
+version="${NVIME_RELEASE_VERSION:-${GITHUB_REF_NAME:-}}"
 if [[ -z "$version" ]]; then
     version="$(git -C "$repo_root" describe --tags --always)"
 fi
