@@ -1,3 +1,5 @@
+local has_git = vim.fn.executable("git") == 1
+
 vim.pack.add({
     -- optional: provides snippets for the snippet source
     "https://github.com/rafamadriz/friendly-snippets",
@@ -18,7 +20,7 @@ vim.pack.add({
     },
 })
 
-require("blink.cmp").setup({
+local blink_cmp_opts = {
     keymap = {
         preset = 'enter',
         ['<C-x>'] = { 'show', 'show_documentation', 'hide_documentation' },
@@ -46,25 +48,35 @@ require("blink.cmp").setup({
         documentation = { auto_show = true },
     },
 
-})
+}
 
-require("blink.pairs").setup({
-    mappings = {
-        enabled = true,
-        disabled_filetypes = {},
-        pairs = {},
-    },
-    highlights = {
-        enabled = true,
-        groups = {
-            "RainbowDelimiterRed",
-            "RainbowDelimiterYellow",
-            "RainbowDelimiterGreen",
-            "RainbowDelimiterCyan",
-            "RainbowDelimiterBlue",
-            "RainbowDelimiterViolet",
-            "RainbowDelimiterGreen",
+if not has_git then
+    blink_cmp_opts.fuzzy = {
+        implementation = "lua",
+    }
+end
+
+require("blink.cmp").setup(blink_cmp_opts)
+
+if has_git then
+    require("blink.pairs").setup({
+        mappings = {
+            enabled = true,
+            disabled_filetypes = {},
+            pairs = {},
         },
-    },
-    debug = false,
-})
+        highlights = {
+            enabled = true,
+            groups = {
+                "RainbowDelimiterRed",
+                "RainbowDelimiterYellow",
+                "RainbowDelimiterGreen",
+                "RainbowDelimiterCyan",
+                "RainbowDelimiterBlue",
+                "RainbowDelimiterViolet",
+                "RainbowDelimiterGreen",
+            },
+        },
+        debug = false,
+    })
+end
