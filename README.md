@@ -68,6 +68,8 @@ To install a release bundle:
    ```
 
 The installer creates timestamped backups before replacing an existing install.
+It also checks that `nvim` is already installed and that the detected version is
+`0.12` or newer.
 
 Useful installer options:
 
