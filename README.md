@@ -97,46 +97,6 @@ Useful maintenance commands:
 - `:lua vim.pack.update()` updates plugins with a confirmation buffer.
 - `:TSSyncParsers` installs or updates the Tree-sitter parsers listed in [plugin/02-treesitter.lua](plugin/02-treesitter.lua).
 
-## Release CI
-
-GitHub Actions builds and publishes release artifacts for tags matching `v*.*.*.*`.
-
-Release tags follow this format:
-
-- `v<neovim-major>.<neovim-minor>.<neovim-patch>.<nvime-revision>`
-- Example: `v0.12.1.0`
-
-The first three fields track the upstream Neovim version. The final field is the
-NVIME release revision for that upstream version and starts at `0`.
-
-The release pipeline does three things:
-
-1. Runs a headless smoke test on `ubuntu-latest` and `macos-latest`.
-2. Builds platform-native bundles after the smoke test passes.
-3. Publishes the generated packages to the GitHub Release for that tag.
-
-The workflow can be triggered in two ways:
-
-1. Manually push a tag such as `v0.12.1.0`.
-2. Let the monthly scheduled run check `master`; on the first day of each month
-   at `00:00 UTC`, if there are commits since the previous release tag, it
-   creates the next tag automatically and publishes a release from that commit.
-
-Example release flow:
-
-```bash
-git tag v0.12.1.0
-git push origin v0.12.1.0
-```
-
-Local helper scripts used by CI:
-
-- [scripts/ci-prepare-release.sh](scripts/ci-prepare-release.sh): resolves the release version and creates scheduled tags
-- [scripts/ci-smoke.sh](scripts/ci-smoke.sh): headless startup validation
-- [scripts/ci-install-nvim.sh](scripts/ci-install-nvim.sh): installs Neovim in CI
-- [scripts/ci-package.sh](scripts/ci-package.sh): bootstraps plugins and builds release bundles
-- [scripts/install-bundle.sh](scripts/install-bundle.sh): installs a packaged release locally
-
 ## Key Bindings
 
 | Key Combination | Mode | Description |
@@ -200,8 +160,43 @@ Current defaults include:
 - Inlay hints
 - Format-on-save, except for filetypes explicitly skipped in [plugin/zz-lsp.lua](plugin/zz-lsp.lua)
 
-## Notes
+## Release CI
 
-- CSV and TSV files auto-enable `csvview.nvim`.
-- Tree-sitter highlighting starts on `FileType` when a parser is available.
-- Generated theme artifacts under `after/` and local `nvim.log` are ignored by Git.
+GitHub Actions builds and publishes release artifacts for tags matching `v*.*.*.*`.
+
+Release tags follow this format:
+
+- `v<neovim-major>.<neovim-minor>.<neovim-patch>.<nvime-revision>`
+- Example: `v0.12.1.0`
+
+The first three fields track the upstream Neovim version. The final field is the
+NVIME release revision for that upstream version and starts at `0`.
+
+The release pipeline does three things:
+
+1. Runs a headless smoke test on `ubuntu-latest` and `macos-latest`.
+2. Builds platform-native bundles after the smoke test passes.
+3. Publishes the generated packages to the GitHub Release for that tag.
+
+The workflow can be triggered in two ways:
+
+1. Manually push a tag such as `v0.12.1.0`.
+2. Let the monthly scheduled run check `master`; on the first day of each month
+   at `00:00 UTC`, if there are commits since the previous release tag, it
+   creates the next tag automatically and publishes a release from that commit.
+
+Example release flow:
+
+```bash
+git tag v0.12.1.0
+git push origin v0.12.1.0
+```
+
+Local helper scripts used by CI:
+
+- [scripts/ci-prepare-release.sh](scripts/ci-prepare-release.sh): resolves the release version and creates scheduled tags
+- [scripts/ci-smoke.sh](scripts/ci-smoke.sh): headless startup validation
+- [scripts/ci-install-nvim.sh](scripts/ci-install-nvim.sh): installs Neovim in CI
+- [scripts/ci-package.sh](scripts/ci-package.sh): bootstraps plugins and builds release bundles
+- [scripts/install-bundle.sh](scripts/install-bundle.sh): installs a packaged release locally
+
