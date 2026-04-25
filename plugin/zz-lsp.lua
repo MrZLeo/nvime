@@ -205,6 +205,7 @@ local lsp_servers = {
     "taplo",
     "texlab",
     "neocmake",
+    "rust_analyzer",
 }
 
 vim.lsp.enable(lsp_servers)
