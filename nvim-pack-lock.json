@@ -6,7 +6,7 @@
       "version": ">=0.0.0"
     },
     "blink.lib": {
-      "rev": "a459c8fbf51359902971874b5ebe05f6602db8b4",
+      "rev": "dda2666685a5ac3598166577d2e34f1fff6b1637",
       "src": "https://github.com/saghen/blink.lib"
     },
     "blink.pairs": {
@@ -15,7 +15,7 @@
       "version": ">=0.0.0"
     },
     "codecompanion.nvim": {
-      "rev": "680c445eb357c72129d175ea5d481aa9e92ae6a5",
+      "rev": "f70759ee8b63b46ea0cf158dc22daa2a5e9c6319",
       "src": "https://github.com/olimorris/codecompanion.nvim",
       "version": ">=0.0.0"
     },
@@ -36,7 +36,7 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "gitsigns.nvim": {
-      "rev": "8d82c240f190fc33723d48c308ccc1ed8baad69d",
+      "rev": "6d808f99bd63303646794406e270bd553ad7792e",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "guess-indent.nvim": {
@@ -56,7 +56,7 @@
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
     },
     "nvim-lspconfig": {
-      "rev": "4b7fbaa239c5db6b36f424a4521ca9f1a401be33",
+      "rev": "8fde495949782bb61c2605174e231d145a048d8c",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-surround": {
@@ -89,7 +89,7 @@
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "telescope.nvim": {
-      "rev": "028d9a0695a0cc4cfa893889f8c408ed7ccc8adc",
+      "rev": "506338434fec5ad19cb1f8d45bf92d66c4917393",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     }
   }
