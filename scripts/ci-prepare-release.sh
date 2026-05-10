@@ -17,18 +17,34 @@ write_output() {
     fi
 }
 
+extract_upstream_version() {
+    local release_version="${1#v}"
+    local major minor patch revision extra
+
+    IFS=. read -r major minor patch revision extra <<< "$release_version"
+
+    if [[ -z "$major" || -z "$minor" || -z "$patch" || -z "$revision" || -n "${extra:-}" ]]; then
+        return 1
+    fi
+
+    printf '%s.%s.%s\n' "$major" "$minor" "$patch"
+}
+
 emit_release() {
     local version="$1"
+    local upstream_version="$2"
 
     write_output "should_release" "true"
     write_output "version" "$version"
     write_output "release_ref" "$version"
+    write_output "nvim_version" "$upstream_version"
 }
 
 emit_skip() {
     write_output "should_release" "false"
     write_output "version" ""
     write_output "release_ref" ""
+    write_output "nvim_version" ""
 }
 
 event_name="${GITHUB_EVENT_NAME:-}"
@@ -36,7 +52,11 @@ ref_type="${GITHUB_REF_TYPE:-}"
 ref_name="${GITHUB_REF_NAME:-}"
 
 if [[ "$event_name" == "push" && "$ref_type" == "tag" ]]; then
-    emit_release "$ref_name"
+    upstream_version="$(extract_upstream_version "$ref_name")" || {
+        echo "Release tag must match v<neovim-major>.<neovim-minor>.<neovim-patch>.<nvime-revision>." >&2
+        exit 1
+    }
+    emit_release "$ref_name" "$upstream_version"
     exit 0
 fi
 
@@ -82,4 +102,4 @@ git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git tag -a "$version" -m "Release $version"
 git push origin "refs/tags/$version"
 
-emit_release "$version"
+emit_release "$version" "$upstream_version"

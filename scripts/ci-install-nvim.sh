@@ -3,12 +3,17 @@
 set -euo pipefail
 
 print_bin_dir=0
+nvim_version="${NVIME_NEOVIM_VERSION:-latest}"
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --print-bin-dir)
             print_bin_dir=1
             shift
+            ;;
+        --version)
+            nvim_version="$2"
+            shift 2
             ;;
         *)
             echo "Unknown option: $1" >&2
@@ -42,8 +47,14 @@ case "$os" in
         ;;
 esac
 
-curl -fsSL -o "$runner_temp/$archive" \
-    "https://github.com/neovim/neovim/releases/latest/download/$archive"
+if [[ "$nvim_version" == "latest" ]]; then
+    download_url="https://github.com/neovim/neovim/releases/latest/download/$archive"
+else
+    download_url="https://github.com/neovim/neovim/releases/download/v${nvim_version#v}/$archive"
+fi
+
+curl -fsSL -o "$runner_temp/$archive" "$download_url"
+rm -rf "$runner_temp/${archive%.tar.gz}"
 tar -xzf "$runner_temp/$archive" -C "$runner_temp"
 
 install_dir="${archive%.tar.gz}"

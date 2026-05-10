@@ -60,6 +60,12 @@ payload_root="$bundle_root/payload"
 payload_config_root="$payload_root/config/nvim"
 payload_data_root="$payload_root/data/nvim"
 
+run_headless_nvim() {
+    nvim --headless \
+        '+lua if vim.v.errmsg ~= "" then vim.api.nvim_err_writeln(vim.v.errmsg); vim.cmd("cquit") end' \
+        '+qa'
+}
+
 mkdir -p \
     "$artifact_root" \
     "$config_root" \
@@ -72,8 +78,8 @@ mkdir -p \
 cp -R "$repo_root/." "$config_root"
 
 echo "Bootstrapping packaged config in $config_root"
-nvim --headless '+qa'
-nvim --headless '+qa'
+run_headless_nvim
+run_headless_nvim
 
 rsync -a \
     --exclude='.git/' \

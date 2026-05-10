@@ -19,6 +19,12 @@ export XDG_CACHE_HOME="$work_root/cache"
 
 config_root="$XDG_CONFIG_HOME/nvim"
 
+run_headless_nvim() {
+    nvim --headless \
+        '+lua if vim.v.errmsg ~= "" then vim.api.nvim_err_writeln(vim.v.errmsg); vim.cmd("cquit") end' \
+        '+qa'
+}
+
 mkdir -p \
     "$config_root" \
     "$XDG_DATA_HOME" \
@@ -30,7 +36,7 @@ cp -R "$repo_root/." "$config_root"
 echo "Using temporary config root: $config_root"
 echo "Using temporary data root: $XDG_DATA_HOME"
 echo "Bootstrapping plugins from nvim-pack-lock.json"
-nvim --headless '+qa'
+run_headless_nvim
 
 echo "Verifying clean headless startup"
-nvim --headless '+qa'
+run_headless_nvim

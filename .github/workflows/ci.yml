@@ -6,6 +6,14 @@ on:
       - "v*.*.*.*"
   schedule:
     - cron: "0 0 1 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   prepare:
@@ -17,6 +25,7 @@ jobs:
       should_release: ${{ steps.prepare.outputs.should_release }}
       version: ${{ steps.prepare.outputs.version }}
       release_ref: ${{ steps.prepare.outputs.release_ref }}
+      nvim_version: ${{ steps.prepare.outputs.nvim_version }}
 
     steps:
       - name: Check out repository
@@ -51,6 +60,8 @@ jobs:
 
       - name: Install Neovim stable
         shell: bash
+        env:
+          NVIME_NEOVIM_VERSION: ${{ needs.prepare.outputs.nvim_version }}
         run: bash scripts/ci-install-nvim.sh
 
       - name: Run smoke test
@@ -80,6 +91,8 @@ jobs:
 
       - name: Install Neovim stable
         shell: bash
+        env:
+          NVIME_NEOVIM_VERSION: ${{ needs.prepare.outputs.nvim_version }}
         run: bash scripts/ci-install-nvim.sh
 
       - name: Build bundled package
