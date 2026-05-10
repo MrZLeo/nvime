@@ -23,12 +23,36 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Resolve Neovim version
+        id: nvim-version
+        shell: bash
+        run: |
+          version="$(bash scripts/ci-resolve-nvim-version.sh)"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Neovim
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.tool_cache }}/nvime-nvim/${{ steps.nvim-version.outputs.version }}
+          key: nvim-${{ runner.os }}-${{ runner.arch }}-${{ steps.nvim-version.outputs.version }}
+
       - name: Install Neovim stable
         shell: bash
+        env:
+          NVIME_NEOVIM_VERSION: ${{ steps.nvim-version.outputs.version }}
+          NVIME_NEOVIM_ROOT: ${{ runner.tool_cache }}/nvime-nvim/${{ steps.nvim-version.outputs.version }}
         run: bash scripts/ci-install-nvim.sh
+
+      - name: Cache Lua tooling
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.tool_cache }}/nvime-lua-tools
+          key: lua-tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-install-lua-tools.sh') }}
 
       - name: Install Lua tooling
         shell: bash
+        env:
+          NVIME_LUA_TOOL_ROOT: ${{ runner.tool_cache }}/nvime-lua-tools
         run: bash scripts/ci-install-lua-tools.sh
 
       - name: Check shell scripts

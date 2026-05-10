@@ -58,14 +58,34 @@ jobs:
           fetch-depth: 0
           ref: ${{ needs.prepare.outputs.release_ref }}
 
+      - name: Cache Neovim
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.tool_cache }}/nvime-nvim/${{ needs.prepare.outputs.nvim_version }}
+          key: nvim-${{ runner.os }}-${{ runner.arch }}-${{ needs.prepare.outputs.nvim_version }}
+
       - name: Install Neovim stable
         shell: bash
         env:
           NVIME_NEOVIM_VERSION: ${{ needs.prepare.outputs.nvim_version }}
+          NVIME_NEOVIM_ROOT: ${{ runner.tool_cache }}/nvime-nvim/${{ needs.prepare.outputs.nvim_version }}
         run: bash scripts/ci-install-nvim.sh
+
+      - name: Cache vim.pack plugins
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ runner.tool_cache }}/nvime-pack/data
+            ${{ runner.tool_cache }}/nvime-pack/cache
+          key: vim-pack-${{ runner.os }}-${{ runner.arch }}-${{ needs.prepare.outputs.nvim_version }}-${{ hashFiles('nvim-pack-lock.json') }}
+          restore-keys: |
+            vim-pack-${{ runner.os }}-${{ runner.arch }}-${{ needs.prepare.outputs.nvim_version }}-
 
       - name: Run smoke test
         shell: bash
+        env:
+          NVIME_XDG_DATA_HOME: ${{ runner.tool_cache }}/nvime-pack/data
+          NVIME_XDG_CACHE_HOME: ${{ runner.tool_cache }}/nvime-pack/cache
         run: bash scripts/ci-smoke.sh
 
   package:
@@ -89,17 +109,36 @@ jobs:
           fetch-depth: 0
           ref: ${{ needs.prepare.outputs.release_ref }}
 
+      - name: Cache Neovim
+        uses: actions/cache@v5
+        with:
+          path: ${{ runner.tool_cache }}/nvime-nvim/${{ needs.prepare.outputs.nvim_version }}
+          key: nvim-${{ runner.os }}-${{ runner.arch }}-${{ needs.prepare.outputs.nvim_version }}
+
       - name: Install Neovim stable
         shell: bash
         env:
           NVIME_NEOVIM_VERSION: ${{ needs.prepare.outputs.nvim_version }}
+          NVIME_NEOVIM_ROOT: ${{ runner.tool_cache }}/nvime-nvim/${{ needs.prepare.outputs.nvim_version }}
         run: bash scripts/ci-install-nvim.sh
+
+      - name: Cache vim.pack plugins
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ runner.tool_cache }}/nvime-pack/data
+            ${{ runner.tool_cache }}/nvime-pack/cache
+          key: vim-pack-${{ runner.os }}-${{ runner.arch }}-${{ needs.prepare.outputs.nvim_version }}-${{ hashFiles('nvim-pack-lock.json') }}
+          restore-keys: |
+            vim-pack-${{ runner.os }}-${{ runner.arch }}-${{ needs.prepare.outputs.nvim_version }}-
 
       - name: Build bundled package
         id: package
         shell: bash
         env:
           NVIME_RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
+          NVIME_XDG_DATA_HOME: ${{ runner.tool_cache }}/nvime-pack/data
+          NVIME_XDG_CACHE_HOME: ${{ runner.tool_cache }}/nvime-pack/cache
         run: bash scripts/ci-package.sh
 
       - name: Upload package artifact

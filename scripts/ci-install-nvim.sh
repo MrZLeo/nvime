@@ -23,6 +23,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 runner_temp="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
+install_root="${NVIME_NEOVIM_ROOT:-$runner_temp}"
 os="$(uname -s)"
 arch="$(uname -m)"
 
@@ -53,12 +54,26 @@ else
     download_url="https://github.com/neovim/neovim/releases/download/v${nvim_version#v}/$archive"
 fi
 
-curl -fsSL -o "$runner_temp/$archive" "$download_url"
-rm -rf "$runner_temp/${archive%.tar.gz}"
-tar -xzf "$runner_temp/$archive" -C "$runner_temp"
-
 install_dir="${archive%.tar.gz}"
-bin_dir="$runner_temp/$install_dir/bin"
+install_path="$install_root/$install_dir"
+bin_dir="$install_path/bin"
+
+if [[ ! -x "$bin_dir/nvim" ]]; then
+    download_root="$(mktemp -d "${runner_temp%/}/nvime-nvim.XXXXXX")"
+    cleanup_download() {
+        rm -rf "$download_root"
+    }
+    trap cleanup_download EXIT
+
+    mkdir -p "$install_root"
+    echo "Installing Neovim ${nvim_version} into $install_path" >&2
+    curl -fsSL -o "$download_root/$archive" "$download_url"
+    tar -xzf "$download_root/$archive" -C "$download_root"
+    rm -rf "$install_path"
+    mv "$download_root/$install_dir" "$install_path"
+else
+    echo "Using cached Neovim at $install_path" >&2
+fi
 
 if [[ -n "${GITHUB_PATH:-}" ]]; then
     echo "$bin_dir" >> "$GITHUB_PATH"

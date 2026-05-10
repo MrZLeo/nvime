@@ -78,9 +78,7 @@ fi
 
 upstream_version="${NVIME_RELEASE_UPSTREAM_VERSION:-}"
 if [[ -z "$upstream_version" ]]; then
-    bin_dir="$(bash "$repo_root/scripts/ci-install-nvim.sh" --print-bin-dir)"
-    export PATH="$bin_dir:$PATH"
-    upstream_version="$(nvim --version | sed -n '1s/^NVIM v//p' | tr -d '\r')"
+    upstream_version="$(bash "$repo_root/scripts/ci-resolve-nvim-version.sh")"
 fi
 
 if [[ -z "$upstream_version" ]]; then

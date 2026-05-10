@@ -13,9 +13,9 @@ trap cleanup EXIT
 
 export HOME="$work_root/home"
 export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$work_root/data"
+export XDG_DATA_HOME="${NVIME_XDG_DATA_HOME:-$work_root/data}"
 export XDG_STATE_HOME="$work_root/state"
-export XDG_CACHE_HOME="$work_root/cache"
+export XDG_CACHE_HOME="${NVIME_XDG_CACHE_HOME:-$work_root/cache}"
 
 config_root="$XDG_CONFIG_HOME/nvim"
 

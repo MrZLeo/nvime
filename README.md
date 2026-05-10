@@ -174,6 +174,8 @@ selene .
 
 CI installs pinned versions of the Lua tooling with
 [scripts/ci-install-lua-tools.sh](scripts/ci-install-lua-tools.sh).
+The workflow caches the Neovim install and Lua tooling directories between runs,
+keyed by OS, architecture, and tool version/configuration.
 
 ## Release CI
 
@@ -193,12 +195,19 @@ The release pipeline does three things:
 2. Builds platform-native bundles after the smoke test passes.
 3. Publishes the generated packages to the GitHub Release for that tag.
 
-The workflow can be triggered in two ways:
+Release jobs cache the Neovim install directory and `vim.pack` data/cache
+directories. The plugin cache is keyed by OS, architecture, Neovim version, and
+[nvim-pack-lock.json](nvim-pack-lock.json), with a same-version fallback so
+unchanged plugins can be reused when the lockfile changes.
+
+The workflow can be triggered in three ways:
 
 1. Manually push a tag such as `v0.12.1.0`.
 2. Let the monthly scheduled run check `master`; on the first day of each month
    at `00:00 UTC`, if there are commits since the previous release tag, it
    creates the next tag automatically and publishes a release from that commit.
+3. Run the workflow manually from GitHub Actions when you need to retry or debug
+   a release.
 
 Example release flow:
 
