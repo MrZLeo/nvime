@@ -1,0 +1,8 @@
+std = "neovim"
+exclude = ["nvim-pack-lock.json"]
+
+[lints]
+global_usage = "deny"
+incorrect_standard_library_use = "allow"
+mixed_table = "allow"
+multiple_statements = "allow"

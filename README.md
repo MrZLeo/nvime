@@ -160,6 +160,21 @@ Current defaults include:
 - Inlay hints
 - Format-on-save, except for filetypes explicitly skipped in [plugin/zz-lsp.lua](plugin/zz-lsp.lua)
 
+## Development checks
+
+The normal push/PR checks validate shell scripts, Lua syntax, Lua formatting, and
+Lua linting:
+
+```bash
+bash -n scripts/*.sh
+bash scripts/ci-lua-syntax.sh
+stylua --check .
+selene .
+```
+
+CI installs pinned versions of the Lua tooling with
+[scripts/ci-install-lua-tools.sh](scripts/ci-install-lua-tools.sh).
+
 ## Release CI
 
 GitHub Actions builds and publishes release artifacts for tags matching `v*.*.*.*`.
@@ -199,4 +214,3 @@ Local helper scripts used by CI:
 - [scripts/ci-install-nvim.sh](scripts/ci-install-nvim.sh): installs Neovim in CI
 - [scripts/ci-package.sh](scripts/ci-package.sh): bootstraps plugins and builds release bundles
 - [scripts/install-bundle.sh](scripts/install-bundle.sh): installs a packaged release locally
-
