@@ -132,6 +132,13 @@ jobs:
           restore-keys: |
             vim-pack-${{ runner.os }}-${{ runner.arch }}-${{ needs.prepare.outputs.nvim_version }}-
 
+      - name: Install Linux packaging tools
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpm
+
       - name: Build bundled package
         id: package
         shell: bash

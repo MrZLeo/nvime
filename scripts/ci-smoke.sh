@@ -36,7 +36,7 @@ cp -R "$repo_root/." "$config_root"
 echo "Using temporary config root: $config_root"
 echo "Using temporary data root: $XDG_DATA_HOME"
 echo "Bootstrapping plugins from nvim-pack-lock.json"
-run_headless_nvim
+NVIME_SKIP_BLINK_NATIVE=1 run_headless_nvim
 
 echo "Ensuring Blink native libraries are available"
 bash "$repo_root/scripts/ci-ensure-blink-native.sh"

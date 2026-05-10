@@ -36,14 +36,14 @@ NVIME is a pure Lua Neovim configuration built around Neovim `0.12+`, the native
    ```
    Missing plugins are installed automatically on first launch.
 
-## Install from Release Bundle
+## Install from Release Artifacts
 
-Tagged releases publish prebuilt bundles for both Linux and macOS:
+Tagged releases publish prebuilt artifacts for Linux and macOS:
 
-- Linux: `.tar.gz`
+- Linux: `.tar.gz`, `.deb`, `.rpm`
 - macOS: `.dmg`
 
-Each bundle contains:
+The `.tar.gz` and `.dmg` bundles contain:
 
 - `install.sh`: installs the packaged config and downloaded plugins
 - `payload/config/nvim`: the NVIME config
@@ -54,7 +54,7 @@ Installation defaults:
 - Config: `${XDG_CONFIG_HOME:-$HOME/.config}/nvim`
 - Data: `${XDG_DATA_HOME:-$HOME/.local/share}/nvim`
 
-To install a release bundle:
+To install a release bundle from `.tar.gz` or `.dmg`:
 
 1. Download the matching release artifact for your platform.
 2. Extract or open it.
@@ -66,6 +66,24 @@ To install a release bundle:
    ```bash
    nvim
    ```
+
+Linux package manager artifacts install the same bundle under
+`/usr/share/nvime` and expose `nvime-install` on `PATH`. They do not overwrite
+user config during `apt` or `dnf` installation.
+
+Debian/Ubuntu:
+
+```bash
+sudo apt install ./nvime-*.deb
+nvime-install
+```
+
+Fedora/RHEL:
+
+```bash
+sudo dnf install ./nvime-*.rpm
+nvime-install
+```
 
 The installer creates timestamped backups before replacing an existing install.
 It also checks that `nvim` is already installed and that the detected version is
@@ -192,7 +210,7 @@ NVIME release revision for that upstream version and starts at `0`.
 The release pipeline does three things:
 
 1. Runs a headless smoke test on `ubuntu-latest` and `macos-latest`.
-2. Builds platform-native bundles after the smoke test passes.
+2. Builds platform-native artifacts after the smoke test passes.
 3. Publishes the generated packages to the GitHub Release for that tag.
 
 Release jobs cache the Neovim install directory and `vim.pack` data/cache
@@ -225,5 +243,5 @@ Local helper scripts used by CI:
 - [scripts/ci-prepare-release.sh](scripts/ci-prepare-release.sh): resolves the release version and creates scheduled tags
 - [scripts/ci-smoke.sh](scripts/ci-smoke.sh): headless startup validation
 - [scripts/ci-install-nvim.sh](scripts/ci-install-nvim.sh): installs Neovim in CI
-- [scripts/ci-package.sh](scripts/ci-package.sh): bootstraps plugins and builds release bundles
+- [scripts/ci-package.sh](scripts/ci-package.sh): bootstraps plugins and builds release artifacts
 - [scripts/install-bundle.sh](scripts/install-bundle.sh): installs a packaged release locally

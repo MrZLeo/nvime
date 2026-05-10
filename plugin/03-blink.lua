@@ -1,4 +1,5 @@
 local has_git = vim.fn.executable("git") == 1
+local skip_blink_native = vim.env.NVIME_SKIP_BLINK_NATIVE == "1"
 
 vim.pack.add({
     -- optional: provides snippets for the snippet source
@@ -49,7 +50,7 @@ local blink_cmp_opts = {
     },
 }
 
-if not has_git then
+if skip_blink_native or not has_git then
     blink_cmp_opts.fuzzy = {
         implementation = "lua",
     }
@@ -57,7 +58,7 @@ end
 
 require("blink.cmp").setup(blink_cmp_opts)
 
-if has_git then
+if has_git and not skip_blink_native then
     require("blink.pairs").setup({
         mappings = {
             enabled = true,
