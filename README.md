@@ -69,7 +69,9 @@ To install a release bundle from `.tar.gz` or `.dmg`:
 
 Linux package manager artifacts install the same bundle under
 `/usr/share/nvime` and expose `nvime-install` on `PATH`. They do not overwrite
-user config during `apt` or `dnf` installation.
+user config during `apt` or `dnf` installation. The packages recommend Neovim
+but do not require the distro package name, because `nvime-install` checks the
+actual `nvim` binary on `PATH`.
 
 Debian/Ubuntu:
 

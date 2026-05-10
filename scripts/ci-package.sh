@@ -223,7 +223,7 @@ Version: ${package_version}
 Section: editors
 Priority: optional
 Architecture: ${deb_arch}
-Depends: neovim
+Recommends: neovim
 Installed-Size: ${installed_size}
 Maintainer: NVIME maintainers <noreply@example.com>
 Description: Self-contained Neovim configuration bundle
@@ -275,7 +275,7 @@ Version: ${package_version}
 Release: 1
 Summary: Self-contained Neovim configuration bundle
 License: LicenseRef-NVIME
-Requires: neovim
+Recommends: neovim
 
 %description
 NVIME packages the Neovim config and downloaded vim.pack plugins. Run
