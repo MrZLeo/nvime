@@ -4,11 +4,42 @@ vim.pack.add({
 })
 
 local ensure_installed = {
-    "bash", "bibtex", "c", "cmake", "comment", "cpp", "diff", "dockerfile",
-    "fish", "git_rebase", "gitattributes", "go", "gomod", "gowork", "haskell",
-    "json", "json5", "latex", "llvm", "lua", "make", "markdown",
-    "markdown_inline", "ninja", "perl", "proto", "python", "rst", "rust",
-    "sql", "toml", "vim", "yaml", "kdl", "gn", "typescript"
+    "bash",
+    "bibtex",
+    "c",
+    "cmake",
+    "comment",
+    "cpp",
+    "diff",
+    "dockerfile",
+    "fish",
+    "git_rebase",
+    "gitattributes",
+    "go",
+    "gomod",
+    "gowork",
+    "haskell",
+    "json",
+    "json5",
+    "latex",
+    "llvm",
+    "lua",
+    "make",
+    "markdown",
+    "markdown_inline",
+    "ninja",
+    "perl",
+    "proto",
+    "python",
+    "rst",
+    "rust",
+    "sql",
+    "toml",
+    "vim",
+    "yaml",
+    "kdl",
+    "gn",
+    "typescript",
 }
 
 local treesitter = require("nvim-treesitter")
@@ -24,7 +55,10 @@ vim.api.nvim_create_user_command("TSSyncParsers", function()
     if ok and result then
         vim.notify("Tree-sitter parsers are up to date.", vim.log.levels.INFO)
     else
-        vim.notify("Tree-sitter parser sync failed. Check :messages for details.", vim.log.levels.ERROR)
+        vim.notify(
+            "Tree-sitter parser sync failed. Check :messages for details.",
+            vim.log.levels.ERROR
+        )
     end
 end, {
     desc = "Install and update Tree-sitter parsers used by this config",

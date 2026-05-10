@@ -24,14 +24,14 @@ local function clean_buf()
     end
 end
 
-vim.api.nvim_create_user_command('Clear', clean_buf, {
-    desc = "Delete all buffers except active ones"
+vim.api.nvim_create_user_command("Clear", clean_buf, {
+    desc = "Delete all buffers except active ones",
 })
 
 local function toggle_spelling()
     vim.opt.spell = not vim.opt.spell:get()
 end
 
-vim.api.nvim_create_user_command('Spell', toggle_spelling, {
-    desc = "Toggle spelling"
+vim.api.nvim_create_user_command("Spell", toggle_spelling, {
+    desc = "Toggle spelling",
 })

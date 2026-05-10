@@ -34,7 +34,7 @@ vim.diagnostic.config({
 -- State management
 local state = {
     skip_diagnostic = false,
-    timer = nil
+    timer = nil,
 }
 
 -- Config
@@ -42,12 +42,12 @@ local config = {
     float_opts = {
         focusable = false,
         close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-        border = 'rounded',
-        source = 'always',
-        prefix = ' ',
-        scope = 'cursor',
+        border = "rounded",
+        source = "always",
+        prefix = " ",
+        scope = "cursor",
     },
-    hover_delay = 1000
+    hover_delay = 1000,
 }
 
 -- Cache blink.cmp require at module level (not in hot path)
@@ -74,11 +74,13 @@ vim.api.nvim_create_autocmd({ "CursorHold" }, {
 })
 
 -- Toggle hover (temporarily suppress diagnostic float)
-function ToggleHover()
+local function toggle_hover()
     state.skip_diagnostic = true
     vim.lsp.buf.hover()
 
-    if state.timer then state.timer:stop() end
+    if state.timer then
+        state.timer:stop()
+    end
 
     state.timer = vim.defer_fn(function()
         state.skip_diagnostic = false
@@ -91,14 +93,14 @@ end
 
 local function setup_keymaps(bufnr)
     local maps = {
-        { "n", "gD",        vim.lsp.buf.declaration },
-        { "n", "gd",        require('telescope.builtin').lsp_definitions },
-        { "n", "K",         ToggleHover },
-        { "n", "gi",        require('telescope.builtin').lsp_implementations },
+        { "n", "gD", vim.lsp.buf.declaration },
+        { "n", "gd", require("telescope.builtin").lsp_definitions },
+        { "n", "K", toggle_hover },
+        { "n", "gi", require("telescope.builtin").lsp_implementations },
         { "n", "<Space>rn", vim.lsp.buf.rename },
-        { "n", "gr",        require('telescope.builtin').lsp_references },
-        { "n", "<Space>f",  vim.lsp.buf.code_action },
-        { "n", "<Space>l",  require('telescope.builtin').diagnostics }
+        { "n", "gr", require("telescope.builtin").lsp_references },
+        { "n", "<Space>f", vim.lsp.buf.code_action },
+        { "n", "<Space>l", require("telescope.builtin").diagnostics },
     }
     for _, map in ipairs(maps) do
         vim.keymap.set(map[1], map[2], map[3], { buffer = bufnr })
@@ -115,8 +117,12 @@ local skip_format = {
 }
 
 local function setup_format(client, bufnr)
-    if not client:supports_method('textDocument/formatting') then return end
-    if skip_format[vim.bo.filetype] then return end
+    if not client:supports_method("textDocument/formatting") then
+        return
+    end
+    if skip_format[vim.bo.filetype] then
+        return
+    end
 
     vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = bufnr,
@@ -126,7 +132,7 @@ local function setup_format(client, bufnr)
                 id = client.id,
                 timeout_ms = 2000,
             })
-        end
+        end,
     })
 end
 
@@ -134,14 +140,16 @@ end
 -- 5. LSP ATTACH HANDLER
 -- ============================================================================
 
-vim.api.nvim_create_autocmd('LspAttach', {
+vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if not client then return end
+        if not client then
+            return
+        end
 
         setup_keymaps(args.buf)
         setup_format(client, args.buf)
-    end
+    end,
 })
 
 -- ============================================================================
@@ -164,10 +172,10 @@ vim.lsp.config("clangd", {
         "--completion-style=detailed",
         "--header-insertion=never",
         "--pch-storage=memory",
-        "--offset-encoding=utf-16"
+        "--offset-encoding=utf-16",
     },
     init_options = {
-        fallbackFlags = { '--std=gnu++23' }
+        fallbackFlags = { "--std=gnu++23" },
     },
 })
 
@@ -177,10 +185,10 @@ vim.lsp.config("lua_ls", {
         Lua = {
             hint = { enable = true },
             runtime = {
-                version = 'LuaJIT',
+                version = "LuaJIT",
             },
             diagnostics = {
-                globals = { 'vim' },
+                globals = { "vim" },
             },
             workspace = {
                 library = vim.api.nvim_get_runtime_file("", true),
@@ -189,7 +197,7 @@ vim.lsp.config("lua_ls", {
                 enable = false,
             },
         },
-    }
+    },
 })
 
 -- ============================================================================

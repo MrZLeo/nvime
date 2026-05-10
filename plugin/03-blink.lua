@@ -10,24 +10,24 @@ vim.pack.add({
     -- cmp
     {
         src = "https://github.com/saghen/blink.cmp",
-        version = vim.version.range('*')
+        version = vim.version.range("*"),
     },
 
     -- pairs
     {
         src = "https://github.com/saghen/blink.pairs",
-        version = vim.version.range('*')
+        version = vim.version.range("*"),
     },
 })
 
 local blink_cmp_opts = {
     keymap = {
-        preset = 'enter',
-        ['<C-x>'] = { 'show', 'show_documentation', 'hide_documentation' },
-        ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
-        ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
-        ['C-w'] = { 'snippet_forward', 'fallback' },
-        ['C-e'] = { 'snippet_backward', 'fallback' },
+        preset = "enter",
+        ["<C-x>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+        ["C-w"] = { "snippet_forward", "fallback" },
+        ["C-e"] = { "snippet_backward", "fallback" },
     },
 
     appearance = {
@@ -38,7 +38,7 @@ local blink_cmp_opts = {
     },
 
     sources = {
-        default = { "lsp", "path", "snippets", "buffer", },
+        default = { "lsp", "path", "snippets", "buffer" },
     },
     cmdline = { enabled = false },
 
@@ -47,7 +47,6 @@ local blink_cmp_opts = {
     completion = {
         documentation = { auto_show = true },
     },
-
 }
 
 if not has_git then

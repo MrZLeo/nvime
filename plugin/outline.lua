@@ -13,6 +13,6 @@ require("outline").setup({
         rename_symbol = "r",
         toggle_preview = "p",
         unfold = "l",
-        unfold_all = "E"
-    }
+        unfold_all = "E",
+    },
 })

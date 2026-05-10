@@ -1,6 +1,6 @@
 -- basic configuration
 local default_option = {
-    compatible = false,     -- nocompatible with vi
+    compatible = false, -- nocompatible with vi
     fileencoding = "utf-8", -- coding format utf-8
     number = true,
     relativenumber = true,
@@ -12,7 +12,7 @@ local default_option = {
     writebackup = false,
     hidden = true,
     ignorecase = true, -- ignore case when use '/' to search
-    smartcase = true,  -- if enter uppercase, don't ignore case
+    smartcase = true, -- if enter uppercase, don't ignore case
     history = 500,
     splitbelow = true,
     expandtab = true,
@@ -53,7 +53,7 @@ local default_option = {
 
     -- spell
     spelllang = { "en_us", "cjk" },
-    spellfile = vim.fn.expand("~/.config/nvim/spell/en.utf-8.add")
+    spellfile = vim.fn.expand("~/.config/nvim/spell/en.utf-8.add"),
 }
 
 -- enable all setting
@@ -67,10 +67,10 @@ vim.keymap.set("v", "<leader>y", '"+y', opts)
 vim.keymap.set("n", "<leader>p", '"+p', opts)
 
 -- latex support
-vim.g.tex_flavor = 'latex'
+vim.g.tex_flavor = "latex"
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     pattern = { "*.tex" },
-    command = [[set spell]]
+    command = [[set spell]],
 })
 
 -- neovim cannot detect gn format right now
