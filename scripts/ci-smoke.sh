@@ -38,5 +38,8 @@ echo "Using temporary data root: $XDG_DATA_HOME"
 echo "Bootstrapping plugins from nvim-pack-lock.json"
 run_headless_nvim
 
+echo "Ensuring Blink native libraries are available"
+bash "$repo_root/scripts/ci-ensure-blink-native.sh"
+
 echo "Verifying clean headless startup"
 run_headless_nvim

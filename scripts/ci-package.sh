@@ -23,10 +23,12 @@ case "$os" in
     Linux)
         platform="linux"
         package_ext="tar.gz"
+        native_ext=".so"
         ;;
     Darwin)
         platform="macos"
         package_ext="dmg"
+        native_ext=".dylib"
         ;;
     *)
         echo "Unsupported operating system: $os" >&2
@@ -79,6 +81,7 @@ cp -R "$repo_root/." "$config_root"
 
 echo "Bootstrapping packaged config in $config_root"
 run_headless_nvim
+bash "$repo_root/scripts/ci-ensure-blink-native.sh"
 run_headless_nvim
 
 rsync -a \
@@ -95,6 +98,23 @@ rsync -a \
 if [[ -d "$data_root" ]]; then
     rsync -a "$data_root/" "$payload_data_root/"
 fi
+
+require_payload_file() {
+    local pattern="$1"
+    local label="$2"
+    local match
+
+    match="$(find "$payload_data_root" -name "$pattern" -type f -print -quit)"
+    if [[ -z "$match" ]]; then
+        echo "Packaged payload is missing $label ($pattern)" >&2
+        exit 1
+    fi
+
+    echo "Included $label: $match"
+}
+
+require_payload_file "libblink_cmp_fuzzy${native_ext}" "blink.cmp fuzzy native library"
+require_payload_file "libblink_pairs${native_ext}" "blink.pairs native library"
 
 cp "$repo_root/scripts/install-bundle.sh" "$bundle_root/install.sh"
 chmod +x "$bundle_root/install.sh"
