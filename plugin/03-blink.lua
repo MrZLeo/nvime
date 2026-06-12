@@ -59,7 +59,9 @@ end
 require("blink.cmp").setup(blink_cmp_opts)
 
 if has_git and not skip_blink_native then
-    require("blink.pairs").setup({
+    local blink_pairs = require("blink.pairs")
+
+    local blink_pairs_opts = {
         mappings = {
             enabled = true,
             disabled_filetypes = {},
@@ -78,5 +80,24 @@ if has_git and not skip_blink_native then
             },
         },
         debug = false,
-    })
+    }
+
+    local function setup_blink_pairs()
+        blink_pairs.setup(blink_pairs_opts)
+    end
+
+    if blink_pairs.library_available() then
+        setup_blink_pairs()
+    else
+        blink_pairs
+            .download()
+            :on_resolve(function()
+                vim.schedule(setup_blink_pairs)
+            end)
+            :on_reject(function(err)
+                vim.schedule(function()
+                    vim.notify("Failed to prepare blink.pairs native library: " .. tostring(err), vim.log.levels.ERROR)
+                end)
+            end)
+    end
 end

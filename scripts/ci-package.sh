@@ -135,7 +135,7 @@ require_payload_file() {
 }
 
 require_payload_file "libblink_cmp_fuzzy${native_ext}" "blink.cmp fuzzy native library"
-require_payload_file "libblink_pairs${native_ext}" "blink.pairs native library"
+require_payload_file "libblink_pairs_parser${native_ext}*" "blink.pairs native library"
 
 cp "$repo_root/scripts/install-bundle.sh" "$bundle_root/install.sh"
 chmod +x "$bundle_root/install.sh"

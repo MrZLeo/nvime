@@ -56,6 +56,15 @@ local function native_extension()
     return ".so"
 end
 
+local function plugin_root_from_fn(fn, module_path)
+    local source = debug.getinfo(fn, "S").source:gsub("^@", "")
+    local root = source:gsub(module_path, "")
+    if root == source then
+        fail("Failed to resolve plugin root from " .. source)
+    end
+    return root
+end
+
 local function packadd(plugin)
     local ok, err = pcall(vim.cmd.packadd, plugin)
     if not ok then
@@ -107,25 +116,28 @@ if not ok_pairs then
     fail("blink.pairs is not available: " .. tostring(pairs))
 end
 
-wait_for("blink.pairs native library", function(done)
-    pairs.download_if_available(function(err)
-        done(err, true)
-    end)
-end)
+local ok_pairs_download, pairs_download_err = pairs.download():pwait(180000)
+if not ok_pairs_download then
+    fail("Failed to prepare blink.pairs native library: " .. tostring(pairs_download_err))
+end
 
 local ok_pairs_rust, pairs_rust_err = pcall(require, "blink.pairs.rust")
 if not ok_pairs_rust then
     fail("blink.pairs native library is not loadable: " .. tostring(pairs_rust_err))
 end
 
-local pairs_source = debug.getinfo(pairs.download_if_available, "S").source:gsub("^@", "")
-local pairs_root = pairs_source:gsub("/lua/blink/pairs/init%.lua$", "")
-if pairs_root == pairs_source then
-    fail("Failed to resolve blink.pairs plugin root from " .. pairs_source)
+local pairs_root = plugin_root_from_fn(pairs.download, "/lua/blink/pairs/init%.lua$")
+local ok_native, native = pcall(require, "blink.lib.native")
+if not ok_native then
+    fail("blink.lib native helper is not available: " .. tostring(native))
+end
+
+local pairs_commit = native.try_git_commit(pairs_root)
+if not pairs_commit then
+    fail("Failed to resolve blink.pairs git commit")
 end
 
 assert_file(
-    pairs_root .. "/target/release/libblink_pairs" .. native_extension(),
+    pairs_root .. "/lib/libblink_pairs_parser" .. native_extension() .. "." .. pairs_commit:sub(1, 7),
     "blink.pairs native library"
 )
-assert_file(pairs_root .. "/target/release/version", "blink.pairs native version")

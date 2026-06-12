@@ -10,12 +10,12 @@
       "src": "https://github.com/saghen/blink.lib"
     },
     "blink.pairs": {
-      "rev": "4e43012356d33a26f69eae475f746fbe9f325f44",
+      "rev": "aad9046bc4670dc91301cd62a6948feb36c55f4a",
       "src": "https://github.com/saghen/blink.pairs",
       "version": ">=0.0.0"
     },
     "codecompanion.nvim": {
-      "rev": "74046d6a44bc15508e7182e6da69f7953f9c6971",
+      "rev": "ab04cf7955b4f3133983ea402f7f3fc5e7d6154b",
       "src": "https://github.com/olimorris/codecompanion.nvim",
       "version": ">=0.0.0"
     },
