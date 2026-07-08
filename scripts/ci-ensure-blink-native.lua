@@ -138,6 +138,10 @@ if not pairs_commit then
 end
 
 assert_file(
-    pairs_root .. "/lib/libblink_pairs_parser" .. native_extension() .. "." .. pairs_commit:sub(1, 7),
+    pairs_root
+        .. "/lib/libblink_pairs_parser"
+        .. native_extension()
+        .. "."
+        .. pairs_commit:sub(1, 7),
     "blink.pairs native library"
 )

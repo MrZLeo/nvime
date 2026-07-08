@@ -96,7 +96,10 @@ if has_git and not skip_blink_native then
             end)
             :on_reject(function(err)
                 vim.schedule(function()
-                    vim.notify("Failed to prepare blink.pairs native library: " .. tostring(err), vim.log.levels.ERROR)
+                    vim.notify(
+                        "Failed to prepare blink.pairs native library: " .. tostring(err),
+                        vim.log.levels.ERROR
+                    )
                 end)
             end)
     end
