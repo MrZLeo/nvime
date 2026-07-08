@@ -220,9 +220,10 @@ directories. The plugin cache is keyed by OS, architecture, Neovim version, and
 [nvim-pack-lock.json](nvim-pack-lock.json), with a same-version fallback so
 unchanged plugins can be reused when the lockfile changes.
 
-The packaging job also preloads and verifies Blink native libraries before
-building artifacts, so packaged installs include the Rust fuzzy matcher for
-`blink.cmp` and the native matcher used by `blink.pairs`.
+Packaged installs include the `vim.pack` plugin checkouts but do not preload
+Blink native libraries. `blink.cmp` and `blink.pairs` prepare their native
+artifacts at runtime when `git` and network access are available, while CI uses
+the Lua fallback during smoke and package bootstrapping.
 
 The workflow can be triggered in three ways:
 
