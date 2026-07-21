@@ -247,12 +247,23 @@ The workflow can be triggered in three ways:
 Example release flow:
 
 ```bash
-git tag v0.12.1.0
-git push origin v0.12.1.0
+# Preview the next release tag.
+bash scripts/create-release-tag.sh --dry-run
+
+# Create an annotated tag locally.
+bash scripts/create-release-tag.sh
+
+# Or create and push it in one step, triggering the release workflow.
+bash scripts/create-release-tag.sh --push
 ```
+
+The helper resolves the current Neovim release, increments the NVIME revision,
+and checks that the working tree is clean and `master` matches `origin/master`.
+Pass `--version 0.12.5` to select a specific Neovim release series.
 
 Local helper scripts used by CI:
 
+- [scripts/create-release-tag.sh](scripts/create-release-tag.sh): safely creates the next local or remote release tag
 - [scripts/ci-prepare-release.sh](scripts/ci-prepare-release.sh): resolves the release version and creates scheduled tags
 - [scripts/ci-smoke.sh](scripts/ci-smoke.sh): headless startup validation
 - [scripts/ci-install-nvim.sh](scripts/ci-install-nvim.sh): installs Neovim in CI
