@@ -93,14 +93,14 @@ end
 
 local function setup_keymaps(bufnr)
     local maps = {
-        { "n", "gD",        vim.lsp.buf.declaration },
-        { "n", "gd",        require("telescope.builtin").lsp_definitions },
-        { "n", "K",         toggle_hover },
-        { "n", "gi",        require("telescope.builtin").lsp_implementations },
+        { "n", "gD", vim.lsp.buf.declaration },
+        { "n", "gd", require("telescope.builtin").lsp_definitions },
+        { "n", "K", toggle_hover },
+        { "n", "gi", require("telescope.builtin").lsp_implementations },
         { "n", "<Space>rn", vim.lsp.buf.rename },
-        { "n", "gr",        require("telescope.builtin").lsp_references },
-        { "n", "<Space>f",  vim.lsp.buf.code_action },
-        { "n", "<Space>l",  require("telescope.builtin").diagnostics },
+        { "n", "gr", require("telescope.builtin").lsp_references },
+        { "n", "<Space>f", vim.lsp.buf.code_action },
+        { "n", "<Space>l", require("telescope.builtin").diagnostics },
     }
     for _, map in ipairs(maps) do
         vim.keymap.set(map[1], map[2], map[3], { buffer = bufnr })
@@ -116,11 +116,59 @@ local skip_format = {
     -- cpp = true
 }
 
+local lua_format_group = vim.api.nvim_create_augroup("lua-format", { clear = true })
+
+local function format_lua(bufnr)
+    if vim.fn.executable("stylua") ~= 1 then
+        vim.notify("stylua is required to format Lua files", vim.log.levels.WARN)
+        return
+    end
+
+    local filepath = vim.api.nvim_buf_get_name(bufnr)
+    local input = table.concat(vim.api.nvim_buf_get_lines(bufnr, 0, -1, false), "\n")
+    local result = vim.system(
+        { "stylua", "--respect-ignores", "--stdin-filepath", filepath, "-" },
+        {
+            stdin = input,
+            text = true,
+        }
+    )
+        :wait(2000)
+
+    if result.code ~= 0 then
+        local message = result.stderr ~= "" and result.stderr or "stylua failed"
+        vim.notify(vim.trim(message), vim.log.levels.ERROR)
+        return
+    end
+
+    local lines = vim.split(result.stdout, "\n", { plain = true })
+    if lines[#lines] == "" then
+        table.remove(lines)
+    end
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+end
+
 local function setup_format(client, bufnr)
+    local filetype = vim.bo[bufnr].filetype
+    if filetype == "lua" then
+        if client.name ~= "lua_ls" then
+            return
+        end
+        vim.api.nvim_clear_autocmds({ group = lua_format_group, buffer = bufnr })
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = lua_format_group,
+            buffer = bufnr,
+            callback = function()
+                format_lua(bufnr)
+            end,
+        })
+        return
+    end
+
     if not client:supports_method("textDocument/formatting") then
         return
     end
-    if skip_format[vim.bo.filetype] then
+    if skip_format[filetype] then
         return
     end
 
@@ -183,6 +231,9 @@ vim.lsp.config("clangd", {
 vim.lsp.config("lua_ls", {
     settings = {
         Lua = {
+            format = {
+                enable = false,
+            },
             hint = { enable = true },
             runtime = {
                 version = "LuaJIT",

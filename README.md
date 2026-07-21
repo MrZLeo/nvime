@@ -197,6 +197,16 @@ CI installs pinned versions of the Lua tooling with
 The workflow caches the Neovim install and Lua tooling directories between runs,
 keyed by OS, architecture, and tool version/configuration.
 
+To enable the repository's pre-commit hook, run:
+
+```bash
+bash scripts/install-git-hooks.sh
+```
+
+The hook runs StyLua on staged Lua files. If formatting changes a file, the
+commit stops so the result can be reviewed and staged before retrying. It also
+refuses to format partially staged Lua files, preserving unstaged changes.
+
 ## Release CI
 
 GitHub Actions builds and publishes release artifacts for tags matching `v*.*.*.*`.

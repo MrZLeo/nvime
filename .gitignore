@@ -17,3 +17,5 @@ lazy-lock.json
 !.github/workflows/
 !.github/workflows/*.yml
 !.github/workflows/*.yaml
+!.githooks/
+!.githooks/pre-commit
