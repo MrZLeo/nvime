@@ -93,14 +93,14 @@ end
 
 local function setup_keymaps(bufnr)
     local maps = {
-        { "n", "gD", vim.lsp.buf.declaration },
-        { "n", "gd", require("telescope.builtin").lsp_definitions },
-        { "n", "K", toggle_hover },
-        { "n", "gi", require("telescope.builtin").lsp_implementations },
+        { "n", "gD",        vim.lsp.buf.declaration },
+        { "n", "gd",        require("telescope.builtin").lsp_definitions },
+        { "n", "K",         toggle_hover },
+        { "n", "gi",        require("telescope.builtin").lsp_implementations },
         { "n", "<Space>rn", vim.lsp.buf.rename },
-        { "n", "gr", require("telescope.builtin").lsp_references },
-        { "n", "<Space>f", vim.lsp.buf.code_action },
-        { "n", "<Space>l", require("telescope.builtin").diagnostics },
+        { "n", "gr",        require("telescope.builtin").lsp_references },
+        { "n", "<Space>f",  vim.lsp.buf.code_action },
+        { "n", "<Space>l",  require("telescope.builtin").diagnostics },
     }
     for _, map in ipairs(maps) do
         vim.keymap.set(map[1], map[2], map[3], { buffer = bufnr })
