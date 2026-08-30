@@ -197,6 +197,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
         setup_keymaps(args.buf)
         setup_format(client, args.buf)
+
+        -- Enable inlay hints per buffer, except for tex
+        if vim.bo[args.buf].filetype ~= "tex" then
+            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+        end
     end,
 })
 
@@ -204,7 +209,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- 6. INLAY HINTS
 -- ============================================================================
 
-vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
 
 -- ============================================================================
