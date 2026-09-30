@@ -255,6 +255,17 @@ vim.lsp.config("lua_ls", {
     },
 })
 
+-- Nix LS
+vim.lsp.config("nixd", {
+    settings = {
+        nixd = {
+            formatting = {
+                command = { "nixfmt" },
+            },
+        },
+    },
+})
+
 -- ============================================================================
 -- 8. ENABLE LSP SERVERS
 -- ============================================================================
@@ -262,13 +273,14 @@ vim.lsp.config("lua_ls", {
 local lsp_servers = {
     "clangd",
     "lua_ls",
-    "tsgo",
+    "tsc",
     "ruff",
     -- "pyright",
     "ty",
     "taplo",
     "texlab",
     "neocmake",
+    "nixd",
     "rust_analyzer",
 }
 
