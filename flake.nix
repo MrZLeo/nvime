@@ -34,7 +34,7 @@
               fd
 
               # Language servers
-              clang-tools
+              llvmPackages_latest.clang-tools
               lua-language-server
               typescript
               ruff
