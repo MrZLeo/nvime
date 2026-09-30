@@ -5,11 +5,8 @@ vim.pack.add({
     -- optional: provides snippets for the snippet source
     "https://github.com/rafamadriz/friendly-snippets",
 
-    -- Follow main alongside blink.pairs for compatible config APIs.
-    {
-        src = "https://github.com/saghen/blink.lib",
-        version = "main",
-    },
+    -- common lib for blink
+    "https://github.com/saghen/blink.lib",
 
     -- cmp
     {
@@ -17,10 +14,10 @@ vim.pack.add({
         version = vim.version.range("*"),
     },
 
-    -- pairs (build the native library locally)
+    -- pairs
     {
         src = "https://github.com/saghen/blink.pairs",
-        version = "main",
+        version = vim.version.range("*"),
     },
 })
 
@@ -91,21 +88,16 @@ if has_git and not skip_blink_native then
 
     if blink_pairs.library_available() then
         setup_blink_pairs()
-    elseif vim.fn.executable("cargo") ~= 1 then
-        vim.notify(
-            "Cargo (Rust) is required to build blink.pairs from source.",
-            vim.log.levels.ERROR
-        )
     else
         blink_pairs
-            .build()
+            .download()
             :on_resolve(function()
                 vim.schedule(setup_blink_pairs)
             end)
             :on_reject(function(err)
                 vim.schedule(function()
                     vim.notify(
-                        "Failed to build blink.pairs native library: " .. tostring(err),
+                        "Failed to prepare blink.pairs native library: " .. tostring(err),
                         vim.log.levels.ERROR
                     )
                 end)
