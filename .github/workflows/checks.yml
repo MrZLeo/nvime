@@ -6,6 +6,7 @@ on:
       - master
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -16,57 +17,27 @@ concurrency:
 
 jobs:
   lua:
-    name: Lua quality gates
-    runs-on: ubuntu-latest
-
+    name: Locked CI tools and quality gates
+    runs-on: ubuntu-24.04
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
 
-      - name: Resolve Neovim version
-        id: nvim-version
-        shell: bash
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Check scripts, Lua and workflows
+        shell: nix develop .#ci --no-write-lock-file --command bash -euo pipefail {0}
         run: |
-          version="$(bash scripts/ci-resolve-nvim-version.sh)"
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          for script in scripts/*.sh arch-install.sh .githooks/pre-commit; do
+            bash -n "$script"
+          done
+          bash scripts/ci-lua-syntax.sh
+          stylua --check .
+          selene .
+          nixfmt --check flake.nix
+          actionlint
+          python3 -c 'import ast, pathlib; ast.parse(pathlib.Path("scripts/ci-blink.py").read_text())'
 
-      - name: Cache Neovim
-        uses: actions/cache@v5
-        with:
-          path: ${{ runner.tool_cache }}/nvime-nvim/${{ steps.nvim-version.outputs.version }}
-          key: nvim-${{ runner.os }}-${{ runner.arch }}-${{ steps.nvim-version.outputs.version }}
-
-      - name: Install Neovim stable
-        shell: bash
-        env:
-          NVIME_NEOVIM_VERSION: ${{ steps.nvim-version.outputs.version }}
-          NVIME_NEOVIM_ROOT: ${{ runner.tool_cache }}/nvime-nvim/${{ steps.nvim-version.outputs.version }}
-        run: bash scripts/ci-install-nvim.sh
-
-      - name: Cache Lua tooling
-        uses: actions/cache@v5
-        with:
-          path: ${{ runner.tool_cache }}/nvime-lua-tools
-          key: lua-tools-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('scripts/ci-install-lua-tools.sh') }}
-
-      - name: Install Lua tooling
-        shell: bash
-        env:
-          NVIME_LUA_TOOL_ROOT: ${{ runner.tool_cache }}/nvime-lua-tools
-        run: bash scripts/ci-install-lua-tools.sh
-
-      - name: Check shell scripts
-        shell: bash
-        run: bash -n scripts/*.sh
-
-      - name: Check Lua syntax
-        shell: bash
-        run: bash scripts/ci-lua-syntax.sh
-
-      - name: Check Lua formatting
-        shell: bash
-        run: stylua --check .
-
-      - name: Lint Lua
-        shell: bash
-        run: selene .
+      - name: Evaluate all supported flake platforms
+        run: nix flake check --all-systems --no-build --no-write-lock-file

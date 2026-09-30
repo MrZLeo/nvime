@@ -13,7 +13,7 @@ usage() {
     cat <<'EOF'
 Usage: bash scripts/create-release-tag.sh [OPTIONS]
 
-Create the next NVIME release tag for the current Neovim version.
+Create the next NVIME release tag for the Neovim version pinned in flake.lock.
 
 Options:
   --dry-run          Print the next tag without creating it
@@ -85,10 +85,11 @@ if [[ "$head_commit" != "$remote_commit" ]]; then
     die "HEAD must match '${release_remote}/${release_branch}'; push or update the branch first"
 fi
 
-if [[ -z "$upstream_version" ]]; then
-    upstream_version="$(bash "$repo_root/scripts/ci-resolve-nvim-version.sh")"
-    upstream_version="${upstream_version#v}"
+locked_version="$(bash "$repo_root/scripts/ci-resolve-nvim-version.sh")"
+if [[ -n "$upstream_version" && "$upstream_version" != "$locked_version" ]]; then
+    die "--version must match flake.lock ($locked_version)"
 fi
+upstream_version="$locked_version"
 
 if [[ ! "$upstream_version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
     die "Neovim version must have the form <major>.<minor>.<patch>: $upstream_version"

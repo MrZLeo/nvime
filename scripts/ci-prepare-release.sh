@@ -56,6 +56,10 @@ if [[ "$event_name" == "push" && "$ref_type" == "tag" ]]; then
         echo "Release tag must match v<neovim-major>.<neovim-minor>.<neovim-patch>.<nvime-revision>." >&2
         exit 1
     }
+    if [[ "$upstream_version" != "$(bash "$repo_root/scripts/ci-resolve-nvim-version.sh")" ]]; then
+        echo "Release tag does not match the Neovim version pinned in flake.lock." >&2
+        exit 1
+    fi
     emit_release "$ref_name" "$upstream_version"
     exit 0
 fi
@@ -76,13 +80,10 @@ if [[ -n "$latest_tag" ]]; then
     fi
 fi
 
-upstream_version="${NVIME_RELEASE_UPSTREAM_VERSION:-}"
-if [[ -z "$upstream_version" ]]; then
-    upstream_version="$(bash "$repo_root/scripts/ci-resolve-nvim-version.sh")"
-fi
-
-if [[ -z "$upstream_version" ]]; then
-    echo "Failed to determine the Neovim version for release tagging." >&2
+locked_version="$(bash "$repo_root/scripts/ci-resolve-nvim-version.sh")"
+upstream_version="${NVIME_RELEASE_UPSTREAM_VERSION:-$locked_version}"
+if [[ "$upstream_version" != "$locked_version" ]]; then
+    echo "Release version must match the Neovim version pinned in flake.lock ($locked_version)." >&2
     exit 1
 fi
 

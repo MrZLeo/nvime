@@ -11,6 +11,7 @@ local patterns = {
     "init.lua",
     "lua/**/*.lua",
     "plugin/**/*.lua",
+    "scripts/*.lua",
 }
 
 local failed = false

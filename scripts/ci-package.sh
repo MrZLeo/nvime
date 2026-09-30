@@ -16,6 +16,15 @@ if [[ -z "$version" ]]; then
     version="$(git -C "$repo_root" describe --tags --always)"
 fi
 
+if [[ "$version" =~ ^v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    installed_nvim="$(nvim --version | head -n 1)"
+    installed_nvim="${installed_nvim#NVIM v}"
+    if [[ "${version%.*}" != "v$installed_nvim" ]]; then
+        echo "Release tag $version does not match Neovim $installed_nvim from the CI environment." >&2
+        exit 1
+    fi
+fi
+
 os="${NVIME_PACKAGE_OS:-$(uname -s)}"
 arch="${NVIME_PACKAGE_ARCH:-$(uname -m)}"
 
@@ -55,6 +64,12 @@ case "$arch" in
         ;;
 esac
 
+# Native libraries cannot be cross-packaged by merely overriding the label.
+case "$(uname -s)/$(uname -m)/$platform/$arch_label" in
+    Linux/x86_64/linux/x86_64|Linux/aarch64/linux/arm64|Linux/arm64/linux/arm64|Darwin/arm64/macos/arm64) ;;
+    *) echo "Native bundles must be built on a matching supported host." >&2; exit 1 ;;
+esac
+
 bundle_name="nvime-${version}-${platform}-${arch_label}"
 artifact_root="${ARTIFACT_OUTPUT_DIR:-${base_temp%/}/nvime-artifacts}"
 
@@ -73,6 +88,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="${NVIME_XDG_DATA_HOME:-$work_root/data}"
 export XDG_STATE_HOME="$work_root/state"
 export XDG_CACHE_HOME="${NVIME_XDG_CACHE_HOME:-$work_root/cache}"
+unset VIMINIT EXINIT NVIM_APPNAME
 
 config_root="$XDG_CONFIG_HOME/nvim"
 data_root="$XDG_DATA_HOME/nvim"
@@ -100,7 +116,10 @@ cp -R "$repo_root/." "$config_root"
 
 echo "Bootstrapping packaged config in $config_root"
 NVIME_SKIP_BLINK_NATIVE=1 run_headless_nvim
-NVIME_SKIP_BLINK_NATIVE=1 run_headless_nvim
+python3 "$repo_root/scripts/ci-blink.py" prepare \
+    --lock "$repo_root/nvim-pack-lock.json" \
+    --data-root "$data_root" \
+    --manifest "$work_root/blink-native.json"
 
 rsync -a \
     --exclude='.git/' \
@@ -121,6 +140,14 @@ if [[ -d "$data_root" ]]; then
         "$data_root/" "$payload_data_root/"
 fi
 
+# Keep the broad build-cache exclusions above, then add back ONLY verified
+# runtime libraries and cmp's version/checksum metadata (not Cargo build trees).
+python3 "$repo_root/scripts/ci-blink.py" stage \
+    --data-root "$data_root" \
+    --manifest "$work_root/blink-native.json" \
+    --destination "$payload_data_root"
+cp "$work_root/blink-native.json" "$bundle_root/blink-native.json"
+
 cp "$repo_root/scripts/install-bundle.sh" "$bundle_root/install.sh"
 chmod +x "$bundle_root/install.sh"
 
@@ -129,7 +156,11 @@ NVIME ${version}
 
 Contents:
 - install.sh: installs the bundled config and downloaded plugins
-- payload/: the packaged Neovim config and vim.pack plugin directory
+- payload/: the packaged Neovim config, vim.pack plugins and native Blink libraries
+- blink-native.json: required platform, releases, revisions and verified asset hashes
+
+Blink native libraries are preinstalled; no Rust compiler or first-start download
+is needed. Git and Neovim 0.12+ are still required. Linux bundles target glibc.
 
 Install:
 1. Open a terminal in this directory.
@@ -174,6 +205,7 @@ populate_system_package_root() {
 
     rsync -a "$bundle_root/payload" "$package_root/usr/share/nvime/"
     install -m 0755 "$bundle_root/install.sh" "$package_root/usr/share/nvime/install.sh"
+    install -m 0644 "$bundle_root/blink-native.json" "$package_root/usr/share/nvime/blink-native.json"
     install -m 0644 "$bundle_root/README.txt" "$package_root/usr/share/doc/nvime/README.txt"
 
     cat > "$package_root/usr/bin/nvime-install" <<'EOF'
@@ -207,6 +239,7 @@ Version: ${package_version}
 Section: editors
 Priority: optional
 Architecture: ${deb_arch}
+Depends: git
 Recommends: neovim
 Installed-Size: ${installed_size}
 Maintainer: NVIME maintainers <noreply@example.com>
@@ -259,6 +292,7 @@ Version: ${package_version}
 Release: 1
 Summary: Self-contained Neovim configuration bundle
 License: LicenseRef-NVIME
+Requires: git
 Recommends: neovim
 
 %description
@@ -283,7 +317,10 @@ echo "NVIME installed. Run nvime-install as your user to install the config into
 /usr/share/nvime
 EOF
 
+    # Preserve verified upstream bytes: RPM must not strip/rewrite native assets.
     rpmbuild \
+        --define '__os_install_post %{nil}' \
+        --define 'debug_package %{nil}' \
         --define "_topdir $rpm_topdir" \
         --target "$rpm_arch" \
         -bb "$spec_path"
@@ -310,6 +347,63 @@ for package_format in "${package_formats[@]}"; do
             exit 1
             ;;
     esac
+done
+
+run_native_test() (
+    unset NVIME_SKIP_BLINK_NATIVE
+    NVIME_BLINK_TEST="$repo_root/scripts/ci-blink-test.lua" nvim --headless -i NONE -n \
+        --cmd 'lua assert(loadfile(vim.env.NVIME_BLINK_TEST))("guard")' \
+        '+lua dofile(vim.env.NVIME_BLINK_TEST)' '+qa!'
+)
+
+# Verify actual artifacts in isolated installs, not just the staging directory.
+test_archive() (
+    local artifact="$1" extracted mounted=0 installed_bundle
+    extracted="$(mktemp -d "$work_root/extracted.XXXXXX")"
+    trap 'if [[ "$mounted" == 1 ]]; then hdiutil detach "$extracted/mount" >/dev/null; fi; rm -rf "$extracted"' EXIT
+    case "$artifact" in
+        *.tar.gz)
+            tar -xzf "$artifact" -C "$extracted"
+            installed_bundle="$extracted/$bundle_name"
+            ;;
+        *.deb)
+            dpkg-deb --extract "$artifact" "$extracted"
+            installed_bundle="$extracted/usr/share/nvime"
+            ;;
+        *.rpm)
+            rpm2cpio "$artifact" | (cd "$extracted"; cpio -id --quiet --no-absolute-filenames)
+            installed_bundle="$extracted/usr/share/nvime"
+            ;;
+        *.dmg)
+            mkdir "$extracted/mount"
+            hdiutil attach -readonly -nobrowse -mountpoint "$extracted/mount" "$artifact" >/dev/null
+            mounted=1
+            installed_bundle="$extracted/mount"
+            ;;
+        *) echo "Unsupported artifact: $artifact" >&2; exit 1 ;;
+    esac
+    python3 "$repo_root/scripts/ci-blink.py" verify \
+        --data-root "$installed_bundle/payload/data/nvim" \
+        --manifest "$installed_bundle/blink-native.json"
+    export HOME="$extracted/home"
+    export XDG_CONFIG_HOME="$HOME/.config" XDG_DATA_HOME="$HOME/.local/share"
+    export XDG_STATE_HOME="$HOME/.local/state" XDG_CACHE_HOME="$HOME/.cache"
+    mkdir -p "$HOME"
+    bash "$installed_bundle/install.sh"
+    run_native_test
+
+    # A missing native library must fail, not silently download or fall back.
+    rm "$XDG_DATA_HOME/nvim/site/pack/core/opt/blink.pairs/lib"/libblink_pairs_parser*
+    if run_native_test > "$extracted/missing-native.log" 2>&1; then
+        echo "Native test incorrectly accepted a missing library" >&2
+        exit 1
+    fi
+    grep -F 'Missing blink.pairs native library' "$extracted/missing-native.log" >/dev/null
+    echo "Verified artifact and missing-library rejection: $artifact"
+)
+
+for package_path in "${created_paths[@]}"; do
+    test_archive "$package_path"
 done
 
 if [[ -n "${GITHUB_OUTPUT:-}" ]]; then

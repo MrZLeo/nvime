@@ -17,6 +17,37 @@
     {
       formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
 
+      # CI-only tools; the user-facing package collection below is unchanged.
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          ci = pkgs.mkShellNoCC {
+            NVIME_NEOVIM_VERSION = pkgs.neovim.version;
+            packages =
+              with pkgs;
+              [
+                neovim
+                stylua
+                selene
+                nixfmt
+                actionlint
+                python3
+                git
+                curl
+                rsync
+              ]
+              ++ lib.optionals stdenv.hostPlatform.isLinux [
+                dpkg
+                rpm
+                cpio
+              ];
+          };
+        }
+      );
+
       packages = forAllSystems (
         system:
         let

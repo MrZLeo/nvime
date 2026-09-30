@@ -16,6 +16,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="${NVIME_XDG_DATA_HOME:-$work_root/data}"
 export XDG_STATE_HOME="$work_root/state"
 export XDG_CACHE_HOME="${NVIME_XDG_CACHE_HOME:-$work_root/cache}"
+unset VIMINIT EXINIT NVIM_APPNAME
 
 config_root="$XDG_CONFIG_HOME/nvim"
 
@@ -38,5 +39,14 @@ echo "Using temporary data root: $XDG_DATA_HOME"
 echo "Bootstrapping plugins from nvim-pack-lock.json"
 NVIME_SKIP_BLINK_NATIVE=1 run_headless_nvim
 
-echo "Verifying headless startup without Blink native libraries"
-NVIME_SKIP_BLINK_NATIVE=1 run_headless_nvim
+echo "Preparing revision-matched Blink libraries"
+python3 "$repo_root/scripts/ci-blink.py" prepare \
+    --lock "$repo_root/nvim-pack-lock.json" \
+    --data-root "$XDG_DATA_HOME/nvim" \
+    --manifest "$work_root/blink-native.json"
+
+echo "Verifying real native startup without downloads or compilation"
+unset NVIME_SKIP_BLINK_NATIVE
+NVIME_BLINK_TEST="$repo_root/scripts/ci-blink-test.lua" nvim --headless -i NONE -n \
+    --cmd 'lua assert(loadfile(vim.env.NVIME_BLINK_TEST))("guard")' \
+    '+lua dofile(vim.env.NVIME_BLINK_TEST)' '+qa!'

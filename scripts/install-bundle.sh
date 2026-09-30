@@ -115,6 +115,28 @@ EOF
     echo "Detected Neovim ${installed_version}"
 }
 
+require_bundle_platform() {
+    local expected actual
+    [[ -f "$bundle_root/blink-native.json" ]] || return 0
+    # Use the already-required Neovim to read JSON; no Python/jq install dependency.
+    expected="$(NVIME_BUNDLE_MANIFEST="$bundle_root/blink-native.json" nvim --headless -u NONE -i NONE -n \
+        '+lua local ok, triple = pcall(function() return vim.json.decode(table.concat(vim.fn.readfile(vim.env.NVIME_BUNDLE_MANIFEST), "\n")).triple end); if not ok or type(triple) ~= "string" then vim.cmd("cquit") end; io.write(triple)' '+qa!')"
+    actual="$(uname -s)/$(uname -m)"
+    case "$actual" in
+        Darwin/arm64) actual=aarch64-apple-darwin ;;
+        Linux/arm64|Linux/aarch64) actual=aarch64-unknown-linux-gnu ;;
+        Linux/x86_64) actual=x86_64-unknown-linux-gnu ;;
+    esac
+    if [[ "$expected" != "$actual" ]]; then
+        echo "This bundle requires $expected; this host is $actual." >&2
+        exit 1
+    fi
+    if ! command -v git >/dev/null 2>&1; then
+        echo "Git is required by vim.pack and Blink's version detection." >&2
+        exit 1
+    fi
+}
+
 bundle_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 payload_config="$bundle_root/payload/config/nvim"
 payload_pack="$bundle_root/payload/data/nvim/site/pack/core/opt"
@@ -127,6 +149,7 @@ if [[ ! -d "$payload_config" ]]; then
 fi
 
 require_nvim
+require_bundle_platform
 
 backup_path() {
     local target="$1"

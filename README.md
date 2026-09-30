@@ -40,14 +40,15 @@ NVIME is a pure Lua Neovim configuration built around Neovim `0.12+`, the native
 
 Tagged releases publish prebuilt artifacts for Linux and macOS:
 
-- Linux: `.tar.gz`, `.deb`, `.rpm`
-- macOS: `.dmg`
+- Linux x86_64 / ARM64 (glibc): `.tar.gz`, `.deb`, `.rpm`
+- macOS Apple Silicon: `.dmg`
 
 The `.tar.gz` and `.dmg` bundles contain:
 
 - `install.sh`: installs the packaged config and downloaded plugins
 - `payload/config/nvim`: the NVIME config
-- `payload/data/nvim/site/pack/core/opt`: the bootstrapped `vim.pack` plugin directory
+- `payload/data/nvim/site/pack/core/opt`: `vim.pack` plugins and matching Blink native libraries
+- `blink-native.json`: target platform, upstream releases, revisions and native-file hashes
 
 Installation defaults:
 
@@ -89,7 +90,7 @@ nvime-install
 
 The installer creates timestamped backups before replacing an existing install.
 It also checks that `nvim` is already installed and that the detected version is
-`0.12` or newer.
+`0.12` or newer. Native bundles also require Git and a matching OS/architecture.
 
 Useful installer options:
 
@@ -182,20 +183,20 @@ Current defaults include:
 
 ## Development checks
 
-The normal push/PR checks validate shell scripts, Lua syntax, Lua formatting, and
-Lua linting:
+CI uses `nix develop .#ci` for tools pinned by `flake.lock`. Quality checks live
+in [.github/workflows/checks.yml](.github/workflows/checks.yml), reused by releases.
+The default Nix tool collection, Lua configuration and `vim.pack` remain unchanged.
+
+Run native startup and packaging checks locally with:
 
 ```bash
-bash -n scripts/*.sh
-bash scripts/ci-lua-syntax.sh
-stylua --check .
-selene .
+nix develop .#ci --command bash scripts/ci-smoke.sh
+ARTIFACT_OUTPUT_DIR=/tmp/nvime-artifacts \
+  nix develop .#ci --command bash scripts/ci-package.sh
 ```
 
-CI installs pinned versions of the Lua tooling with
-[scripts/ci-install-lua-tools.sh](scripts/ci-install-lua-tools.sh).
-The workflow caches the Neovim install and Lua tooling directories between runs,
-keyed by OS, architecture, and tool version/configuration.
+Both scripts use temporary HOME/XDG directories, not your installed config.
+Preparation needs network access; final native tests block downloads/builds.
 
 To enable the repository's pre-commit hook, run:
 
@@ -216,33 +217,40 @@ Release tags follow this format:
 - `v<neovim-major>.<neovim-minor>.<neovim-patch>.<nvime-revision>`
 - Example: `v0.12.1.0`
 
-The first three fields track the upstream Neovim version. The final field is the
-NVIME release revision for that upstream version and starts at `0`.
+The first three fields match Neovim pinned in `flake.lock`. The final field is
+the NVIME revision for that version and starts at `0`.
 
 The release pipeline does three things:
 
-1. Runs a headless smoke test on `ubuntu-latest` and `macos-latest`.
-2. Builds platform-native artifacts after the smoke test passes.
+1. Runs native smoke tests on `ubuntu-24.04` (x86_64), `ubuntu-24.04-arm`
+   (ARM64), and `macos-15` (ARM64), using Nix-provided tools.
+2. Builds artifacts, extracts each, verifies hashes, installs into a fresh HOME,
+   and calls the cmp Rust backend and pairs parser. Missing libraries must fail.
 3. Publishes the generated packages to the GitHub Release for that tag.
 
-Release jobs cache the Neovim install directory and `vim.pack` data/cache
-directories. The plugin cache is keyed by OS, architecture, Neovim version, and
+Release jobs cache `vim.pack` data/cache directories. The plugin cache is keyed by OS, architecture, Neovim version, and
 [nvim-pack-lock.json](nvim-pack-lock.json), with a same-version fallback so
 unchanged plugins can be reused when the lockfile changes.
 
-Packaged installs include the `vim.pack` plugin checkouts but do not preload
-Blink native libraries. `blink.cmp` and `blink.pairs` prepare their native
-artifacts at runtime when `git` and network access are available, while CI uses
-the Lua fallback during smoke and package bootstrapping.
+[scripts/ci-blink.py](scripts/ci-blink.py) prepares upstream cmp/pairs binaries
+matching the exact locked plugin commits, checks release tags and asset hashes,
+and stages only required runtime files. No Rust compiler is needed. Git metadata
+and cmp's version/checksum files are preserved; Cargo build caches are excluded.
 
-The workflow can be triggered in three ways:
+Only initial plugin bootstrapping uses `NVIME_SKIP_BLINK_NATIVE=1`.
+[scripts/ci-blink-test.lua](scripts/ci-blink-test.lua) blocks runtime downloads
+and verifies actual native calls in the final installation. Plugin management
+and later plugin-update behavior are unchanged; Tree-sitter parsers are not bundled.
+
+Releases are triggered in two ways:
 
 1. Manually push a tag such as `v0.12.1.0`.
 2. Let the monthly scheduled run check `master`; on the first day of each month
    at `00:00 UTC`, if there are commits since the previous release tag, it
    creates the next tag automatically and publishes a release from that commit.
-3. Run the workflow manually from GitHub Actions when you need to retry or debug
-   a release.
+
+To retry a failed release, rerun its existing Actions run. Manual dispatch does
+not create a release.
 
 Example release flow:
 
@@ -257,15 +265,14 @@ bash scripts/create-release-tag.sh
 bash scripts/create-release-tag.sh --push
 ```
 
-The helper resolves the current Neovim release, increments the NVIME revision,
+The helper resolves Neovim from `flake.lock`, increments the NVIME revision,
 and checks that the working tree is clean and `master` matches `origin/master`.
-Pass `--version 0.12.5` to select a specific Neovim release series.
+If supplied, `--version` must match the locked version.
 
 Local helper scripts used by CI:
 
 - [scripts/create-release-tag.sh](scripts/create-release-tag.sh): safely creates the next local or remote release tag
 - [scripts/ci-prepare-release.sh](scripts/ci-prepare-release.sh): resolves the release version and creates scheduled tags
 - [scripts/ci-smoke.sh](scripts/ci-smoke.sh): headless startup validation
-- [scripts/ci-install-nvim.sh](scripts/ci-install-nvim.sh): installs Neovim in CI
 - [scripts/ci-package.sh](scripts/ci-package.sh): bootstraps plugins and builds release artifacts
 - [scripts/install-bundle.sh](scripts/install-bundle.sh): installs a packaged release locally
