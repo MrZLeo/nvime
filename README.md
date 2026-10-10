@@ -12,31 +12,66 @@ NVIME is a pure Lua Neovim configuration built around Neovim `0.12+`, the native
 
 ## Install from Source
 
-1. Install Neovim `0.12` or newer.
-2. (Optional) On Arch Linux, run [arch-install.sh](arch-install.sh) to install common dependencies.
-3. Otherwise, install the required tools manually:
-   ```bash
-   # Fedora example
-   sudo dnf install \
-       ripgrep \
-       nodejs \
-       tree-sitter-cli \
-       gcc \
-       g++ \
-       wget \
-       unzip
-   ```
-4. Clone this repository into your config path:
-   ```bash
-   git clone https://github.com/MrZLeo/nvime ~/.config/nvim
-   ```
-5. Start Neovim:
-   ```bash
-   nvim
-   ```
-   Missing plugins are installed automatically on first launch.
+### With Nix (recommended)
+
+Install Nix with `nix-command` and `flakes` enabled, and Git for cloning. Back up
+any existing `~/.config/nvim` before installing:
+
+```bash
+git clone https://github.com/MrZLeo/nvime ~/.config/nvim
+cd ~/.config/nvim
+nix profile add .
+nvim
+```
+
+The default [flake.nix](flake.nix) output installs Neovim, search tools, language
+servers, formatters and the Tree-sitter CLI. Supported systems are
+`aarch64-darwin`, `aarch64-linux` and `x86_64-linux`.
+
+**Nix manages tools only.** Neovim still reads your editable `~/.config/nvim`,
+and `vim.pack` manages plugins using `nvim-pack-lock.json`. Missing plugins and
+Blink native libraries may be downloaded on first source-install startup.
+If an older executable is still selected, check `command -v nvim` and your PATH;
+installing the flake does not rewrite shell configuration.
+
+External prerequisites are unchanged:
+
+- Git, curl and tar for plugin/parser operations.
+- A system C/C++ toolchain for parser compilation and C/C++ projects, such as
+  Xcode Command Line Tools on macOS.
+- Rust tooling and `rust-analyzer`, for example through rustup, for Rust projects.
+- A TeX installation providing tools such as `latexmk` and `latexindent` for LaTeX.
+- Project-specific runtimes and dependencies as needed.
+
+### Updating Nix tools
+
+Tool versions come from `flake.lock`. From the checkout:
+
+```bash
+cd ~/.config/nvim
+nix flake update
+nix profile list
+nix profile upgrade nvim
+```
+
+Replace `nvim` with the actual entry name shown by `nix profile list`. Updating
+the lock alone does not change installed tools; upgrade the profile to apply it.
+Lua configuration edits do not need a Nix rebuild. Plugin updates remain separate
+via `:lua vim.pack.update()`.
+
+### Without Nix
+
+Install Neovim `0.12+` and the tools you need from [flake.nix](flake.nix) through
+your preferred package manager, then clone the configuration and run `nvim`.
+[arch-install.sh](arch-install.sh) remains available as an optional Arch helper;
+check its package choices against your needs.
 
 ## Install from Release Artifacts
+
+Download a matching artifact from the [latest release](https://github.com/MrZLeo/nvime/releases/latest).
+These packages contain the configuration, plugins and Blink libraries, **not**
+Neovim or the LSP/tool collection. Install those separately with Nix or your
+preferred package manager. Nix itself is not required to use a release bundle.
 
 Tagged releases publish prebuilt artifacts for Linux and macOS:
 
@@ -98,6 +133,27 @@ Useful installer options:
 - `./install.sh --data-dir /path/to/share/nvim`
 - `./install.sh --no-backup`
 
+### Blink native libraries
+
+Releases download **upstream precompiled binaries**, not locally compiled Rust
+outputs or libraries copied from the Nix store. The plugin checkouts must match
+`nvim-pack-lock.json`; their commits must have matching upstream release tags.
+Downloads are verified against GitHub asset SHA-256 digests and, for cmp, the
+upstream checksum file.
+
+Files are installed at the plugins' normal lookup locations (`.so` on Linux,
+`.dylib` on macOS):
+
+- `blink.cmp/target/release/`: `libblink_cmp_fuzzy` library, `.sha256` and `version`.
+- `blink.pairs/lib/`: `libblink_pairs_parser` library suffixed with the first seven
+  characters of the locked commit.
+- `blink.lib`: its checkout is also lock-checked; no standalone binary is fetched.
+
+Plugin Git metadata is retained, but Cargo build caches are excluded. The first
+packaged Blink startup needs neither a native download nor a Rust compiler.
+Later plugin updates retain the plugins' normal download behavior. Tree-sitter
+parsers are not bundled; use `:TSSyncParsers` when needed.
+
 ## Plugin Management
 
 Plugin specs live in `plugin/*.lua` and are installed by `vim.pack`. Pinned revisions are stored in [nvim-pack-lock.json](nvim-pack-lock.json).
@@ -147,8 +203,6 @@ Useful maintenance commands:
 
 ## Commands
 
-- `:CodeCompanion` runs the inline assistant on the current buffer or selection.
-- `:CodeCompanionChat Toggle` opens or hides the chat buffer.
 - `:Outline` toggles the symbol outline window.
 - `:Clear` deletes all hidden loaded buffers.
 - `:Spell` toggles spell checking.
@@ -164,15 +218,21 @@ Current enabled servers:
 local lsp_servers = {
     "clangd",
     "lua_ls",
+    "tsc",
     "ruff",
     "ty",
     "taplo",
     "texlab",
     "neocmake",
+    "nixd",
+    "rust_analyzer",
 }
 ```
 
 To add or remove a server, update that list and adjust any server-specific settings in the same file.
+The flake supplies these servers except `rust_analyzer`, which remains external.
+`tsc` requires TypeScript 7+; Nix formatting uses `nixd` with `nixfmt`, and Lua
+formatting uses StyLua.
 
 Current defaults include:
 
@@ -215,7 +275,7 @@ GitHub Actions builds and publishes release artifacts for tags matching `v*.*.*.
 Release tags follow this format:
 
 - `v<neovim-major>.<neovim-minor>.<neovim-patch>.<nvime-revision>`
-- Example: `v0.12.1.0`
+- Example: `v0.12.5.1`
 
 The first three fields match Neovim pinned in `flake.lock`. The final field is
 the NVIME revision for that version and starts at `0`.
@@ -232,19 +292,16 @@ Release jobs cache `vim.pack` data/cache directories. The plugin cache is keyed 
 [nvim-pack-lock.json](nvim-pack-lock.json), with a same-version fallback so
 unchanged plugins can be reused when the lockfile changes.
 
-[scripts/ci-blink.py](scripts/ci-blink.py) prepares upstream cmp/pairs binaries
-matching the exact locked plugin commits, checks release tags and asset hashes,
-and stages only required runtime files. No Rust compiler is needed. Git metadata
-and cmp's version/checksum files are preserved; Cargo build caches are excluded.
-
-Only initial plugin bootstrapping uses `NVIME_SKIP_BLINK_NATIVE=1`.
+[scripts/ci-blink.py](scripts/ci-blink.py) prepares and verifies the
+[Blink native libraries](#blink-native-libraries).
+Only initial plugin bootstrapping uses `NVIME_SKIP_BLINK_NATIVE=1`;
 [scripts/ci-blink-test.lua](scripts/ci-blink-test.lua) blocks runtime downloads
-and verifies actual native calls in the final installation. Plugin management
-and later plugin-update behavior are unchanged; Tree-sitter parsers are not bundled.
+and verifies actual native calls after installing the extracted artifacts.
+These tests cover native startup, not every project LSP or parser build.
 
 Releases are triggered in two ways:
 
-1. Manually push a tag such as `v0.12.1.0`.
+1. Manually push a tag such as `v0.12.5.1`.
 2. Let the monthly scheduled run check `master`; on the first day of each month
    at `00:00 UTC`, if there are commits since the previous release tag, it
    creates the next tag automatically and publishes a release from that commit.
