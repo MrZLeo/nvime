@@ -31,7 +31,7 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "gitsigns.nvim": {
-      "rev": "aa6cc2d7addb288cfd79a05ac257695d5ff61deb",
+      "rev": "fd780920613e541cbdfac41bf711583ed49f9249",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "guess-indent.nvim": {
@@ -43,7 +43,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.trailspace": {
-      "rev": "82c4fb7d4336f8824ca6c97068932886b56326d0",
+      "rev": "8bcd13b6d54d4c018982fea53e483937247d593b",
       "src": "https://github.com/echasnovski/mini.trailspace"
     },
     "nvim-colorizer.lua": {
@@ -51,7 +51,7 @@
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
     },
     "nvim-lspconfig": {
-      "rev": "6d27c288ff951e1e94cb5f91c800adeddf0dc0c2",
+      "rev": "ac062d0d01c019c0dbdb798968f3e5d8b35c3853",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-surround": {
