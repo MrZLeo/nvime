@@ -57,7 +57,7 @@ nix profile upgrade nvim
 Replace `nvim` with the actual entry name shown by `nix profile list`. Updating
 the lock alone does not change installed tools; upgrade the profile to apply it.
 Lua configuration edits do not need a Nix rebuild. Plugin updates remain separate
-via `:lua vim.pack.update()`.
+via `:PackUpdate` (confirm updates, then automatically commit the plugin lockfile).
 
 ### Without Nix
 
@@ -171,8 +171,26 @@ vim.pack.add({
 
 Useful maintenance commands:
 
-- `:lua vim.pack.update()` updates plugins with a confirmation buffer.
+- `:PackUpdate` updates plugins with the normal `vim.pack` confirmation buffer:
+  use `:write` to apply updates and automatically commit `nvim-pack-lock.json`,
+  or `:quit` to cancel without committing. No update means no commit.
+- `:lua vim.pack.update()` keeps the original behavior without automatic commits.
 - `:TSSyncParsers` installs or updates the Tree-sitter parsers listed in [plugin/02-treesitter.lua](plugin/02-treesitter.lua).
+
+`:PackUpdate` commits only the config directory's lockfile, even when Neovim's
+working directory is another project. Its Git checks and commit ignore inherited
+repository-location variables such as `GIT_DIR`, `GIT_WORK_TREE` and `GIT_INDEX_FILE`.
+Other staged and unstaged files are left alone. It uses the message
+`chore(plugins): update lockfile`, respects Git hooks and signing settings, and
+**never pushes**. The commit captures the whole current lockfile, including any
+earlier unstaged lockfile changes.
+
+Automatic commits require a Git checkout with a tracked lockfile. Detached HEAD,
+unresolved conflicts, in-progress merge/rebase/cherry-pick/revert operations and
+an already-staged lockfile are refused. If applying updates or committing fails,
+review the error and commit the lockfile manually; successful plugin updates are
+not rolled back. Release-bundle installs without Git tracking can keep using
+`:lua vim.pack.update()`.
 
 ## Key Bindings
 
@@ -206,6 +224,7 @@ Useful maintenance commands:
 - `:Outline` toggles the symbol outline window.
 - `:Clear` deletes all hidden loaded buffers.
 - `:Spell` toggles spell checking.
+- `:PackUpdate` updates plugins and automatically commits only the lockfile after confirmation.
 - `:TSSyncParsers` syncs the configured Tree-sitter parser set.
 
 ## LSP
@@ -246,6 +265,15 @@ Current defaults include:
 CI uses `nix develop .#ci` for tools pinned by `flake.lock`. Quality checks live
 in [.github/workflows/checks.yml](.github/workflows/checks.yml), reused by releases.
 The default Nix tool collection, Lua configuration and `vim.pack` remain unchanged.
+
+Run the `:PackUpdate` integration tests with Neovim `0.12+` and Git:
+
+```bash
+bash scripts/test-pack-update.sh
+```
+
+These tests use temporary config/data directories and local plugin repositories;
+they need no network and do not update your plugins or commit to this checkout.
 
 Run native startup and packaging checks locally with:
 

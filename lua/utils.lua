@@ -35,3 +35,9 @@ end
 vim.api.nvim_create_user_command("Spell", toggle_spelling, {
     desc = "Toggle spelling",
 })
+
+vim.api.nvim_create_user_command("PackUpdate", function()
+    require("pack_update").update()
+end, {
+    desc = "Update plugins and commit only the lockfile after confirmation",
+})

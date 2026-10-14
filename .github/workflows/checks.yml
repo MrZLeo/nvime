@@ -33,6 +33,7 @@ jobs:
             bash -n "$script"
           done
           bash scripts/ci-lua-syntax.sh
+          bash scripts/test-pack-update.sh
           stylua --check .
           selene .
           nixfmt --check flake.nix
