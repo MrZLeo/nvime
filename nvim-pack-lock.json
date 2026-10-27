@@ -76,7 +76,7 @@
       "src": "https://github.com/stevearc/oil.nvim"
     },
     "outline.nvim": {
-      "rev": "d8e48fe265fa9c33364809bf9cf32a1f032a8ac1",
+      "rev": "03ce1482222dc2bf1f781559508301f05382936d",
       "src": "https://github.com/hedyhli/outline.nvim"
     },
     "plenary.nvim": {
