@@ -43,9 +43,40 @@ External prerequisites are unchanged:
 - A TeX installation providing tools such as `latexmk` and `latexindent` for LaTeX.
 - Project-specific runtimes and dependencies as needed.
 
+### With Home Manager
+
+The [home.nix](home.nix) module installs Neovim and its companion tools without
+managing Lua configuration or plugins. Add this non-flake input to your Home
+Manager flake; no local checkout is required to import the module:
+
+```nix
+inputs.nvim-config = {
+  url = "github:MrZLeo/nvime";
+  flake = false;
+};
+```
+
+Include `nvim-config` in your flake's `outputs` arguments and add
+`(nvim-config + "/home.nix")` to the `modules` list passed to
+`home-manager.lib.homeManagerConfiguration`.
+
+Apply your configuration with `home-manager switch --flake .#YOUR_CONFIGURATION`.
+The module uses the parent Home Manager configuration's `pkgs`; it does not use
+this project's `flake.lock`. Ensure the selected nixpkgs provides Neovim 0.12 or
+newer. Update the module with `nix flake update nvim-config`, then switch again.
+The parent flake's lock file records the selected GitHub revision.
+
+For a non-flake setup with adjacent `~/.config/home-manager` and
+`~/.config/nvim` checkouts, `imports = [ ../nvim/home.nix ];` also works.
+The module only installs tools: deploy the editable Lua configuration separately
+using the source installation instructions above.
+
+Use either Home Manager or the standalone profile package for installation,
+not both. The project flake remains available for standalone users and CI.
+
 ### Updating Nix tools
 
-Tool versions come from `flake.lock`. From the checkout:
+For the standalone flake installation, tool versions come from `flake.lock`. From the checkout:
 
 ```bash
 cd ~/.config/nvim
