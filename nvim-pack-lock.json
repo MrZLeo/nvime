@@ -43,7 +43,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mini.trailspace": {
-      "rev": "8bcd13b6d54d4c018982fea53e483937247d593b",
+      "rev": "2b58478e717a8ea016d42f611cf7fbcf7b7c0037",
       "src": "https://github.com/echasnovski/mini.trailspace"
     },
     "nvim-colorizer.lua": {
@@ -51,7 +51,7 @@
       "src": "https://github.com/catgoose/nvim-colorizer.lua"
     },
     "nvim-lspconfig": {
-      "rev": "443d92c6bea761ab54cdde46fb197a2b4d614bdd",
+      "rev": "6e72b89d499455611f09f46d13ee9f79325406e5",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-surround": {
