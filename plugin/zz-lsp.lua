@@ -215,8 +215,11 @@ vim.api.nvim_set_hl(0, "LspInlayHint", { link = "Comment" })
 -- 7. SERVER-SPECIFIC CONFIGURATIONS
 -- ============================================================================
 
--- Clangd
+-- Clangd (yield C/C++/CUDA to clice when installed)
 vim.lsp.config("clangd", {
+    filetypes = vim.fn.executable("clice") == 1
+            and { "objc", "objcpp", "c.doxygen", "cpp.doxygen" }
+        or nil,
     cmd = {
         "clangd",
         "--background-index",
@@ -272,6 +275,7 @@ vim.lsp.config("nixd", {
 
 local lsp_servers = {
     "clangd",
+    "clice",
     "lua_ls",
     "tsc",
     "ruff",

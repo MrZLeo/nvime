@@ -267,6 +267,7 @@ Current enabled servers:
 ```lua
 local lsp_servers = {
     "clangd",
+    "clice",
     "lua_ls",
     "tsc",
     "ruff",
@@ -280,7 +281,8 @@ local lsp_servers = {
 ```
 
 To add or remove a server, update that list and adjust any server-specific settings in the same file.
-The flake supplies these servers except `rust_analyzer`, which remains external.
+If [`clice`](https://github.com/clice-io/clice/releases) is installed, it replaces `clangd` for C, C++, and CUDA.
+The flake includes all listed servers except `clice` and `rust_analyzer`.
 `tsc` requires TypeScript 7+; Nix formatting uses `nixd` with `nixfmt`, and Lua
 formatting uses StyLua.
 
