@@ -29,27 +29,29 @@ vim.keymap.set("n", "<BackSpace>", ":nohl<cr>")
 -- use double space to save file
 vim.keymap.set("n", "<space><space>", "<esc>:w<CR>", { silent = true })
 
--- In SSH sessions, copy through OSC52 to the local clipboard but disable
--- clipboard reads inside Neovim. Use the terminal's paste shortcut instead.
-if vim.env.SSH_CONNECTION then
-    local osc52 = require("vim.ui.clipboard.osc52")
+-- Copy through OSC52 to the local clipboard and paste from the internal
+-- unnamed register inside Neovim. Use the terminal's paste shortcut for
+-- external clipboard content.
+local osc52 = require("vim.ui.clipboard.osc52")
 
-    vim.g.clipboard = {
-        name = "OSC 52 (copy only)",
-        copy = {
-            ["+"] = osc52.copy("+"),
-            ["*"] = osc52.copy("*"),
-        },
-        paste = {
-            ["+"] = function()
-                return {}
-            end,
-            ["*"] = function()
-                return {}
-            end,
-        },
+local function paste()
+    return {
+        vim.fn.split(vim.fn.getreg(""), "\n"),
+        vim.fn.getregtype(""),
     }
 end
+
+vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+        ["+"] = osc52.copy("+"),
+        ["*"] = osc52.copy("*"),
+    },
+    paste = {
+        ["+"] = paste,
+        ["*"] = paste,
+    },
+}
 
 -- Oil
 vim.keymap.set("n", "-", "<CMD>Oil<CR>")
